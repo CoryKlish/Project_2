@@ -6,6 +6,8 @@
 *
 ******/
 
+char VerifyMode(char mode);
+
 //Suggestion: define a struct that mirrors a record (row) of the data set
 
 
