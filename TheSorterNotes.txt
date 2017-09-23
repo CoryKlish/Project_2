@@ -15,6 +15,19 @@ There are going to be cells that are blank within the row, how to sort blank?
 	Some directors in the list appear more than once
 	Do we sort by first name or last name?
 	
+Move all null items to beginning of the list
+
+Ascending order
+
+Always trim leading and trailing whitespace
+
+	
+Lexicographical order:
+
+9 < A
+A < a
+Z < a
+	
 
 	
 	
