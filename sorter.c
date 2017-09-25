@@ -45,12 +45,20 @@ int main(int argc, const char* argv[]) {
 		exit(0);
 	}
 
-	/*
-	//This causes seg fault
-	char* fields;
-	fgets(fields, 500, stdin);
-	printf("\n%c%c%c", *(fields),*(fields+1),*(fields+2));
-	*/
+	
+	int dsize = 200;
+	char* line = NULL;
+	line = (char*)malloc(dsize + 1);
+	//flag tells us if getline returns -1
+	int flag = getline(&line, &dsize, stdin);
+	if (flag == -1)
+	{
+		printf("ERROR NO FILE");
+	}
+	else{
+		puts(line);
+	}
+	
 	return 0;
 	
 	
