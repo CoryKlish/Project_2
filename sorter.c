@@ -44,6 +44,10 @@ int main(int argc, const char* argv[]) {
 	{
 		exit(0);
 	}
+	
+	char* fields;
+	fgets(fields, 500, stdin);
+	printf("\n%c%c%c", *(fields),*(fields+1),*(fields+2));
 
 	return 0;
 	
