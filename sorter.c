@@ -11,6 +11,8 @@
 const char* modes = "c";
 int numFields = 0; 
 char** fields;
+//tracks location of the column desired
+char* column;
 /*
 	Created argv for the mode of the sorter (-c for column) and name of column
 	
@@ -48,7 +50,7 @@ int main(int argc, const char* argv[]) {
 	}
 
 	
-//////////////////Parsing first line for column types//////////////////////////////////////////////////
+//////////////////Parsing first line for column types and testing user input//////////////////////////////////////////////////
 	
 	/*Make assumption that the first row is 200 chars
 		but this doesn't matter bc getline method 
@@ -70,27 +72,38 @@ int main(int argc, const char* argv[]) {
 		exit(0);
 	}
 	
-	
+
 	//Take first field, puts ptr on first char of line
 	field = strtok(line, ",");
-//Start counting number of fields for allocation of fields array
+	//Start counting number of fields for indexing purposes
 	//If it is null, then there are no fields
 	if (field == NULL)
 	{
 		printf("ERROR, no fields");
 	}
 
+	//Just in case first column is the column to be sorted
+	if (strcmp(field, argv[2]) == 0)
+	{
+		column = strcpy(column, field);
+	}
+
 	//Count loop
 	while (field != NULL)
 	{
 		printf("\n");
-		printf(field);
+		
+		
 		//Subsequent calls to strtok move the pointer and return the actual token
 		field = strtok(NULL, ",");
+		
 		//Then i can start counting tokens
 		if (field != NULL)
+		{
 			numFields++;
-		
+			column = strcpy(column, field);
+		}
+			
 	}
 	
 	printf("\nNumber of fields is %d", numFields);
