@@ -53,14 +53,16 @@ int main(int argc, const char* argv[]) {
 	/*Make assumption that the first row is 200 chars
 		but this doesn't matter bc getline method 
 		expands the char* array if it needs to
+		
+		Use size_t (unsigned integer) bc it's part of getline param
 	*/
-	int recordsize = 200;
+	size_t recordsize = 200;
 	char* line = NULL;
 	char* field = NULL;
-	line = (char*)malloc(recordsize + 1);
+	char* line = (char*)malloc(recordsize + 1);
 	//bytes tells us how many bytes read
 	//if getline == -1, means it reached EOF and read nothing
-	int bytes = getline(&line, &recordsize, stdin);
+	size_t bytes = getline(&line, &recordsize, stdin);
 	
 	if (bytes == -1)
 	{
