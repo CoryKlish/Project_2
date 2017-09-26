@@ -10,7 +10,7 @@
 //String that holds the modes for the sorter. 
 const char* modes = "c";
 int numFields = 0; 
-const char** fields;
+char** fields;
 /*
 	Created argv for the mode of the sorter (-c for column) and name of column
 	
@@ -71,19 +71,21 @@ int main(int argc, const char* argv[]) {
 	}
 	
 	
-	//Take first field, test if null
+	//Take first field, puts ptr on first char of line
 	field = strtok(line, ",");
 //Start counting number of fields for allocation of fields array
-	//If its not null, add as a field
+	//If its not null, add to number of fields
 	if (field != NULL)
 	{
 		numFields++;
 	}
+
 	//Count loop
 	while (field != NULL)
 	{
+		printf("\n");
 		printf(field);
-		field = strtok(line, ",");
+		field = strtok(NULL, ",");
 		if (field != NULL)
 			numFields++;
 		
