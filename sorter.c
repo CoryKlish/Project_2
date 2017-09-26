@@ -77,7 +77,7 @@ int main(int argc, const char* argv[]) {
 	//If it is null, then there are no fields
 	if (field == NULL)
 	{
-		printf("ERROR, no fields")
+		printf("ERROR, no fields");
 	}
 
 	//Count loop
