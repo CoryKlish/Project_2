@@ -59,7 +59,7 @@ int main(int argc, const char* argv[]) {
 	size_t recordsize = 200;
 	char* line = NULL;
 	char* field = NULL;
-	char* line = (char*)malloc(recordsize + 1);
+	line = (char*)malloc(recordsize + 1);
 	//bytes tells us how many bytes read
 	//if getline == -1, means it reached EOF and read nothing
 	size_t bytes = getline(&line, &recordsize, stdin);
