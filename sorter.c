@@ -8,7 +8,9 @@
 #include "sorter.h"
 
 //String that holds the modes for the sorter. 
-const char* modes = "c"; 
+const char* modes = "c";
+int numFields = 0; 
+const char** fields;
 /*
 	Created argv for the mode of the sorter (-c for column) and name of column
 	
@@ -46,18 +48,47 @@ int main(int argc, const char* argv[]) {
 	}
 
 	
-	int dsize = 200;
+//////////////////Parsing first line for column types//////////////////////////////////////////////////
+	
+	/*Make assumption that the first row is 200 chars
+		but this doesn't matter bc getline method 
+		expands the char* array if it needs to
+	*/
+	int recordsize = 200;
 	char* line = NULL;
-	line = (char*)malloc(dsize + 1);
-	//flag tells us if getline returns -1
-	int flag = getline(&line, &dsize, stdin);
-	if (flag == -1)
+	char* field = NULL;
+	line = (char*)malloc(recordsize + 1);
+	//bytes tells us how many bytes read
+	//if getline == -1, means it reached EOF and read nothing
+	int bytes = getline(&line, &recordsize, stdin);
+	
+	if (bytes == -1)
 	{
-		printf("ERROR NO FILE");
+		printf("\nEOF, ending program");
+		exit(0);
 	}
-	else{
-		puts(line);
+	
+	
+	//Take first field, test if null
+	field = strtok(line, ",");
+//Start counting number of fields for allocation of fields array
+	//If its not null, add as a field
+	if (field != NULL)
+	{
+		numFields++;
 	}
+	//Count loop
+	while (field != NULL)
+	{
+		printf(field);
+		field = strtok(line, ",");
+		if (field != NULL)
+			numFields++;
+		
+	}
+	
+	printf("\nNumber of fields is %d", numFields);
+
 	
 	return 0;
 	
