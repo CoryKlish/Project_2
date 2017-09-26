@@ -74,10 +74,10 @@ int main(int argc, const char* argv[]) {
 	//Take first field, puts ptr on first char of line
 	field = strtok(line, ",");
 //Start counting number of fields for allocation of fields array
-	//If its not null, add to number of fields
-	if (field != NULL)
+	//If it is null, then there are no fields
+	if (field == NULL)
 	{
-		numFields++;
+		printf("ERROR, no fields")
 	}
 
 	//Count loop
@@ -85,7 +85,9 @@ int main(int argc, const char* argv[]) {
 	{
 		printf("\n");
 		printf(field);
+		//Subsequent calls to strtok move the pointer and return the actual token
 		field = strtok(NULL, ",");
+		//Then i can start counting tokens
 		if (field != NULL)
 			numFields++;
 		
