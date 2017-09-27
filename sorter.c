@@ -13,6 +13,7 @@ int numFields = 0;
 char** fields;
 //tracks location of the column desired
 char* column;
+int len;
 /*
 	Created argv for the mode of the sorter (-c for column) and name of column
 	
@@ -85,6 +86,8 @@ int main(int argc, const char* argv[]) {
 	//Just in case first column is the column to be sorted
 	if (strcmp(field, argv[2]) == 0)
 	{
+		len = strlen(field);
+		column = (char*)malloc(sizeof(char) * len);
 		column = strcpy(column, field);
 	}
 
@@ -101,6 +104,8 @@ int main(int argc, const char* argv[]) {
 		if (field != NULL)
 		{
 			numFields++;
+			len = strlen(field);
+			column = (char*)malloc(sizeof(char) * len);
 			column = strcpy(column, field);
 		}
 			
