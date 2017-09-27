@@ -94,7 +94,7 @@ int main(int argc, const char* argv[]) {
 	//Count loop
 	while (field != NULL)
 	{
-		printf("\n");
+		printf("\n%s", fields);
 		
 		
 		//Subsequent calls to strtok move the pointer and return the actual token
@@ -105,8 +105,12 @@ int main(int argc, const char* argv[]) {
 		{
 			numFields++;
 			len = strlen(field);
-			column = (char*)malloc(sizeof(char) * len);
-			column = strcpy(column, field);
+			if (strcmp(field, argv[2]) == 0)
+			{
+				column = (char*)malloc(sizeof(char) * len);
+				column = strcpy(column, field);
+				printf(column);
+			}
 		}
 			
 	}
