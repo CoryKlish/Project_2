@@ -14,6 +14,8 @@ char** fields;
 //tracks location of the column desired
 char* column;
 int len;
+
+
 /*
 	Created argv for the mode of the sorter (-c for column) and name of column
 	
@@ -94,7 +96,7 @@ int main(int argc, const char* argv[]) {
 	//Count loop
 	while (field != NULL)
 	{
-		printf("\n%s", fields);
+		printf("\n%s", field);
 		
 		
 		//Subsequent calls to strtok move the pointer and return the actual token
@@ -105,17 +107,41 @@ int main(int argc, const char* argv[]) {
 		{
 			numFields++;
 			len = strlen(field);
+			//Then check if that column is equivalent to the argument passed
 			if (strcmp(field, argv[2]) == 0)
 			{
 				column = (char*)malloc(sizeof(char) * len);
 				column = strcpy(column, field);
-				printf(column);
+				
 			}
 		}
 			
 	}
+	//If the column was never found, then it does not exist within the file.
+	if (column == NULL)
+	{
+		printf("The argument %s is not in the file. Ending program");
+		exit(0);
+	}
 	
-	printf("\nNumber of fields is %d", numFields);
+	printf("The column to be sorted is %s",column);
+	
+	printf("Organizing records...");
+///////////////////////////////////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
+	
+	//struct record allrecords[];
+	int i = 0;
+	
+	bytes = getline(&line, &recordsize, stdin);
+	printf ("\n%s",line);
+	
+	
+	
+	/*
+		Put each row into an individual struct
+		
+		
+	*/
 
 	
 	return 0;
