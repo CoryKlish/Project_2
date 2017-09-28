@@ -11,8 +11,10 @@
 const char* modes = "c";
 int numFields = 0; 
 char** fields;
-//tracks location of the column desired
+//tracks location and name of the column desired
 char* column;
+int colNum;
+//for dynamic allocation of column name
 int len;
 
 
@@ -55,17 +57,19 @@ int main(int argc, const char* argv[]) {
 	
 //////////////////Parsing first line for column types and testing user input//////////////////////////////////////////////////
 	
-	/*Make assumption that the first row is 200 chars
+	/*
+		Make assumption that the first row is 200 chars
 		but this doesn't matter bc getline method 
 		expands the char* array if it needs to
 		
 		Use size_t (unsigned integer) bc it's part of getline param
 	*/
-	size_t recordsize = 200;
+	size_t recordsize;
 	char* line = NULL;
 	char* field = NULL;
 	line = (char*)malloc(recordsize + 1);
-	//bytes tells us how many bytes read
+	
+
 	//if getline == -1, means it reached EOF and read nothing
 	size_t bytes = getline(&line, &recordsize, stdin);
 	
@@ -84,10 +88,12 @@ int main(int argc, const char* argv[]) {
 	{
 		printf("ERROR, no fields");
 	}
+	
 
 	//Just in case first column is the column to be sorted
 	if (strcmp(field, argv[2]) == 0)
 	{
+		colnum = 0;
 		len = strlen(field);
 		column = (char*)malloc(sizeof(char) * len);
 		column = strcpy(column, field);
@@ -102,14 +108,20 @@ int main(int argc, const char* argv[]) {
 		//Subsequent calls to strtok move the pointer and return the actual token
 		field = strtok(NULL, ",");
 		
+		
 		//Then i can start counting tokens
 		if (field != NULL)
 		{
 			numFields++;
-			len = strlen(field);
+			
 			//Then check if that column is equivalent to the argument passed
 			if (strcmp(field, argv[2]) == 0)
 			{
+				//index is 1 behind the count, 
+				colNum = numFields -1;
+				
+				//dynamic allocate the mem and store string
+				len = strlen(field);
 				column = (char*)malloc(sizeof(char) * len);
 				column = strcpy(column, field);
 				
@@ -129,11 +141,32 @@ int main(int argc, const char* argv[]) {
 	printf("Organizing records...");
 ///////////////////////////////////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	
-	//struct record allrecords[];
-	int i = 0;
+	// size of a record + 100 for every char*, which we assume will have a MAX length of 99 (100 for the nullbyte)
+	struct record* allrecords = (record*)malloc(sizeof(record) * 10000);
+	//size of the records array in bytes
+	int arSize = 10000 * (sizeof(record));
+	//total bytes that accumulates after each getline
+	int totalbytes = 0;
 	
-	bytes = getline(&line, &recordsize, stdin);
-	printf ("\n%s",line);
+	//ptr for reallocation
+	//struct record * ptrrecords = allrecords;
+
+	
+
+	while (bytes != -1)
+	{
+		
+		//get the line
+		bytes = getline(&line, &recordsize, stdin);
+		int i;
+		//get tokens in the line
+		for(i = 0; i < numFields;i++)
+		{
+			
+		}
+		
+		
+	}
 	
 	
 	
@@ -148,6 +181,26 @@ int main(int argc, const char* argv[]) {
 	
 	
 }//End main
+
+//method takes in the total num of bytes in the line and the size of the record array
+//expands the array if there is no space
+struct record* evalArray(record* allrecords, int totalbytes, int arSize)
+{
+	struct record *newall = NULL;
+	//if the ptr for records goes outside of allrecords, realloc more memory.
+	if(totalbytes > arSize)
+	{
+		//Add 5000 to the number of input records
+		arSize += (5000 * sizeof(record);
+		
+		newall = (record*) realloc(allrecords, arSize);
+		if (newall == NULL)
+		{
+			printf("Out of memory, exiting");
+			exit(0);
+		}
+	}
+}
 
 
 char VerifyMode(char mode)
@@ -166,3 +219,45 @@ char VerifyMode(char mode)
 	}
 	
 }//End VerifyMode function
+
+/*
+****Saving this piece jsut in case
+//if the ptr for records goes outside of allrecords, realloc more memory.
+	if(totalbytes > arSize)
+	{
+		//Add 5000 to the number of input records
+		arSize += (5000 * sizeof(record);
+		
+		//If the backup ptr has not been realloced into yet, realloc allrecords
+		if (newall == NULL)
+		{
+			//realloc to same ptr
+			allrecords = realloc(allrecords,arSize);
+		}
+		
+		//otherwise, newall is being used, realloc to newall		
+		else
+		{
+			//otherwise, newall is being used, realloc to newall
+			newall = realloc(newall,arSize);
+		}
+
+		if (allrecords == NULL)
+		{
+			newall = realloc(allrecords,arSize);
+			//if successful, free the allrecords
+			if (newall != NULL)
+			{
+				free(allrecords);
+			}
+			else
+			{
+				printf("Out of memory, exiting program");
+				exit(0);
+			}
+		}
+	}
+
+
+
+*/
