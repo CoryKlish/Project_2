@@ -6,10 +6,10 @@
 *
 ******/
 
-char VerifyMode(char mode);
 
 //Suggestion: define a struct that mirrors a record (row) of the data set
-struct record{
+
+typedef struct Record{
 	char* color;
 	char* director_name;
 	int num_critic_for_reviews;
@@ -40,7 +40,11 @@ struct record{
 	int movie_facebook_likes;
 	
 	
-};
+} Record;
+
+char VerifyMode(char mode);
+void allocateToken(Record*, char*, int);
+struct Record* evalArray(Record*,int ,int );
 
 
 //Suggestion: prototype a mergesort function
