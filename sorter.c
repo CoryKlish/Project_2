@@ -172,7 +172,7 @@ int main(int argc, const char* argv[]) {
 
 		if (bytes != -1)
 		{
-			printf("\nGot the line %d\n",numrecords+1);
+			printf("\nGot the line %d\n",numRecords+1);
 			//increase count of records
 			numRecords++;
 			//Add to total amount of bytes
