@@ -176,7 +176,7 @@ int main(int argc, const char* argv[]) {
 			//increase count of records
 			numRecords++;
 			//Add to total amount of bytes
-			totalbytes += bytes;
+			totalbytes += sizeof(Record);
 			printf("totalbytes is now %d",totalbytes);
 			//Check if total bytes goes over
 			allrecords = evalArray(allrecords,newall,totalbytes, arSize);
@@ -205,6 +205,7 @@ int main(int argc, const char* argv[]) {
 		//we are not storing them. 
 		bytes = getline(&line, &recordsize, stdin);
 		printf("\nThe number of bytes read is %d\n",bytes);
+	
 
 		//move ptr to next record for allocation
 		ptrrecords++;
