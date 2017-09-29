@@ -232,15 +232,19 @@ struct Record* evalArray(struct Record * allrecords, struct Record* newall, int 
 	//if the ptr for records goes outside of allrecords, realloc more memory.
 	if(totalbytes > arSize)
 	{
+		printf("\nuh oh\n");
 		//Add 5000 to the number of input records
 		arSize += (5000 * sizeof(Record));
+		printf("\nexpanded arSize\n");
 		
 		newall = (Record *) realloc(allrecords, arSize);
+		printf("\nReallocated to newall\n");
 		if (newall == NULL)
 		{
 			printf("Out of memory, exiting");
 			exit(0);
 		}
+		printf("\nsending back newall\n");
 		return newall;
 		
 	}
