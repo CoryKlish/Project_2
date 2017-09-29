@@ -177,6 +177,7 @@ int main(int argc, const char* argv[]) {
 			numRecords++;
 			//Add to total amount of bytes
 			totalbytes += bytes;
+			printf("totalbytes is now %d",totalbytes);
 			//Check if total bytes goes over
 			allrecords = evalArray(allrecords,newall,totalbytes, arSize);
 			
