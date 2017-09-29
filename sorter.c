@@ -109,9 +109,7 @@ int main(int argc, const char* argv[]) {
 
 	//Count loop
 	while (field != NULL)
-	{
-		printf("\n%s", field);
-		
+	{		
 		
 		//Subsequent calls to strtok move the pointer and return the actual token
 		field = strtok(NULL, ",");
@@ -197,10 +195,13 @@ int main(int argc, const char* argv[]) {
 		//we are not storing them. 
 		bytes = getline(&line, &recordsize, stdin) - 26;
 		
+		//Move ptr over
+		//if the line is greater than the initial size of record, base move off that
 		if (bytes > sizeof(Record))
 		{
 			ptrrecords += bytes;
 		}
+		//Otherwise, base the increment of the ptr on the record size.
 		else
 		{
 			ptrrecords += sizeof(Record);
@@ -241,10 +242,10 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 			break;
 			
 		case 2:
-			ptrrecords->num_critic_for_reviews = atoi(field);
+			ptrrecords->num_critic_for_reviews = atof(field);
 			break;
 		case 3:
-			ptrrecords->duration = atoi(field);
+			ptrrecords->duration = atof(field);
 			break;
 		case 4:
 			ptrrecords->director_facebook_likes;
@@ -260,7 +261,7 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 			break;		
 			
 		case 7:	
-			ptrrecords->actor_1_facebook_likes = atoi(field);
+			ptrrecords->actor_1_facebook_likes = atof(field);
 			break;
 		case 8:
 			grossConv = atof(field);
@@ -288,7 +289,7 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 			break;
 			
 		case 12:
-			ptrrecords->num_voted_users = atoi(field);
+			ptrrecords->num_voted_users = atof(field);
 			break;
 		case 13:
 			ptrrecords->cast_total_facebook_likes;
@@ -315,7 +316,7 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 			
 			break;
 		case 18:
-			ptrrecords->num_user_for_reviews = atoi(field);
+			ptrrecords->num_user_for_reviews = atof(field);
 			break;
 		case 19:
 			length = strlen(field);
@@ -337,23 +338,23 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 			
 			break;
 		case 22:
-			ptrrecords->budget = atoi(field);
+			ptrrecords->budget = atof(field);
 			break;
 		case 23:
-			ptrrecords->title_year = atoi(field);
+			ptrrecords->title_year = atof(field);
 			break;
 		case 24:
-			ptrrecords->actor_2_facebook_likes = atoi(field);
+			ptrrecords->actor_2_facebook_likes = atof(field);
 			break;
 			
 		case 25:
-			ptrrecords->imdb_score = atoi(field);
+			ptrrecords->imdb_score = atof(field);
 			break;
 		case 26:
-			ptrrecords->aspect_ratio = atoi(field);
+			ptrrecords->aspect_ratio = atof(field);
 			break;
 		case 27:
-			ptrrecords->movie_facebook_likes = atoi(field);
+			ptrrecords->movie_facebook_likes = atof(field);
 			break;
 		default:
 			printf("Did not allocate token correctly, ending");
