@@ -10,28 +10,28 @@
 //Suggestion: define a struct that mirrors a record (row) of the data set
 
 typedef struct Record{
-	char* color;
-	char* director_name;
+	char color[30];
+	char director_name[50];
 	double num_critic_for_reviews;
 	double duration;
 	double director_facebook_likes;
 	double actor_3_facebook_likes;
-	char* actor_2_name;
+	char actor_2_name[50];
 	double actor_1_facebook_likes;
 	double gross;
-	char* genres;
-	char* actor_1_name;
-	char* movie_title;
+	char genres[70];
+	char actor_1_name[50];
+	char movie_title[70];
 	double num_voted_users;
 	double cast_total_facebook_likes;
-	char* actor_3_name;
+	char actor_3_name[50];
 	double facenumber_in_poster;
-	char* plot_keywords;
-	char* movie_imdb_link;
+	char plot_keywords[100];
+	char movie_imdb_link[70];
 	double num_user_for_reviews;
-	char* language;
-	char* country;
-	char* content_rating;
+	char language[50];
+	char country[40];
+	char content_rating[30];
 	double budget;
 	double title_year;
 	double actor_2_facebook_likes;
@@ -67,15 +67,13 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 		//0,1,6,9,10,11,14,16,17,19,20,21 are indices w/ strings 
 		//they need to be malloced
 		case 0:
-			length = strlen(field);
-			ptrrecords->color = (char*)malloc(sizeof(char) * length);
-			ptrrecords->color = field;
+
+			strcpy(ptrrecords->color,field);
 			break;
 			
 		case 1:
-			length = strlen(field);
-			ptrrecords->director_name = (char*)malloc(sizeof(char) * length);
-			ptrrecords->director_name = field;
+
+			strcpy(ptrrecords->director_name,field);
 			break;
 			
 		case 2:
@@ -85,16 +83,15 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 			ptrrecords->duration = atof(field);
 			break;
 		case 4:
-			ptrrecords->director_facebook_likes;
+			ptrrecords->director_facebook_likes = atof(field);
 			break;
 		case 5:
-			ptrrecords->actor_3_facebook_likes;
+			ptrrecords->actor_3_facebook_likes = atof(field);
 			break;
 			
 		case 6: 
-			length = strlen(field);
-			ptrrecords->actor_2_name = (char*)malloc(sizeof(char) * length);
-			ptrrecords->actor_2_name = field;
+
+			strcpy(ptrrecords->actor_2_name,field);
 			break;		
 			
 		case 7:	
@@ -107,21 +104,18 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 			
 			
 		case 9: 
-			length = strlen(field);
-			ptrrecords->genres = (char*)malloc(sizeof(char) * length);
-			ptrrecords->genres = field;
+
+			strcpy(ptrrecords->genres,field);
 			break;
 		
 		case 10: 
-			length = strlen(field);
-			ptrrecords->actor_1_name = (char*)malloc(sizeof(char) * length);
-			ptrrecords->actor_1_name = field;
+
+			strcpy(ptrrecords->actor_1_name,field);
 			break;
 			
 		case 11:
-			length = strlen(field);
-			ptrrecords->movie_title = (char*)malloc(sizeof(char) * length);
-			ptrrecords->movie_title = field;
+
+			strcpy(ptrrecords->movie_title,field);
 			
 			break;
 			
@@ -129,49 +123,43 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 			ptrrecords->num_voted_users = atof(field);
 			break;
 		case 13:
-			ptrrecords->cast_total_facebook_likes;
+			ptrrecords->cast_total_facebook_likes = atof(field);
 			break;
 		case 14: 
-			length = strlen(field);
-			ptrrecords->actor_3_name = (char*)malloc(sizeof(char) * length);
-			ptrrecords->actor_3_name = field;
+
+			strcpy(ptrrecords->actor_3_name,field);
 			break;
 		case 15:
-			ptrrecords->facenumber_in_poster;
+			ptrrecords->facenumber_in_poster = atof(field);
 			break;
 		case 16:
-			length = strlen(field);
-			ptrrecords->plot_keywords = (char*)malloc(sizeof(char) * length);
-			ptrrecords->plot_keywords = field;
+
+			strcpy(ptrrecords->plot_keywords,field);
 			
 			break;
 
 		case 17:
-			length = strlen(field);
-			ptrrecords->movie_imdb_link = (char*)malloc(sizeof(char) * length);
-			ptrrecords->movie_imdb_link = field;
+
+			strcpy(ptrrecords->movie_imdb_link, field);
 			
 			break;
 		case 18:
 			ptrrecords->num_user_for_reviews = atof(field);
 			break;
 		case 19:
-			length = strlen(field);
-			ptrrecords->language = (char*)malloc(sizeof(char) * length);
-			ptrrecords->language = field;
+
+			strcpy(ptrrecords->language,field);
 			break;
 
 
 		case 20:
-			length = strlen(field);
-			ptrrecords->country = (char*)malloc(sizeof(char) * length);
-			ptrrecords->country = field;
+
+			strcpy(ptrrecords->country,field);
 			break;
 			
 		case 21:
-			length = strlen(field);
-			ptrrecords->content_rating = (char*)malloc(sizeof(char) * length);
-			ptrrecords->content_rating = field;
+
+			strcpy(ptrrecords->content_rating,field);
 			
 			break;
 		case 22:
