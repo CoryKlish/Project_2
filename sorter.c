@@ -67,7 +67,9 @@ int main(int argc, const char* argv[]) {
 	size_t recordsize;
 	char* line = NULL;
 	char* field = NULL;
-	line = (char*)malloc(recordsize + 1);
+	
+	//Was once dynamically allocated, but getline does it for you
+	line = NULL;
 	
 
 	//if getline == -1, means it reached EOF and read nothing
@@ -78,10 +80,16 @@ int main(int argc, const char* argv[]) {
 		printf("\nEOF, ending program");
 		exit(0);
 	}
+	//create new str to hold getline input
+	char* header = strdup(line);
+	//Free getline allocated
+	free(line);
+	//Making sure the line is null after freeing it. 
+	line = NULL;
 	
 
 	//Take first field, puts ptr on first char of line
-	field = strtok(line, ",");
+	field = strtok(header, ",");
 	//Start counting number of fields for indexing purposes
 	//If it is null, then there are no fields
 	if (field == NULL)
@@ -93,7 +101,7 @@ int main(int argc, const char* argv[]) {
 	//Just in case first column is the column to be sorted
 	if (strcmp(field, argv[2]) == 0)
 	{
-		colnum = 0;
+		colNum = 0;
 		len = strlen(field);
 		column = (char*)malloc(sizeof(char) * len);
 		column = strcpy(column, field);
@@ -139,42 +147,70 @@ int main(int argc, const char* argv[]) {
 	printf("The column to be sorted is %s",column);
 	
 	printf("Organizing records...");
-///////////////////////////////////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
+//////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	
 	// size of a record + 100 for every char*, which we assume will have a MAX length of 99 (100 for the nullbyte)
-	struct record* allrecords = (record*)malloc(sizeof(record) * 10000);
+	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 10000);
 	//size of the records array in bytes
-	int arSize = 10000 * (sizeof(record));
+	int arSize = 10000 * (sizeof(Record));
 	//total bytes that accumulates after each getline
 	int totalbytes = 0;
 	
-	//ptr for reallocation
-	//struct record * ptrrecords = allrecords;
+	//ptr for specifying struct
+	struct Record * ptrrecords = allrecords;
+	int numRecords = 0;
 
+	//getting first line to jumpstart the loop
+	bytes = getline(&line,&recordsize,stdin)-26;
 	
 
 	while (bytes != -1)
 	{
 		
-		//get the line
-		bytes = getline(&line, &recordsize, stdin);
-		int i;
-		//get tokens in the line
-		for(i = 0; i < numFields;i++)
+
+		if (bytes != -1)
 		{
+			//increase count of records
+			numRecords++;
+			//Add to total amount of bytes
+			totalbytes += bytes;
+			//Check if total bytes goes over
+			allrecords = evalArray(allrecords, totalbytes, arSize);
 			
+			int i;			
+			//get tokens in the line
+			for(i = 0; i < numFields+1;i++)
+			{
+				if (i == 0)
+					field = strtok(line, ",");
+				else{
+					field = strtok(NULL, ",");
+				}
+				//Based on the index, it allocates token to that field in the struct.
+				allocateToken(ptrrecords, field, i);
+				
+			}
 		}
+	
+		//get the line
+		//-26 because it would be inaccurate if we were to count the commas when 
+		//we are not storing them. 
+		bytes = getline(&line, &recordsize, stdin) - 26;
 		
-		
+		if (bytes > sizeof(Record))
+		{
+			ptrrecords += bytes;
+		}
+		else
+		{
+			ptrrecords += sizeof(Record);
+		}
 	}
+
 	
 	
 	
-	/*
-		Put each row into an individual struct
-		
-		
-	*/
+
 
 	
 	return 0;
@@ -182,23 +218,175 @@ int main(int argc, const char* argv[]) {
 	
 }//End main
 
+void allocateToken(Record* ptrrecords, char* field, int index)
+{
+	int length;
+	double grossConv;
+	
+	switch(index){
+		
+					
+		//0,1,6,9,10,11,14,16,17,19,20,21 are indices w/ strings 
+		//they need to be malloced
+		case 0:
+			length = strlen(field);
+			ptrrecords->color = (char*)malloc(sizeof(char) * length);
+			ptrrecords->color = field;
+			break;
+			
+		case 1:
+			length = strlen(field);
+			ptrrecords->director_name = (char*)malloc(sizeof(char) * length);
+			ptrrecords->director_name = field;
+			break;
+			
+		case 2:
+			ptrrecords->num_critic_for_reviews = atoi(field);
+			break;
+		case 3:
+			ptrrecords->duration = atoi(field);
+			break;
+		case 4:
+			ptrrecords->director_facebook_likes;
+			break;
+		case 5:
+			ptrrecords->actor_3_facebook_likes;
+			break;
+			
+		case 6: 
+			length = strlen(field);
+			ptrrecords->actor_2_name = (char*)malloc(sizeof(char) * length);
+			ptrrecords->actor_2_name = field;
+			break;		
+			
+		case 7:	
+			ptrrecords->actor_1_facebook_likes = atoi(field);
+			break;
+		case 8:
+			grossConv = atof(field);
+			ptrrecords->gross = grossConv;
+			break;
+			
+			
+		case 9: 
+			length = strlen(field);
+			ptrrecords->genres = (char*)malloc(sizeof(char) * length);
+			ptrrecords->genres = field;
+			break;
+		
+		case 10: 
+			length = strlen(field);
+			ptrrecords->actor_1_name = (char*)malloc(sizeof(char) * length);
+			ptrrecords->actor_1_name = field;
+			break;
+			
+		case 11:
+			length = strlen(field);
+			ptrrecords->movie_title = (char*)malloc(sizeof(char) * length);
+			ptrrecords->movie_title = field;
+			
+			break;
+			
+		case 12:
+			ptrrecords->num_voted_users = atoi(field);
+			break;
+		case 13:
+			ptrrecords->cast_total_facebook_likes;
+			break;
+		case 14: 
+			length = strlen(field);
+			ptrrecords->actor_3_name = (char*)malloc(sizeof(char) * length);
+			ptrrecords->actor_3_name = field;
+			break;
+		case 15:
+			ptrrecords->facenumber_in_poster;
+			break;
+		case 16:
+			length = strlen(field);
+			ptrrecords->plot_keywords = (char*)malloc(sizeof(char) * length);
+			ptrrecords->plot_keywords = field;
+			
+			break;
+
+		case 17:
+			length = strlen(field);
+			ptrrecords->movie_imdb_link = (char*)malloc(sizeof(char) * length);
+			ptrrecords->movie_imdb_link = field;
+			
+			break;
+		case 18:
+			ptrrecords->num_user_for_reviews = atoi(field);
+			break;
+		case 19:
+			length = strlen(field);
+			ptrrecords->language = (char*)malloc(sizeof(char) * length);
+			ptrrecords->language = field;
+			break;
+
+
+		case 20:
+			length = strlen(field);
+			ptrrecords->country = (char*)malloc(sizeof(char) * length);
+			ptrrecords->country = field;
+			break;
+			
+		case 21:
+			length = strlen(field);
+			ptrrecords->content_rating = (char*)malloc(sizeof(char) * length);
+			ptrrecords->content_rating = field;
+			
+			break;
+		case 22:
+			ptrrecords->budget = atoi(field);
+			break;
+		case 23:
+			ptrrecords->title_year = atoi(field);
+			break;
+		case 24:
+			ptrrecords->actor_2_facebook_likes = atoi(field);
+			break;
+			
+		case 25:
+			ptrrecords->imdb_score = atoi(field);
+			break;
+		case 26:
+			ptrrecords->aspect_ratio = atoi(field);
+			break;
+		case 27:
+			ptrrecords->movie_facebook_likes = atoi(field);
+			break;
+		default:
+			printf("Did not allocate token correctly, ending");
+			exit(0);
+			break;
+	}
+						
+						
+}
 //method takes in the total num of bytes in the line and the size of the record array
 //expands the array if there is no space
-struct record* evalArray(record* allrecords, int totalbytes, int arSize)
+struct Record* evalArray(struct Record * allrecords, int totalbytes, int arSize)
 {
-	struct record *newall = NULL;
+	Record *newall = NULL;
 	//if the ptr for records goes outside of allrecords, realloc more memory.
 	if(totalbytes > arSize)
 	{
 		//Add 5000 to the number of input records
-		arSize += (5000 * sizeof(record);
+		arSize += (5000 * sizeof(Record));
 		
-		newall = (record*) realloc(allrecords, arSize);
+		newall = (Record *) realloc(allrecords, arSize);
 		if (newall == NULL)
 		{
 			printf("Out of memory, exiting");
 			exit(0);
 		}
+		return newall;
+		
+	}
+	//otherwise, don't do anything and return the original array
+	else
+	{
+		return allrecords;
 	}
 }
 
