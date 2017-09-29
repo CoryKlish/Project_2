@@ -41,11 +41,166 @@ typedef struct Record{
 	
 	
 } Record;
-
+//Prototypes
 char VerifyMode(char mode);
 void allocateToken(Record*, char*, int);
-struct Record* evalArray(Record*,int ,int);
+struct Record* evalArray(Record*,Record*,int ,int);
 
+//Large helper function
+/*
+	Allocate tokens to their fields based on the index of the loop. 
+	First index goes to color (first column), second index goes to director_name (second column)
+	and so on for all of the fields in the csv.
+	
+	Most of the conversions for the numeric types are in double because the mergesort sorts
+	based on doubles, not ints
+	This was mainly due to the column "gross" being so large that an int cannot fit it. 
+*/
+void allocateToken(Record* ptrrecords, char* field, int index)
+{
+	int length;
+	double grossConv;
+	
+	switch(index){
+		
+					
+		//0,1,6,9,10,11,14,16,17,19,20,21 are indices w/ strings 
+		//they need to be malloced
+		case 0:
+			length = strlen(field);
+			ptrrecords->color = (char*)malloc(sizeof(char) * length);
+			ptrrecords->color = field;
+			break;
+			
+		case 1:
+			length = strlen(field);
+			ptrrecords->director_name = (char*)malloc(sizeof(char) * length);
+			ptrrecords->director_name = field;
+			break;
+			
+		case 2:
+			ptrrecords->num_critic_for_reviews = atof(field);
+			break;
+		case 3:
+			ptrrecords->duration = atof(field);
+			break;
+		case 4:
+			ptrrecords->director_facebook_likes;
+			break;
+		case 5:
+			ptrrecords->actor_3_facebook_likes;
+			break;
+			
+		case 6: 
+			length = strlen(field);
+			ptrrecords->actor_2_name = (char*)malloc(sizeof(char) * length);
+			ptrrecords->actor_2_name = field;
+			break;		
+			
+		case 7:	
+			ptrrecords->actor_1_facebook_likes = atof(field);
+			break;
+		case 8:
+			grossConv = atof(field);
+			ptrrecords->gross = grossConv;
+			break;
+			
+			
+		case 9: 
+			length = strlen(field);
+			ptrrecords->genres = (char*)malloc(sizeof(char) * length);
+			ptrrecords->genres = field;
+			break;
+		
+		case 10: 
+			length = strlen(field);
+			ptrrecords->actor_1_name = (char*)malloc(sizeof(char) * length);
+			ptrrecords->actor_1_name = field;
+			break;
+			
+		case 11:
+			length = strlen(field);
+			ptrrecords->movie_title = (char*)malloc(sizeof(char) * length);
+			ptrrecords->movie_title = field;
+			
+			break;
+			
+		case 12:
+			ptrrecords->num_voted_users = atof(field);
+			break;
+		case 13:
+			ptrrecords->cast_total_facebook_likes;
+			break;
+		case 14: 
+			length = strlen(field);
+			ptrrecords->actor_3_name = (char*)malloc(sizeof(char) * length);
+			ptrrecords->actor_3_name = field;
+			break;
+		case 15:
+			ptrrecords->facenumber_in_poster;
+			break;
+		case 16:
+			length = strlen(field);
+			ptrrecords->plot_keywords = (char*)malloc(sizeof(char) * length);
+			ptrrecords->plot_keywords = field;
+			
+			break;
+
+		case 17:
+			length = strlen(field);
+			ptrrecords->movie_imdb_link = (char*)malloc(sizeof(char) * length);
+			ptrrecords->movie_imdb_link = field;
+			
+			break;
+		case 18:
+			ptrrecords->num_user_for_reviews = atof(field);
+			break;
+		case 19:
+			length = strlen(field);
+			ptrrecords->language = (char*)malloc(sizeof(char) * length);
+			ptrrecords->language = field;
+			break;
+
+
+		case 20:
+			length = strlen(field);
+			ptrrecords->country = (char*)malloc(sizeof(char) * length);
+			ptrrecords->country = field;
+			break;
+			
+		case 21:
+			length = strlen(field);
+			ptrrecords->content_rating = (char*)malloc(sizeof(char) * length);
+			ptrrecords->content_rating = field;
+			
+			break;
+		case 22:
+			ptrrecords->budget = atof(field);
+			break;
+		case 23:
+			ptrrecords->title_year = atof(field);
+			break;
+		case 24:
+			ptrrecords->actor_2_facebook_likes = atof(field);
+			break;
+			
+		case 25:
+			ptrrecords->imdb_score = atof(field);
+			break;
+		case 26:
+			ptrrecords->aspect_ratio = atof(field);
+			break;
+		case 27:
+			ptrrecords->movie_facebook_likes = atof(field);
+			break;
+		default:
+			printf("Did not allocate token correctly, ending");
+			exit(0);
+			break;
+	}
+						
+						
+}
 
 //Suggestion: prototype a mergesort function
 
