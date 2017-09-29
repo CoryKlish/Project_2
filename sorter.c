@@ -170,6 +170,7 @@ int main(int argc, const char* argv[]) {
 
 		if (bytes != -1)
 		{
+			printf("\nGot the line\n");
 			//increase count of records
 			numRecords++;
 			//Add to total amount of bytes
@@ -187,6 +188,7 @@ int main(int argc, const char* argv[]) {
 					field = strtok(NULL, ",");
 				}
 				//Based on the index, it allocates token to that field in the struct.
+				printf("\nGot the token\n");
 				allocateToken(ptrrecords, field, i);
 				
 			}
@@ -224,7 +226,7 @@ int main(int argc, const char* argv[]) {
 
 //method takes in the total num of bytes in the line and the size of the record array
 //expands the array if there is no space
-struct Record* evalArray(struct Record * allrecords, Record* newall, int totalbytes, int arSize)
+struct Record* evalArray(struct Record * allrecords, struct Record* newall, int totalbytes, int arSize)
 {
 	
 	//if the ptr for records goes outside of allrecords, realloc more memory.
