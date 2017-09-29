@@ -203,21 +203,11 @@ int main(int argc, const char* argv[]) {
 		//get the line
 		//-26 because it would be inaccurate if we were to count the commas when 
 		//we are not storing them. 
-		bytes = getline(&line, &recordsize, stdin) - 26;
+		bytes = getline(&line, &recordsize, stdin);
 		printf("\nThe number of bytes read is %d\n",bytes);
 
-		
-		//Move ptr over
-		//if the line is greater than the initial size of record, base move off that
-		if (bytes > sizeof(Record))
-		{
-			ptrrecords += bytes;
-		}
-		//Otherwise, base the increment of the ptr on the record size.
-		else
-		{
-			ptrrecords += sizeof(Record);
-		}
+		//move ptr to next record for allocation
+		ptrrecords++;
 	}
 
 	
