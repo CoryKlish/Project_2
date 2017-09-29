@@ -163,6 +163,7 @@ int main(int argc, const char* argv[]) {
 	//getting first line to jumpstart the loop
 	bytes = getline(&line,&recordsize,stdin);
 	
+	printf("The size of record is %d",sizeof(Record));
 
 	while (bytes != -1)
 	{
@@ -186,6 +187,9 @@ int main(int argc, const char* argv[]) {
 					field = strtok(line, ",");
 				else{
 					field = strtok(NULL, ",");
+					//must handle fields with double quotes around them here
+					//maybe handoff flow to a trim function
+					
 				}
 				//Based on the index, it allocates token to that field in the struct.
 				printf("\nGot the token %d\n", i);
