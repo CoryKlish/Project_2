@@ -142,9 +142,9 @@ int main(int argc, const char* argv[]) {
 		exit(0);
 	}
 	
-	printf("The column to be sorted is %s",column);
+	printf("\nThe column to be sorted is %s\n",column);
 	
-	printf("Organizing records...");
+	printf("\nOrganizing records...\n");
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	
 	// size of a record + 100 for every char*, which we assume will have a MAX length of 99 (100 for the nullbyte)
@@ -163,7 +163,8 @@ int main(int argc, const char* argv[]) {
 	//getting first line to jumpstart the loop
 	bytes = getline(&line,&recordsize,stdin);
 	
-	printf("The size of record is %d",sizeof(Record));
+	printf("\nThe size of record is %d\n",sizeof(Record));
+	printf("\nThe number of bytes read is %d\n",bytes);
 
 	while (bytes != -1)
 	{
@@ -202,6 +203,8 @@ int main(int argc, const char* argv[]) {
 		//-26 because it would be inaccurate if we were to count the commas when 
 		//we are not storing them. 
 		bytes = getline(&line, &recordsize, stdin) - 26;
+		printf("\nThe number of bytes read is %d\n",bytes);
+
 		
 		//Move ptr over
 		//if the line is greater than the initial size of record, base move off that
