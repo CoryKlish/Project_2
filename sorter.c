@@ -188,7 +188,7 @@ int main(int argc, const char* argv[]) {
 					field = strtok(NULL, ",");
 				}
 				//Based on the index, it allocates token to that field in the struct.
-				printf("\nGot the token\n");
+				printf("\nGot the token %d\n", i);
 				allocateToken(ptrrecords, field, i);
 				
 			}
