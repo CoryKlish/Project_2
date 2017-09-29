@@ -161,7 +161,7 @@ int main(int argc, const char* argv[]) {
 	int numRecords = 0;
 
 	//getting first line to jumpstart the loop
-	bytes = getline(&line,&recordsize,stdin)-26;
+	bytes = getline(&line,&recordsize,stdin);
 	
 
 	while (bytes != -1)
