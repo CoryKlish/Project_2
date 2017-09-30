@@ -64,8 +64,6 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 	switch(index){
 		
 					
-		//0,1,6,9,10,11,14,16,17,19,20,21 are indices w/ strings 
-		//they need to be malloced
 		case 0:
 
 			strcpy(ptrrecords->color,field);
