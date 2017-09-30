@@ -138,7 +138,7 @@ int main(int argc, const char* argv[]) {
 	//If the column was never found, then it does not exist within the file.
 	if (column == NULL)
 	{
-		printf("The argument %s is not in the file. Ending program");
+		printf("The argument %s is not in the file. Ending program", column);
 		exit(0);
 	}
 	
@@ -163,8 +163,8 @@ int main(int argc, const char* argv[]) {
 	//getting first line to jumpstart the loop
 	bytes = getline(&line,&recordsize,stdin);
 	
-	printf("\nThe size of record is %d\n",sizeof(Record));
-	printf("\nThe number of bytes read is %d\n",bytes);
+	printf("\nThe size of record is %lu\n",sizeof(Record));
+	printf("\nThe number of bytes read is %zu\n",bytes);
 
 	while (bytes != -1)
 	{
@@ -177,7 +177,7 @@ int main(int argc, const char* argv[]) {
 			numRecords++;
 			//Add to total amount of bytes
 			totalbytes += sizeof(Record);
-			printf("totalbytes is now %d",totalbytes);
+			printf("totalbytes is now %d and array size is %d",totalbytes,arSize);
 			//Check if total bytes goes over
 			allrecords = evalArray(allrecords,newall,totalbytes, arSize);
 			
@@ -204,7 +204,7 @@ int main(int argc, const char* argv[]) {
 		//-26 because it would be inaccurate if we were to count the commas when 
 		//we are not storing them. 
 		bytes = getline(&line, &recordsize, stdin);
-		printf("\nThe number of bytes read is %d\n",bytes);
+		printf("\nThe number of bytes read is %lu \n",bytes);
 	
 
 		//move ptr to next record for allocation
