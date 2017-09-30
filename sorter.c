@@ -188,9 +188,9 @@ int main(int argc, const char* argv[]) {
 			for(i = 0; i < numFields+1;i++)
 			{
 				if (i == 0)
-					field = strtok(row, ",");
+					field = strsep(row, ",");
 				else{
-					field = strtok(NULL, ",");
+					field = strsep(NULL, ",");
 					//must handle fields with double quotes around them here
 					//maybe handoff flow to a trim function
 					
