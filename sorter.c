@@ -10,7 +10,6 @@
 //String that holds the modes for the sorter. 
 const char* modes = "c";
 int numFields = 0; 
-char** fields;
 //tracks location and name of the column desired
 char* column;
 int colNum;
@@ -90,18 +89,18 @@ int main(int argc, const char* argv[]) {
 
 	//Take first field, puts ptr on first char of line
 	field = strtok(header, ",");
-	//Start counting number of fields for indexing purposes
+	//Start counting number of fields 
 	//If it is null, then there are no fields
 	if (field == NULL)
 	{
 		printf("ERROR, no fields");
 	}
 	
-
 	//Just in case first column is the column to be sorted
 	if (strcmp(field, argv[2]) == 0)
 	{
 		colNum = 0;
+		//Get length, allocate size and copy into 'column' variable
 		len = strlen(field);
 		column = (char*)malloc(sizeof(char) * len);
 		column = strcpy(column, field);
@@ -166,13 +165,14 @@ int main(int argc, const char* argv[]) {
 	printf("\nThe size of record is %lu\n",sizeof(Record));
 	printf("\nThe number of bytes read is %zu\n",bytes);
 
+
 	while (bytes != -1)
 	{
 		
 
 		if (bytes != -1)
 		{
-			printf("\nGot the line %d\n",numRecords+1);
+			printf("\nGot line %d\n",numRecords+1);
 			//increase count of records
 			numRecords++;
 			//Add to total amount of bytes
