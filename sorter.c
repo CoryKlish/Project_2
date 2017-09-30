@@ -30,7 +30,7 @@ int main(int argc, const char* argv[]) {
 	//For now, only accepting two arguments in the sorter
 	if(argc - 1 < 2 || argc - 1 > 2)
 	{
-		printf("Not enough arguments passed, ending program");
+		printf("Wrong number of arguments passed.");
 	}
 	
 	//First argument should be -mode, indicating what to analyze
@@ -167,7 +167,10 @@ int main(int argc, const char* argv[]) {
 
 	while (bytes != -1)
 	{
-		
+		//copy to row to free up the line var
+		char* row = strcpy(row, line);
+		free(line);
+		line = NULL;
 
 		if (bytes != -1)
 		{
@@ -185,7 +188,7 @@ int main(int argc, const char* argv[]) {
 			for(i = 0; i < numFields+1;i++)
 			{
 				if (i == 0)
-					field = strtok(line, ",");
+					field = strtok(row, ",");
 				else{
 					field = strtok(NULL, ",");
 					//must handle fields with double quotes around them here
@@ -199,10 +202,8 @@ int main(int argc, const char* argv[]) {
 			}
 		}
 	
-		//get the line
-		//-26 because it would be inaccurate if we were to count the commas when 
-		//we are not storing them. 
 		bytes = getline(&line, &recordsize, stdin);
+
 		printf("\nThe number of bytes read is %lu \n",bytes);
 	
 
