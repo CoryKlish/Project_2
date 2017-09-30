@@ -145,8 +145,7 @@ int main(int argc, const char* argv[]) {
 	
 	printf("\nOrganizing records...\n");
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
-	
-	// size of a record + 100 for every char*, which we assume will have a MAX length of 99 (100 for the nullbyte)
+	//holds 10000 records
 	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 10000);
 	//For reallocation
 	Record *newall = NULL;
