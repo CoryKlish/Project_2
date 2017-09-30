@@ -222,9 +222,9 @@ int main(int argc, const char* argv[]) {
 	
 
 	
-	Record * first = allrecords;
-	Record * second = ptrrecords - 3;
-	printf("Record 1: Genre- %s\nRecord 5043: movie_title- %s\n",first->genres,second->movie_title);
+	Record * first = newall;
+	Record * second = newall - 2;
+	printf("movie_title- %s\nmovie_title- %s\n",first->movie_title,second->movie_title);
 
 	
 	
