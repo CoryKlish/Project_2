@@ -223,7 +223,7 @@ int main(int argc, const char* argv[]) {
 
 	
 	Record * first = allrecords;
-	Record * second = ptrrecords + 1;
+	Record * second = ptrrecords;
 	printf("Record 1: Genre- %s\nRecord 5043: movie_title- %s\n",first->genres,second->movie_title);
 
 	
