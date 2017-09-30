@@ -169,6 +169,7 @@ int main(int argc, const char* argv[]) {
 	{
 		//copy to row to free up the line var
 		char* row = strdup(line);
+		char* token;
 		free(line);
 		line = NULL;
 
@@ -184,17 +185,12 @@ int main(int argc, const char* argv[]) {
 			allrecords = evalArray(allrecords,newall,totalbytes, arSize);
 			
 			int i;			
+			
 			//get tokens in the line
 			for(i = 0; i < numFields+1;i++)
-			{
-				if (i == 0)
-					field = strsep(&row, ",");
-				else{
-					field = strsep(NULL, ",");
-					//must handle fields with double quotes around them here
-					//maybe handoff flow to a trim function
-					
-				}
+			{	
+				field = strsep(row,",");
+			}
 				//Based on the index, it allocates token to that field in the struct.
 				printf("\nGot the token %d\n", i);
 				allocateToken(ptrrecords, field, i);
