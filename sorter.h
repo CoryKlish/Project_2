@@ -58,20 +58,20 @@ struct Record* evalArray(Record*,Record*,int ,int);
 */
 void allocateToken(Record* ptrrecords, char* field, int index)
 {
-	int length;
+	size_t length;
 	double grossConv;
 	
 	switch(index){
 		
 					
 		case 0:
-
-			strcpy(ptrrecords->color,field);
+			length = strlen(field);
+			strncpy(ptrrecords->color,field,length);
 			break;
 			
 		case 1:
-
-			strcpy(ptrrecords->director_name,field);
+			length = strlen(field);
+			strncpy(ptrrecords->director_name,field,length);
 			break;
 			
 		case 2:
@@ -88,8 +88,8 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 			break;
 			
 		case 6: 
-
-			strcpy(ptrrecords->actor_2_name,field);
+			length = strlen(field);
+			strncpy(ptrrecords->actor_2_name,field,length);
 			break;		
 			
 		case 7:	
@@ -102,18 +102,18 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 			
 			
 		case 9: 
-
-			strcpy(ptrrecords->genres,field);
+			length = strlen(field);
+			strncpy(ptrrecords->genres,field,length);
 			break;
 		
 		case 10: 
-
-			strcpy(ptrrecords->actor_1_name,field);
+			length = strlen(field);
+			strncpy(ptrrecords->actor_1_name,field,length);
 			break;
 			
 		case 11:
-
-			strcpy(ptrrecords->movie_title,field);
+			length = strlen(field);
+			strncpy(ptrrecords->movie_title,field,length);
 			
 			break;
 			
@@ -124,40 +124,40 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 			ptrrecords->cast_total_facebook_likes = atof(field);
 			break;
 		case 14: 
-
-			strcpy(ptrrecords->actor_3_name,field);
+			length = strlen(field);
+			strncpy(ptrrecords->actor_3_name,field,length);
 			break;
 		case 15:
 			ptrrecords->facenumber_in_poster = atof(field);
 			break;
 		case 16:
-
-			strcpy(ptrrecords->plot_keywords,field);
+			length = strlen(field);
+			strncpy(ptrrecords->plot_keywords,field,length);
 			
 			break;
 
 		case 17:
-
-			strcpy(ptrrecords->movie_imdb_link, field);
+			length = strlen(field);
+			strncpy(ptrrecords->movie_imdb_link, field,length);
 			
 			break;
 		case 18:
 			ptrrecords->num_user_for_reviews = atof(field);
 			break;
 		case 19:
-
-			strcpy(ptrrecords->language,field);
+			length = strlen(field);
+			strncpy(ptrrecords->language,field,length);
 			break;
 
 
 		case 20:
-
-			strcpy(ptrrecords->country,field);
+			length = strlen(field);
+			strncpy(ptrrecords->country,field,length);
 			break;
 			
 		case 21:
-
-			strcpy(ptrrecords->content_rating,field);
+			length = strlen(field);
+			strncpy(ptrrecords->content_rating,field,length);
 			
 			break;
 		case 22:
