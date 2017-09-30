@@ -146,11 +146,11 @@ int main(int argc, const char* argv[]) {
 	printf("\nOrganizing records...\n");
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds 10000 records
-	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 10000);
+	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 4000);
 	//For reallocation
 	Record *newall = NULL;
 	//size of the records array in bytes
-	int arSize = 10000 * (sizeof(Record));
+	int arSize = 4000 * (sizeof(Record));
 	//total bytes that accumulates after each getline
 	int totalbytes = 0;
 	
@@ -169,7 +169,6 @@ int main(int argc, const char* argv[]) {
 	{
 		//copy to row to free up the line var
 		char* row = strdup(line);
-		char* token;
 		free(line);
 		line = NULL;
 
@@ -182,30 +181,50 @@ int main(int argc, const char* argv[]) {
 			totalbytes += sizeof(Record);
 			printf("totalbytes is now %d and array size is %d",totalbytes,arSize);
 			//Check if total bytes goes over
-			allrecords = evalArray(allrecords,newall,totalbytes, arSize);
+			if(totalbytes > arSize)
+			{
+				//Add 5000 to the number of input records
+				arSize += (5000 * sizeof(Record));
+				printf("\nexpanded arSize\n");
+
+				//reallocate, move pointer to new memory location with more mem
+				newall = (Record *) realloc(allrecords, arSize);
+				ptrrecords = newall;
+				
+				//If this does not work, there is no more memory left to allocate
+				if (newall == NULL)
+				{
+					printf("Out of memory, exiting");
+					exit(0);
+				}
+				
+			}
 			
 			int i;			
 			
 			//get tokens in the line
 			for(i = 0; i < numFields+1;i++)
 			{	
-				field = strsep(row,",");
-			}
+				field = strsep(&row,",");
+			
 				//Based on the index, it allocates token to that field in the struct.
 				printf("\nGot the token %d\n", i);
+				printf("field = %s\n",field);
 				allocateToken(ptrrecords, field, i);
-				
-			}
+			}	
+			ptrrecords++;
 		}
 	
 		bytes = getline(&line, &recordsize, stdin);
 
-		printf("\nThe number of bytes read is %lu \n",bytes);
+		
+	}
 	
 
-		//move ptr to next record for allocation
-		ptrrecords++;
-	}
+	
+	Record * first = allrecords;
+	Record * second = ptrrecords + 1;
+	printf("Record 1: Genre- %s\nRecord 5043: movie_title- %s\n",first->genres,second->movie_title);
 
 	
 	
@@ -217,38 +236,6 @@ int main(int argc, const char* argv[]) {
 	
 	
 }//End main
-
-
-//method takes in the total num of bytes in the line and the size of the record array
-//expands the array if there is no space
-struct Record* evalArray(struct Record * allrecords, struct Record* newall, int totalbytes, int arSize)
-{
-	
-	//if the ptr for records goes outside of allrecords, realloc more memory.
-	if(totalbytes > arSize)
-	{
-		printf("\nuh oh\n");
-		//Add 5000 to the number of input records
-		arSize += (5000 * sizeof(Record));
-		printf("\nexpanded arSize\n");
-		
-		newall = (Record *) realloc(allrecords, arSize);
-		printf("\nReallocated to newall\n");
-		if (newall == NULL)
-		{
-			printf("Out of memory, exiting");
-			exit(0);
-		}
-		printf("\nsending back newall\n");
-		return newall;
-		
-	}
-	//otherwise, don't do anything and return the original array
-	else
-	{
-		return allrecords;
-	}
-}
 
 
 char VerifyMode(char mode)
