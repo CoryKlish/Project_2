@@ -168,7 +168,7 @@ int main(int argc, const char* argv[]) {
 	while (bytes != -1)
 	{
 		//copy to row to free up the line var
-		char* row = strcpy(row, line);
+		char* row = strdup(line);
 		free(line);
 		line = NULL;
 
