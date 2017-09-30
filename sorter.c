@@ -272,44 +272,4 @@ char VerifyMode(char mode)
 	
 }//End VerifyMode function
 
-/*
-****Saving this piece jsut in case
-//if the ptr for records goes outside of allrecords, realloc more memory.
-	if(totalbytes > arSize)
-	{
-		//Add 5000 to the number of input records
-		arSize += (5000 * sizeof(record);
-		
-		//If the backup ptr has not been realloced into yet, realloc allrecords
-		if (newall == NULL)
-		{
-			//realloc to same ptr
-			allrecords = realloc(allrecords,arSize);
-		}
-		
-		//otherwise, newall is being used, realloc to newall		
-		else
-		{
-			//otherwise, newall is being used, realloc to newall
-			newall = realloc(newall,arSize);
-		}
 
-		if (allrecords == NULL)
-		{
-			newall = realloc(allrecords,arSize);
-			//if successful, free the allrecords
-			if (newall != NULL)
-			{
-				free(allrecords);
-			}
-			else
-			{
-				printf("Out of memory, exiting program");
-				exit(0);
-			}
-		}
-	}
-
-
-
-*/
