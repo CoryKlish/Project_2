@@ -222,7 +222,7 @@ int main(int argc, const char* argv[]) {
 					if (*(qchecker) == '"')
 					{
 						//create new char array
-						char* special = (char*)malloc(sizeof(char) * (strlen(qchecker)));
+						char* special = (char*)malloc(sizeof(char) * (strlen(qchecker) + 1));
 						// move the ptr to the next char after the initial "
 						qchecker++;
 						
@@ -238,6 +238,8 @@ int main(int argc, const char* argv[]) {
 						
 					//duplicate special str into field
 					field = strdup(special);
+					free(special);
+					special = NULL;
 					}
 				}		
 				//Based on the index, it allocates token to that field in the struct.
