@@ -230,11 +230,11 @@ int main(int argc, const char* argv[]) {
 						while (*(qchecker) != '"')
 						{
 							//add 1 char at a time until we reach "
-							special.strncat(special,qchecker,1);
+							special = strncat(special,qchecker,1);
 							qchecker++;
 							
 						} 
-						*qchecker = '\0'
+						*qchecker = '\0';
 						
 					//duplicate special str into field
 					field = strdup(special);
