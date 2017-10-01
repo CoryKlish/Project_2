@@ -240,8 +240,7 @@ int main(int argc, const char* argv[]) {
 						
 					//duplicate special str into field
 					field = strcpy(field, special);
-					free(special);
-					special = NULL;
+
 					}
 				}		
 				//Based on the index, it allocates token to that field in the struct.
