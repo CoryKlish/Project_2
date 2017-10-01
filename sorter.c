@@ -241,13 +241,13 @@ int main(int argc, const char* argv[]) {
 						
 					//duplicate special str into field
 					field = strdup(special);
-
 					}
 				}		
 				//Based on the index, it allocates token to that field in the struct.
 				printf("\nGot the token %d\n", i);
 				printf("field = %s\n",field);
 				allocateToken(ptrrecords, field, i);
+				//if a special "" section was detected, move the ptr to next field.
 				if (strcmp (field,special) == 0)
 					field = strsep(&row,",");
 			}//end token loop
