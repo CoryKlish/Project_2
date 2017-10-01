@@ -171,6 +171,9 @@ int main(int argc, const char* argv[]) {
 		char* row = strdup(line);
 		free(line);
 		line = NULL;
+		
+		//for special case where commas are in fields
+		char* special;
 
 		if (bytes != -1)
 		{
@@ -222,7 +225,7 @@ int main(int argc, const char* argv[]) {
 					if (*(field) == '"')
 					{
 						//create new char array
-						char* special = (char*)malloc(sizeof(char) * (strlen(qchecker)) + 1);
+						special = (char*)malloc(sizeof(char) * (strlen(qchecker)) + 1);
 						// move the ptr to the next char after the initial "
 						qchecker++;
 						
