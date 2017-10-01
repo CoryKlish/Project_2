@@ -227,18 +227,18 @@ int main(int argc, const char* argv[]) {
 						// move the ptr to the next char after the initial "
 						qchecker++;
 						
-						
+						//Read until the next comma
 						while (*(qchecker) != ',')
 						{
-							//add 1 char at a time until we reach "
+							//Read everything but the "
 							if (*(qchecker) != '"')
 							{
 								special = strncat(special,qchecker,1);
-								qchecker++;
-							}
 							
+							}
+							qchecker++;
 						} 
-						
+					//move the pointer over one to get to the real next field.	
 					field = strsep(&row, ",");	
 					//duplicate special str into field
 					field = strdup(special);
