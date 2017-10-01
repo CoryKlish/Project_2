@@ -218,7 +218,7 @@ int main(int argc, const char* argv[]) {
 					qchecker = field;
 					//If there is a quote in the beginning of the field, 
 					//then we can replace field with the 'check' var that contains field with double quotes
-					if (qchecker == '"')
+					if (*(qchecker) == '"')
 					{
 						//create new char array
 						char special[strlen(check)];
@@ -230,19 +230,19 @@ int main(int argc, const char* argv[]) {
 				printf("\nGot the token %d\n", i);
 				printf("field = %s\n",field);
 				allocateToken(ptrrecords, field, i);
-			}
-			}	
+			}//end token loop
+				
 			ptrrecords++;
-		}
+		}//end if bytes != -1
 	
 		bytes = getline(&line, &recordsize, stdin);
 
 		
-	}
+	}//end while
 	
 
 	
-	Record * first = allrecords + 816;
+	struct Record * first = allrecords + 816;
 
 	
 	printf("\nmovie_title-%s\n",first->movie_title);
