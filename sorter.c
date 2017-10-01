@@ -215,14 +215,14 @@ int main(int argc, const char* argv[]) {
 				if (check != NULL)
 				{
 					//set qchecker to field to check for quote
-					qchecker = field;
+					qchecker = check;
 					//If there is a quote in the beginning of the field, 
 					//then we can replace field with the 'special' var that contains contains the field
 					//within the double quotes.
 					if (*(qchecker) == '"')
 					{
 						//create new char array
-						char* special = (char*)malloc(sizeof(char) * (strlen(qchecker) + 1));
+						char* special = (char*)malloc(sizeof(char) * (strlen(qchecker)));
 						// move the ptr to the next char after the initial "
 						qchecker++;
 						
