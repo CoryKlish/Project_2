@@ -239,7 +239,7 @@ int main(int argc, const char* argv[]) {
 							
 						} 
 						
-						
+					field = strsep(&row, ",");	
 					//duplicate special str into field
 					field = strdup(special);
 					}
@@ -249,10 +249,7 @@ int main(int argc, const char* argv[]) {
 				printf("field = %s\n",field);
 				allocateToken(ptrrecords, field, i);
 				//if a special "" section was detected, move the ptr to next field.
-				if (strcmp (field,special) == 0)
-				{
-					field = strsep(&row,",");
-				}
+		
 			}//end token loop
 				
 			ptrrecords++;
