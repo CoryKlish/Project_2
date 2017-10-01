@@ -222,7 +222,7 @@ int main(int argc, const char* argv[]) {
 					if (*(qchecker) == '"')
 					{
 						//create new char array
-						char special[strlen(check)];
+						char* special = (char*)malloc(sizeof(char) * (strlen(qchecker)));
 						// move the ptr to the next char after the initial "
 						qchecker++;
 						
@@ -233,7 +233,8 @@ int main(int argc, const char* argv[]) {
 							special.strncat(special,qchecker,1);
 							qchecker++;
 							
-						}
+						} 
+						*qchecker = '\0'
 						
 					//duplicate special str into field
 					field = strdup(special);
