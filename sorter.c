@@ -224,7 +224,7 @@ int main(int argc, const char* argv[]) {
 						//change qchecker to string with "
 						qchecker = check;
 						//create new char array
-						char* special = (char*)malloc(sizeof(char) * (strlen(qchecker)));
+						char* special = (char*)malloc(sizeof(char) * (strlen(qchecker)) + 1);
 						// move the ptr to the next char after the initial "
 						qchecker++;
 						
