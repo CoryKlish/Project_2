@@ -171,9 +171,6 @@ int main(int argc, const char* argv[]) {
 		char* row = strdup(line);
 		free(line);
 		line = NULL;
-		
-		//for special case where commas are in fields
-		char* special;
 
 		if (bytes != -1)
 		{
@@ -203,6 +200,7 @@ int main(int argc, const char* argv[]) {
 					exit(0);
 				}
 			}
+			
 			//checks for a double quote in the row, which indicates there will be nested commas
 			char * check = strstr(row,"\"");
 			//If double quotes are present,
@@ -225,16 +223,19 @@ int main(int argc, const char* argv[]) {
 					if (*(field) == '"')
 					{
 						//create new char array
-						special = (char*)malloc(sizeof(char) * (strlen(qchecker)) + 1);
+						char* special = (char*)malloc(sizeof(char) * (strlen(qchecker)) + 1);
 						// move the ptr to the next char after the initial "
 						qchecker++;
 						
 						
-						while (*(qchecker) != '"')
+						while (*(qchecker) != ',')
 						{
 							//add 1 char at a time until we reach "
-							special = strncat(special,qchecker,1);
-							qchecker++;
+							if (*(qchecker) != '"')
+							{
+								special = strncat(special,qchecker,1);
+								qchecker++;
+							}
 							
 						} 
 						
@@ -251,8 +252,6 @@ int main(int argc, const char* argv[]) {
 				if (strcmp (field,special) == 0)
 				{
 					field = strsep(&row,",");
-					free(special);
-					special = NULL;
 				}
 			}//end token loop
 				
