@@ -223,12 +223,14 @@ int main(int argc, const char* argv[]) {
 					{
 						//create new char array
 						char special[strlen(check)];
+						// move the ptr to the next char after the initial "
 						qchecker++;
 						
 						
 						while (*(qchecker) != '"')
 						{
-							special.append(qchecker);
+							//add 1 char at a time until we reach "
+							special.strncat(special,qchecker,1);
 							qchecker++;
 							
 						}
