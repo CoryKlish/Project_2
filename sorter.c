@@ -236,10 +236,10 @@ int main(int argc, const char* argv[]) {
 							qchecker++;
 							
 						} 
-						*qchecker = ',';
+						
 						
 					//duplicate special str into field
-					field = strdup(special);
+					field = strcpy(field, special);
 					free(special);
 					special = NULL;
 					}
