@@ -239,7 +239,7 @@ int main(int argc, const char* argv[]) {
 						
 						
 					//duplicate special str into field
-					field = strcpy(field, special);
+					field = strdup(special);
 
 					}
 				}		
