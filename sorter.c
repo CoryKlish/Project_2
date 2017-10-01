@@ -145,7 +145,7 @@ int main(int argc, const char* argv[]) {
 	
 	printf("\nOrganizing records...\n");
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
-	//holds 10000 records
+	//holds initial 4000 records
 	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 4000);
 	//For reallocation
 	Record *newall = NULL;
@@ -180,6 +180,8 @@ int main(int argc, const char* argv[]) {
 			//Add to total amount of bytes
 			totalbytes += sizeof(Record);
 			printf("totalbytes is now %d and array size is %d",totalbytes,arSize);
+
+			
 			//Check if total bytes goes over
 			if(totalbytes > arSize)
 			{
@@ -197,20 +199,38 @@ int main(int argc, const char* argv[]) {
 					printf("Out of memory, exiting");
 					exit(0);
 				}
-				
 			}
-			
+			//checks for a double quote in the row, which indicates there will be nested commas
+			char * check = strstr(row,"\"");
+			//If double quotes are present,
+			char * qchecker;
 			int i;			
-			
 			//get tokens in the line
 			for(i = 0; i < numFields+1;i++)
 			{	
+
+				//get a field
 				field = strsep(&row,",");
-			
+				//If there is a quote in this line
+				if (check != NULL)
+				{
+					//set qchecker to field to check for quote
+					qchecker = field;
+					//If there is a quote in the beginning of the field, 
+					//then we can replace field with the 'check' var that contains field with double quotes
+					if (qchecker == '"')
+					{
+						//create new char array
+						char special[strlen(check)];
+						//append chars until i reach the next "
+						//duplicate special str into field
+					}
+				}		
 				//Based on the index, it allocates token to that field in the struct.
 				printf("\nGot the token %d\n", i);
 				printf("field = %s\n",field);
 				allocateToken(ptrrecords, field, i);
+			}
 			}	
 			ptrrecords++;
 		}
@@ -222,9 +242,10 @@ int main(int argc, const char* argv[]) {
 	
 
 	
-	Record * first = newall;
-	Record * second = newall - 2;
-	printf("movie_title- %s\nmovie_title- %s\n",first->movie_title,second->movie_title);
+	Record * first = allrecords + 816;
+
+	
+	printf("\nmovie_title-%s\n",first->movie_title);
 
 	
 	
