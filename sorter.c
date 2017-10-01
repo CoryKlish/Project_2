@@ -215,14 +215,12 @@ int main(int argc, const char* argv[]) {
 				if (check != NULL)
 				{
 					//set qchecker to field to check for quote
-					qchecker = field;
+					qchecker = check;
 					//If there is a quote in the beginning of the field, this is string with " we checked for earlier 
 					//then we can replace field with the 'special' var that contains contains the field
 					//within the double quotes.
-					if (*(qchecker) == '"')
+					if (*(field) == '"')
 					{
-						//change qchecker to string with "
-						qchecker = check;
 						//create new char array
 						char* special = (char*)malloc(sizeof(char) * (strlen(qchecker)) + 1);
 						// move the ptr to the next char after the initial "
@@ -247,6 +245,8 @@ int main(int argc, const char* argv[]) {
 				printf("\nGot the token %d\n", i);
 				printf("field = %s\n",field);
 				allocateToken(ptrrecords, field, i);
+				if (strcmp (field,special) == 0)
+					field = strsep(&row,",");
 			}//end token loop
 				
 			ptrrecords++;
