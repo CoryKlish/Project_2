@@ -217,13 +217,24 @@ int main(int argc, const char* argv[]) {
 					//set qchecker to field to check for quote
 					qchecker = field;
 					//If there is a quote in the beginning of the field, 
-					//then we can replace field with the 'check' var that contains field with double quotes
+					//then we can replace field with the 'special' var that contains contains the field
+					//within the double quotes.
 					if (*(qchecker) == '"')
 					{
 						//create new char array
 						char special[strlen(check)];
-						//append chars until i reach the next "
-						//duplicate special str into field
+						qchecker++;
+						
+						
+						while (*(qchecker) != '"')
+						{
+							special.append(qchecker);
+							qchecker++;
+							
+						}
+						
+					//duplicate special str into field
+					field = strdup(special);
 					}
 				}		
 				//Based on the index, it allocates token to that field in the struct.
