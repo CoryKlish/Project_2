@@ -234,7 +234,7 @@ int main(int argc, const char* argv[]) {
 							qchecker++;
 							
 						} 
-						*qchecker = '\0';
+						*qchecker = ',';
 						
 					//duplicate special str into field
 					field = strdup(special);
