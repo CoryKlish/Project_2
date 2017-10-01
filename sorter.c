@@ -249,7 +249,11 @@ int main(int argc, const char* argv[]) {
 				allocateToken(ptrrecords, field, i);
 				//if a special "" section was detected, move the ptr to next field.
 				if (strcmp (field,special) == 0)
+				{
 					field = strsep(&row,",");
+					free(special);
+					special = NULL;
+				}
 			}//end token loop
 				
 			ptrrecords++;
