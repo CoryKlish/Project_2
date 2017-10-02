@@ -3,6 +3,8 @@
 #include <string.h>
 #include "sorter.h"
 
+///////////////////////////////////////////////////////STRING SORT////////////////////////////////////////////////////////////////////////////
+
 void mergeString(Record strArr[], int lo, int mid, int hi){//Merge arrays back together
 	
 	int left = mid - lo + 1;
@@ -297,18 +299,18 @@ void sortString(Record strArr[], int lo, int hi){//Recursive divide and conquer 
 
 //////////////////////////////////////////////////////////////NUM SORT//////////////////////////////////////////////////////////////////////////
 
-void mergeNum(Records list[], int left, int mid, int right){
+void mergeNum(Record list[], int left, int mid, int right){
 	
     int LSize = mid - left + 1;
     int RSize =  right - mid;
  
 	/*
     //Temp array dynamic allocation
-    Records LArr[LSize], RArr[RSize];
+    Record LArr[LSize], RArr[RSize];
 	*/
 	
-	Records* LArr = malloc(sizeof(Records) * LSize);
-	Records* RArr = malloc(sizeof(Records) * RSize);
+	Record* LArr = malloc(sizeof(Record) * LSize);
+	Record* RArr = malloc(sizeof(Record) * RSize);
 	
 	int l; //Left index counter
 	int r; //Right index counter
@@ -576,7 +578,7 @@ void mergeNum(Records list[], int left, int mid, int right){
 	RArr = NULL;
 }
  
-void sortNum(Records list[], int left, int right)
+void sortNum(Record list[], int left, int right)
 {
     if (left < right){
 		
