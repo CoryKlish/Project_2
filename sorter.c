@@ -29,6 +29,140 @@ void printStructs(Record list[], int numStructs){
 		list[i].movie_facebook_likes);
 	}
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+void allocateToken(Record* ptrrecords, char* field, int index)
+{
+	size_t length;
+	double grossConv;
+	
+	switch(index){
+		
+					
+		case 0:
+			length = strlen(field);
+			strncpy(ptrrecords->color,field,length);
+			break;
+			
+		case 1:
+			length = strlen(field);
+			strncpy(ptrrecords->director_name,field,length);
+			break;
+			
+		case 2:
+			ptrrecords->num_critic_for_reviews = atof(field);
+			break;
+		case 3:
+			ptrrecords->duration = atof(field);
+			break;
+		case 4:
+			ptrrecords->director_facebook_likes = atof(field);
+			break;
+		case 5:
+			ptrrecords->actor_3_facebook_likes = atof(field);
+			break;
+			
+		case 6: 
+			length = strlen(field);
+			strncpy(ptrrecords->actor_2_name,field,length);
+			break;		
+			
+		case 7:	
+			ptrrecords->actor_1_facebook_likes = atof(field);
+			break;
+		case 8:
+			grossConv = atof(field);
+			ptrrecords->gross = grossConv;
+			break;
+			
+			
+		case 9: 
+			length = strlen(field);
+			strncpy(ptrrecords->genres,field,length);
+			break;
+		
+		case 10: 
+			length = strlen(field);
+			strncpy(ptrrecords->actor_1_name,field,length);
+			break;
+			
+		case 11:
+			length = strlen(field);
+			strncpy(ptrrecords->movie_title,field,length);
+			
+			break;
+			
+		case 12:
+			ptrrecords->num_voted_users = atof(field);
+			break;
+		case 13:
+			ptrrecords->cast_total_facebook_likes = atof(field);
+			break;
+		case 14: 
+			length = strlen(field);
+			strncpy(ptrrecords->actor_3_name,field,length);
+			break;
+		case 15:
+			ptrrecords->facenumber_in_poster = atof(field);
+			break;
+		case 16:
+			length = strlen(field);
+			strncpy(ptrrecords->plot_keywords,field,length);
+			
+			break;
+
+		case 17:
+			length = strlen(field);
+			strncpy(ptrrecords->movie_imdb_link, field,length);
+			
+			break;
+		case 18:
+			ptrrecords->num_user_for_reviews = atof(field);
+			break;
+		case 19:
+			length = strlen(field);
+			strncpy(ptrrecords->language,field,length);
+			break;
+
+
+		case 20:
+			length = strlen(field);
+			strncpy(ptrrecords->country,field,length);
+			break;
+			
+		case 21:
+			length = strlen(field);
+			strncpy(ptrrecords->content_rating,field,length);
+			
+			break;
+		case 22:
+			ptrrecords->budget = atof(field);
+			break;
+		case 23:
+			ptrrecords->title_year = atof(field);
+			break;
+		case 24:
+			ptrrecords->actor_2_facebook_likes = atof(field);
+			break;
+			
+		case 25:
+			ptrrecords->imdb_score = atof(field);
+			break;
+		case 26:
+			ptrrecords->aspect_ratio = atof(field);
+			break;
+		case 27:
+			ptrrecords->movie_facebook_likes = atof(field);
+			break;
+		default:
+			printf("Did not allocate token correctly, ending");
+			exit(0);
+			break;
+	}
+						
+						
+}
+*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 void mergeNum(Record list[], int left, int mid, int right){

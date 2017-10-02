@@ -43,7 +43,6 @@ typedef struct Record{
 } Record;
 //Prototypes
 char VerifyMode(char mode);
-void allocateToken(Record*, char*, int);
 void mergeNum(Record list[], int left, int mid, int right);
 void sortNum(Record list[], int left, int right);
 void printStructs(Record list[], int numStructs);
