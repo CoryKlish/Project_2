@@ -140,11 +140,11 @@ int main(int argc, const char* argv[]) {
 	printf("\nOrganizing records...\n");
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds initial 4000 records
-	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 10000);
+	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 4000);
 	//For reallocation
 	struct Record *newall = NULL;
 	//size of the records array in bytes
-	int arSize = 10000 * (sizeof(Record));
+	size_t arSize = 4000 * (sizeof(Record));
 	//total bytes that accumulates after each getline
 	int totalbytes = 0;
 	
@@ -176,7 +176,7 @@ int main(int argc, const char* argv[]) {
 			printf("totalbytes is now %d and array size is %d",totalbytes,arSize);
 
 			
-			/*
+			
 			//Check if total bytes goes over
 			if(totalbytes > arSize)
 			{
@@ -185,7 +185,7 @@ int main(int argc, const char* argv[]) {
 				printf("\nexpanded arSize\n");
 
 				//reallocate, move pointer to new memory location with more mem
-				newall = (Record *) realloc(allrecords, arSize);
+				newall = realloc(allrecords, arSize);
 				ptrrecords = newall;
 				
 				//If this does not work, there is no more memory left to allocate
@@ -195,7 +195,7 @@ int main(int argc, const char* argv[]) {
 					exit(0);
 				}
 			}
-			*/
+			
 			
 			//checks for a double quote in the row, which indicates there will be nested commas
 			//char * check = strstr(row,"\"");
