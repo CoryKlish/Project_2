@@ -250,14 +250,15 @@ int main(int argc, const char* argv[]) {
 				printf("field = %s\n",field);
 				allocateToken(ptrrecords, field, i);
 				//if a special "" section was detected, move the ptr to next field.
-				free(qchecker);
-				qchecker = NULL;
-				free(check);
-				check = NULL;
+
 			}//end token loop
 				
 			ptrrecords++;
 		}//end if bytes != -1
+		free(qchecker);
+		qchecker = NULL;
+		free(check);
+		check = NULL;
 	
 		bytes = getline(&line, &recordsize, stdin);
 
