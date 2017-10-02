@@ -587,7 +587,13 @@ int main(int argc, const char* argv[]) {
 	struct Record * first = allrecords + 500;
 	printf("\nmovie_title-%s\n",first->movie_title);
 	
-	sortType = strdup(column);
+	sortType = strcpy(sortType,column);
+	int numStructs = numRecords;
+ 
+    sortNum(newall, 0, numStructs - 1);
+ 
+    printf("\nSorted array is \n");
+    printStructs(newall, numStructs);
 
 	
 	
