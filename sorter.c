@@ -587,6 +587,8 @@ int main(int argc, const char* argv[]) {
 	struct Record * first = allrecords + 500;
 	printf("\nmovie_title-%s\n",first->movie_title);
 	
+	printf("%s",sortType);
+	
 	
 	int numStructs = numRecords;
  
