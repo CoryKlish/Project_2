@@ -43,6 +43,7 @@ typedef struct Record{
 } Record;
 //Prototypes
 char VerifyMode(char mode);
+void allocateToken(Record*, char*, int);
 void mergeNum(Record list[], int left, int mid, int right);
 void sortNum(Record list[], int left, int right);
 void printStructs(Record list[], int numStructs);
@@ -60,6 +61,7 @@ void mergeString(Record strArr[], int lo, int mid, int hi);
 	based on doubles, not ints
 	This was mainly due to the column "gross" being so large that an int cannot fit it. 
 */
+/*
 void allocateToken(Record* ptrrecords, char* field, int index)
 {
 	size_t length;
@@ -191,6 +193,7 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 						
 						
 }
+*/
 
 //Suggestion: prototype a mergesort function
 

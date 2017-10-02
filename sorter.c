@@ -30,7 +30,7 @@ void printStructs(Record list[], int numStructs){
 	}
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
+
 void allocateToken(Record* ptrrecords, char* field, int index)
 {
 	size_t length;
@@ -162,7 +162,7 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 						
 						
 }
-*/
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 void mergeNum(Record list[], int left, int mid, int right){
