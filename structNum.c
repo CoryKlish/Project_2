@@ -318,10 +318,10 @@ void mergeNum(Records list[], int left, int mid, int right){
         m++;
     }
 	
-	/* FIGURE OUT WHERE TO PUT THIS
 	free(LArr);
+	LArr = NULL;
 	free(RArr);
-	*/
+	RArr = NULL;
 }
  
 void sortNum(Records list[], int left, int right)
@@ -358,9 +358,7 @@ int main(int argc, char* argv[]){
 	
 	strcpy(sortType, argv[1]);
 	
-	/*WHY TF DOESNT THIS WORK
 	printf("%s\n" , sortType);
-	*/
 	
 	//Array declaration for testing
 	Records newall[3];
