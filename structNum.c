@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "sorter.h"
+#include "sorter.c"
 
 
 /*
@@ -328,7 +329,7 @@ int main(int argc, char* argv[]){
 	
 	strcpy(sortType, argv[1]);
 	
-	printf("%s\n" , sortType);
+
 	
 	
     
@@ -345,7 +346,7 @@ int main(int argc, char* argv[]){
 	*/
 	
 	//Find number of structures and store under numStructs
-    int numStructs = 3;
+    int numStructs = numRecords;
 	
     printf("Beginning Array is: \n");
 	printStructs(newall, numStructs);
