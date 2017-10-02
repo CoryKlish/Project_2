@@ -12,7 +12,6 @@ const char* modes = "c";
 int numFields = 0; 
 //tracks location and name of the column desired
 char* column;
-int colNum;
 //for dynamic allocation of column name
 int len;
 
@@ -67,9 +66,6 @@ int main(int argc, const char* argv[]) {
 	char* line = NULL;
 	char* field = NULL;
 	
-	//Was once dynamically allocated, but getline does it for you
-	line = NULL;
-	
 
 	//if getline == -1, means it reached EOF and read nothing
 	size_t bytes = getline(&line, &recordsize, stdin);
@@ -122,8 +118,6 @@ int main(int argc, const char* argv[]) {
 			//Then check if that column is equivalent to the argument passed
 			if (strcmp(field, argv[2]) == 0)
 			{
-				//index is 1 behind the count, 
-				colNum = numFields -1;
 				
 				//dynamic allocate the mem and store string
 				len = strlen(field);
@@ -148,7 +142,7 @@ int main(int argc, const char* argv[]) {
 	//holds initial 4000 records
 	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 4000);
 	//For reallocation
-	Record *newall = NULL;
+	struct Record *newall = NULL;
 	//size of the records array in bytes
 	int arSize = 4000 * (sizeof(Record));
 	//total bytes that accumulates after each getline
@@ -158,8 +152,8 @@ int main(int argc, const char* argv[]) {
 	struct Record * ptrrecords = allrecords;
 	int numRecords = 0;
 
-	//getting first line to jumpstart the loop
-	bytes = getline(&line,&recordsize,stdin);
+	//jumpstart the loop
+	bytes = 1;
 	
 	printf("\nThe size of record is %lu\n",sizeof(Record));
 	printf("\nThe number of bytes read is %zu\n",bytes);
@@ -167,6 +161,7 @@ int main(int argc, const char* argv[]) {
 
 	while (bytes != -1)
 	{
+		bytes = getline(&line, &recordsize, stdin);
 		//copy to row to free up the line var
 		char* row = strdup(line);
 		free(line);
@@ -259,12 +254,14 @@ int main(int argc, const char* argv[]) {
 
 			}//end token loop
 				
-			ptrrecords++;
+			
 
 		}//end if bytes != -1
 		
 	
 		bytes = getline(&line, &recordsize, stdin);
+		if (bytes != -1)
+			ptrrecords++;
 
 		
 	}//end while
