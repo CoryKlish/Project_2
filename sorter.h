@@ -5,7 +5,8 @@
 *
 *
 ******/
-
+#ifndef SORTER_H
+#define SORTER_H
 
 extern char* sortType;
 
@@ -193,6 +194,8 @@ void allocateToken(Record* ptrrecords, char* field, int index)
 						
 						
 }
+
+#endif //SORTER_H
 
 
 //Suggestion: prototype a mergesort function
