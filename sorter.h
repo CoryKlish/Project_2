@@ -62,7 +62,7 @@ void mergeString(Record strArr[], int lo, int mid, int hi);
 	This was mainly due to the column "gross" being so large that an int cannot fit it. 
 */
 
-void Record* allocateToken(ptrrecords, char* field, int index)
+void Record* allocateToken(Record* ptrrecords, char* field, int index)
 {
 	size_t length;
 	double grossConv;
