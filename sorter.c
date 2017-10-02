@@ -95,7 +95,7 @@ int main(int argc, const char* argv[]) {
 	//Just in case first column is the column to be sorted
 	if (strcmp(field, argv[2]) == 0)
 	{
-		colNum = 0;
+	
 		//Get length, allocate size and copy into 'column' variable
 		len = strlen(field);
 		column = (char*)malloc(sizeof(char) * len);
