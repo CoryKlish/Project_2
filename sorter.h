@@ -44,8 +44,7 @@ typedef struct Record{
 //Prototypes
 
 
-#ifndef PROTOS
-#define PROTOS
+
 void allocateToken(Record*, char*, int);
 char VerifyMode(char mode);
 void mergeNum(Record list[], int left, int mid, int right);
@@ -66,7 +65,7 @@ void mergeString(Record strArr[], int lo, int mid, int hi);
 */
 
 
-void allocateToken(Record* ptrrecords,char* field,int index)
+inline void allocateToken(Record* ptrrecords,char* field,int index)
 {
 	size_t length;
 	double grossConv;
@@ -197,7 +196,6 @@ void allocateToken(Record* ptrrecords,char* field,int index)
 						
 						
 }
-#endif
 
 
 //Suggestion: prototype a mergesort function
