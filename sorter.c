@@ -413,7 +413,7 @@ int main(int argc, const char* argv[]) {
 		//Get length, allocate size and copy into 'column' variable
 		len = strlen(field);
 		sortType = (char*)malloc(sizeof(char) * len);
-		strcpy(sortType, field);
+		sortType = strdup(field);
 	}
 
 	//Count loop
@@ -436,7 +436,7 @@ int main(int argc, const char* argv[]) {
 				//dynamic allocate the mem and store string
 				len = strlen(field);
 				sortType = (char*)malloc(sizeof(char) * len);
-				strcpy(sortType, field);
+				sortType = strdup(field);
 				
 			}
 		}
@@ -587,7 +587,7 @@ int main(int argc, const char* argv[]) {
 	struct Record * first = allrecords + 500;
 	printf("\nmovie_title-%s\n",first->movie_title);
 	
-	printf("%s",sortType);
+	printf("\n%s",sortType);
 	
 	
 	int numStructs = numRecords;
