@@ -194,7 +194,7 @@ void allocateToken(Record* ptrrecords,char* field,int index)
 						
 						
 }
-#endif //#ifndef
+
 
 
 //Suggestion: prototype a mergesort function
