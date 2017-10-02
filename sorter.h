@@ -45,7 +45,7 @@ typedef struct Record{
 
 
 
-void allocateToken(Record*, char*, int);
+void inline allocateToken(Record*, char*, int);
 char VerifyMode(char mode);
 void mergeNum(Record list[], int left, int mid, int right);
 void sortNum(Record list[], int left, int right);
@@ -65,7 +65,7 @@ void mergeString(Record strArr[], int lo, int mid, int hi);
 */
 
 
-inline void allocateToken(Record* ptrrecords,char* field,int index)
+void inline allocateToken(Record* ptrrecords,char* field,int index)
 {
 	size_t length;
 	double grossConv;
