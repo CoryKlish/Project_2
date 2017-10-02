@@ -153,15 +153,14 @@ int main(int argc, const char* argv[]) {
 	int numRecords = 0;
 
 	//jumpstart the loop
-	bytes = 1;
-	
+	bytes = getline(&line, &recordsize, stdin);	
 	printf("\nThe size of record is %lu\n",sizeof(Record));
 	printf("\nThe number of bytes read is %zu\n",bytes);
 
 
 	while (bytes != -1)
 	{
-		bytes = getline(&line, &recordsize, stdin);
+		
 		//copy to row to free up the line var
 		char* row = strdup(line);
 		free(line);
