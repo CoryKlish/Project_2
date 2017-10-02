@@ -254,11 +254,12 @@ int main(int argc, const char* argv[]) {
 			}//end token loop
 				
 			ptrrecords++;
+			free(qchecker);
+			qchecker = NULL;
+			free(check);
+			check = NULL;
 		}//end if bytes != -1
-		free(qchecker);
-		qchecker = NULL;
-		free(check);
-		check = NULL;
+		
 	
 		bytes = getline(&line, &recordsize, stdin);
 
