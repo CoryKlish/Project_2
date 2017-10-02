@@ -61,8 +61,7 @@ void mergeString(Record strArr[], int lo, int mid, int hi);
 	based on doubles, not ints
 	This was mainly due to the column "gross" being so large that an int cannot fit it. 
 */
-#ifndef allocateToken
-#define allocateToken(Record*,char*, int)
+
 
 void allocateToken(Record* ptrrecords,char* field,int index)
 {
