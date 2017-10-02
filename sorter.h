@@ -5,10 +5,7 @@
 *
 *
 ******/
-#ifndef ALLOCATE_TOKEN
-#define ALLOCATE_TOKEN
-void allocateToken(Record*, char*, int);
-#endif
+
 
 extern char* sortType;
 
@@ -45,14 +42,18 @@ typedef struct Record{
 	
 } Record;
 //Prototypes
-char VerifyMode(char mode);
 
+
+#ifndef PROTOS
+#define PROTOS
+void allocateToken(Record*, char*, int);
+char VerifyMode(char mode);
 void mergeNum(Record list[], int left, int mid, int right);
 void sortNum(Record list[], int left, int right);
 void printStructs(Record list[], int numStructs);
 void sortString(Record strArr[], int lo, int hi);
 void mergeString(Record strArr[], int lo, int mid, int hi);
-
+#endif
 
 //Large helper function
 /*
