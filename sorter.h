@@ -44,7 +44,6 @@ typedef struct Record{
 //Prototypes
 char VerifyMode(char mode);
 void allocateToken(Record*, char*, int);
-struct Record* evalArray(Record*,Record*,int ,int);
 
 //Large helper function
 /*

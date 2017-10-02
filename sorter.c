@@ -140,11 +140,11 @@ int main(int argc, const char* argv[]) {
 	printf("\nOrganizing records...\n");
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds initial 4000 records
-	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 4000);
+	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 10000);
 	//For reallocation
 	struct Record *newall = NULL;
 	//size of the records array in bytes
-	size_t arSize = 4000 * (sizeof(Record));
+	size_t arSize = 10000 * (sizeof(Record));
 	//total bytes that accumulates after each getline
 	int totalbytes = 0;
 	
