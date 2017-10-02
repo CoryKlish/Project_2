@@ -44,9 +44,9 @@ typedef struct Record{
 //Prototypes
 char VerifyMode(char mode);
 void allocateToken(Record*, char*, int);
-void mergeNum(Records list[], int left, int mid, int right);
-void sortNum(Records list[], int left, int right);
-void printStructs(Records list[], int numStructs);
+void mergeNum(Record list[], int left, int mid, int right);
+void sortNum(Record list[], int left, int right);
+void printStructs(Record list[], int numStructs);
 
 //Large helper function
 /*
