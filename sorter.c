@@ -202,9 +202,9 @@ int main(int argc, const char* argv[]) {
 			}
 			
 			//checks for a double quote in the row, which indicates there will be nested commas
-			char * check = strstr(row,"\"");
+			//char * check = strstr(row,"\"");
 			//If double quotes are present,
-			char * qchecker;
+			//char * qchecker;
 			int i;			
 			//get tokens in the line
 			for(i = 0; i < numFields+1;i++)
@@ -241,7 +241,7 @@ int main(int argc, const char* argv[]) {
 						} 
 				*/	
 					//move the pointer over one to get to the real next field.	
-					field = strsep(&row, ",");	
+					//field = strsep(&row, ",");	
 				/*	
 					//duplicate special str into field
 					field = strdup(special);
