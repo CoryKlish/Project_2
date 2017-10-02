@@ -590,10 +590,10 @@ int main(int argc, const char* argv[]) {
 	
 	int numStructs = numRecords;
  
-    sortNum(newall, 0, numStructs - 1);
+    sortNum(allrecords, 0, numStructs - 1);
  
     printf("\nSorted array is \n");
-    printStructs(newall, numStructs);
+    printStructs(allrecords, numStructs);
 
 	
 	
