@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "sorter.h"
+
 
 /*
 // **********THINGS TO FIX***********
@@ -12,38 +14,6 @@
 
 char* sortType; //How we are sorting
 
-//Comment this struct out to test
-typedef struct
-{
-	char color[30];
-	char director_name[50];
-	double num_critic_for_reviews;
-	double duration;
-	double director_facebook_likes;
-	double actor_3_facebook_likes;
-	char actor_2_name[50];
-	double actor_1_facebook_likes;
-	double gross;
-	char genres[70];
-	char actor_1_name[50];
-	char movie_title[70];
-	double num_voted_users;
-	double cast_total_facebook_likes;
-	char actor_3_name[50];
-	double facenumber_in_poster;
-	char plot_keywords[100];
-	char movie_imdb_link[70];
-	double num_user_for_reviews;
-	char language[50];
-	char country[40];
-	char content_rating[30];
-	double budget;
-	double title_year;
-	double actor_2_facebook_likes;
-	double imdb_score;
-	double aspect_ratio;
-	double movie_facebook_likes;
-}Records;
 
 void mergeNum(Records list[], int left, int mid, int right){
 	
@@ -360,8 +330,7 @@ int main(int argc, char* argv[]){
 	
 	printf("%s\n" , sortType);
 	
-	//Array declaration for testing
-	Records newall[3];
+	
     
 	/*
 	newall[0].gross = 200;
