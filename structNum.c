@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "sorter.h"
-#include "sorter.c"
 
 
 /*
@@ -12,9 +11,6 @@
 
 //Cory Klish
 //Joshua Pineda
-
-char* sortType; //How we are sorting
-
 
 void mergeNum(Record list[], int left, int mid, int right){
 	
@@ -308,50 +304,4 @@ void sortNum(Record list[], int left, int right)
     }
 }
 
-void printStructs(Record list[], int numStructs){
-	
-    int i;
-    for (i = 0; i < numStructs; i++){
-        printf("%s,%s,%f,%f,%f,%f,%s,%f,%f,%s,%s,%s,%f,%f,%s,%f,%s,%s,%f,%s,%s,%s,%f,%f,%f,%f,%f,%f\n", 
-		list[i].color, list[i].director_name, list[i].num_critic_for_reviews,
-		list[i].duration, list[i].director_facebook_likes, list[i].actor_3_facebook_likes,
-		list[i].actor_2_name, list[i].actor_1_facebook_likes, list[i].gross, list[i].genres,
-		list[i].actor_1_name, list[i].movie_title, list[i].num_voted_users, list[i].cast_total_facebook_likes,
-		list[i].actor_3_name, list[i].facenumber_in_poster, list[i].plot_keywords,
-		list[i].movie_imdb_link, list[i].num_user_for_reviews, list[i].language,
-		list[i].country, list[i].content_rating, list[i].budget, list[i].title_year,
-		list[i].actor_2_facebook_likes, list[i].imdb_score, list[i].aspect_ratio,
-		list[i].movie_facebook_likes);
-	}
-}
  
-int main(int argc, char* argv[]){
-	
-	strcpy(sortType, argv[1]);
-	
-
-	
-	
-    
-	/*
-	newall[0].gross = 200;
-	newall[0].duration = 5;
-	newall[0].movie_title = "The Dark Knight";
-	newall[1].gross = 100;
-	newall[1].duration = 4;
-	newall[1].movie_title = "It";
-	newall[2].gross = 150;
-	newall[2].duration = 3;
-	newall[2].movie_title = "Transformers";
-	*/
-	
-	//Find number of structures and store under numStructs
-    int numStructs = numRecords;
- 
-    sortNum(newall, 0, numStructs - 1);
- 
-    printf("\nSorted array is \n");
-    printStructs(newall, numStructs);
-	
-    return 0;
-}

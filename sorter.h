@@ -7,7 +7,7 @@
 ******/
 
 
-//Suggestion: define a struct that mirrors a record (row) of the data set
+extern char* sortType;
 
 typedef struct Record{
 	char color[30];
@@ -47,6 +47,9 @@ void allocateToken(Record*, char*, int);
 void mergeNum(Record list[], int left, int mid, int right);
 void sortNum(Record list[], int left, int right);
 void printStructs(Record list[], int numStructs);
+void sortString(Record strArr[], int lo, int hi);
+void mergeString(Record strArr[], int lo, int mid, int hi);
+
 
 //Large helper function
 /*
