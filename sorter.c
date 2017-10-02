@@ -234,7 +234,6 @@ int main(int argc, const char* argv[]) {
 							if (*(qchecker) != '"')
 							{
 								special = strncat(special,qchecker,1);
-							
 							}
 							qchecker++;
 						} 
@@ -242,6 +241,8 @@ int main(int argc, const char* argv[]) {
 					field = strsep(&row, ",");	
 					//duplicate special str into field
 					field = strdup(special);
+					free(special);
+					special = NULL;
 					}
 				}		
 				//Based on the index, it allocates token to that field in the struct.
@@ -249,7 +250,10 @@ int main(int argc, const char* argv[]) {
 				printf("field = %s\n",field);
 				allocateToken(ptrrecords, field, i);
 				//if a special "" section was detected, move the ptr to next field.
-		
+				free(qchecker);
+				qchecker = NULL;
+				free(check);
+				check = NULL;
 			}//end token loop
 				
 			ptrrecords++;
@@ -262,7 +266,11 @@ int main(int argc, const char* argv[]) {
 	
 
 	
+	struct Record * first = allrecords + 816;
+
 	
+	printf("\nmovie_title-%s\n",first->movie_title);
+
 	
 	
 	
