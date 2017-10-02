@@ -490,7 +490,7 @@ int main(int argc, const char* argv[]) {
 			printf("totalbytes is now %d and array size is %d",totalbytes,arSize);
 
 			
-			
+			/*
 			//Check if total bytes goes over
 			if(totalbytes > arSize)
 			{
@@ -509,6 +509,7 @@ int main(int argc, const char* argv[]) {
 					exit(0);
 				}
 			}
+			*/
 			
 			
 			//checks for a double quote in the row, which indicates there will be nested commas
@@ -584,9 +585,9 @@ int main(int argc, const char* argv[]) {
 
 	
 	struct Record * first = allrecords + 500;
-
-	
 	printf("\nmovie_title-%s\n",first->movie_title);
+	
+	sortType = strdup(column);
 
 	
 	
