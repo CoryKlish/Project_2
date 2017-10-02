@@ -203,6 +203,10 @@ void mergeString(Record strArr[], int lo, int mid, int hi){//Merge arrays back t
 		strArr[y++] = RArr[x++];
 	}
 	
+	free(LArr);
+	LArr = NULL;
+	free(RArr);
+	RArr = NULL;
 }
 
 void sortString(Record strArr[], int lo, int hi){//Recursive divide and conquer sort
