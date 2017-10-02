@@ -53,7 +53,6 @@ void sortNum(Record list[], int left, int right);
 void printStructs(Record list[], int numStructs);
 void sortString(Record strArr[], int lo, int hi);
 void mergeString(Record strArr[], int lo, int mid, int hi);
-#endif
 
 //Large helper function
 /*
@@ -198,7 +197,7 @@ void allocateToken(Record* ptrrecords,char* field,int index)
 						
 						
 }
-
+#endif
 
 
 //Suggestion: prototype a mergesort function
