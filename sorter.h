@@ -64,7 +64,7 @@ void mergeString(Record strArr[], int lo, int mid, int hi);
 #ifndef allocateToken
 #define allocateToken(Record* ptrrecords, char* field, int index)
 
-void allocateToken(Record* ptrrecords, char* field, int index)
+void allocateToken(ptrrecords, field, index)
 {
 	size_t length;
 	double grossConv;
