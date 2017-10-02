@@ -412,8 +412,8 @@ int main(int argc, const char* argv[]) {
 	
 		//Get length, allocate size and copy into 'column' variable
 		len = strlen(field);
-		column = (char*)malloc(sizeof(char) * len);
-		column = strcpy(column, field);
+		sortType = (char*)malloc(sizeof(char) * len);
+		strcpy(sortType, field);
 	}
 
 	//Count loop
@@ -435,21 +435,21 @@ int main(int argc, const char* argv[]) {
 				
 				//dynamic allocate the mem and store string
 				len = strlen(field);
-				column = (char*)malloc(sizeof(char) * len);
-				column = strcpy(column, field);
+				sortType = (char*)malloc(sizeof(char) * len);
+				strcpy(sortType, field);
 				
 			}
 		}
 			
 	}
 	//If the column was never found, then it does not exist within the file.
-	if (column == NULL)
+	if (sortType == NULL)
 	{
-		printf("The argument %s is not in the file. Ending program", column);
+		printf("The argument %s is not in the file. Ending program", sortType);
 		exit(0);
 	}
 	
-	printf("\nThe column to be sorted is %s\n",column);
+	printf("\nThe column to be sorted is %s\n",sortType);
 	
 	printf("\nOrganizing records...\n");
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
@@ -587,7 +587,7 @@ int main(int argc, const char* argv[]) {
 	struct Record * first = allrecords + 500;
 	printf("\nmovie_title-%s\n",first->movie_title);
 	
-	sortType = strcpy(sortType,column);
+	
 	int numStructs = numRecords;
  
     sortNum(newall, 0, numStructs - 1);
