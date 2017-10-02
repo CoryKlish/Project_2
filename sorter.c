@@ -212,6 +212,8 @@ int main(int argc, const char* argv[]) {
 
 				//get a field
 				field = strsep(&row,",");
+				/*
+				
 				//If there is a quote in this line
 				if (check != NULL)
 				{
@@ -223,7 +225,7 @@ int main(int argc, const char* argv[]) {
 					if (*(field) == '"')
 					{
 						//create new char array
-						char* special = (char*)malloc(sizeof(char) * (strlen(qchecker)) + 1);
+						char* special = (char*)malloc(sizeof(char) * (strlen(qchecker)) + 2);
 						// move the ptr to the next char after the initial "
 						qchecker++;
 						
@@ -237,14 +239,18 @@ int main(int argc, const char* argv[]) {
 							}
 							qchecker++;
 						} 
+				*/	
 					//move the pointer over one to get to the real next field.	
 					field = strsep(&row, ",");	
+				/*	
 					//duplicate special str into field
 					field = strdup(special);
 					free(special);
 					special = NULL;
+				
 					}
 				}		
+				*/
 				//Based on the index, it allocates token to that field in the struct.
 				printf("\nGot the token %d\n", i);
 				printf("field = %s\n",field);
@@ -254,10 +260,7 @@ int main(int argc, const char* argv[]) {
 			}//end token loop
 				
 			ptrrecords++;
-			free(qchecker);
-			qchecker = NULL;
-			free(check);
-			check = NULL;
+
 		}//end if bytes != -1
 		
 	
