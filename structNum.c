@@ -16,18 +16,18 @@
 char* sortType; //How we are sorting
 
 
-void mergeNum(Records list[], int left, int mid, int right){
+void mergeNum(Record list[], int left, int mid, int right){
 	
     int LSize = mid - left + 1;
     int RSize =  right - mid;
  
 	/*
     //Temp array dynamic allocation
-    Records LArr[LSize], RArr[RSize];
+    Record LArr[LSize], RArr[RSize];
 	*/
 	
-	Records* LArr = malloc(sizeof(Records) * LSize);
-	Records* RArr = malloc(sizeof(Records) * RSize);
+	Record* LArr = malloc(sizeof(Record) * LSize);
+	Record* RArr = malloc(sizeof(Record) * RSize);
 	
 	int l; //Left index counter
 	int r; //Right index counter
@@ -295,7 +295,7 @@ void mergeNum(Records list[], int left, int mid, int right){
 	RArr = NULL;
 }
  
-void sortNum(Records list[], int left, int right)
+void sortNum(Record list[], int left, int right)
 {
     if (left < right){
 		
@@ -308,7 +308,7 @@ void sortNum(Records list[], int left, int right)
     }
 }
 
-void printStructs(Records list[], int numStructs){
+void printStructs(Record list[], int numStructs){
 	
     int i;
     for (i = 0; i < numStructs; i++){
@@ -347,9 +347,6 @@ int main(int argc, char* argv[]){
 	
 	//Find number of structures and store under numStructs
     int numStructs = numRecords;
-	
-    printf("Beginning Array is: \n");
-	printStructs(newall, numStructs);
  
     sortNum(newall, 0, numStructs - 1);
  
