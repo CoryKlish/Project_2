@@ -268,8 +268,13 @@ int main(int argc, const char* argv[]) {
 								//This is mainly for making sure the tokenizer can reach all the fields it needs to
 								//without mistaking these extra ones for fields
 								field = strsep(&row,",");
+
 							}	
-							qchecker++;			
+						
+					
+							//special = strncat(special,qchecker,1);				
+							qchecker++;		
+						
 						}
 						
 						
@@ -279,7 +284,7 @@ int main(int argc, const char* argv[]) {
 						//duplicate special str into field
 						field = strdup(special);
 
-						*(special + strlen(special - 1)) = '\0';
+						//*(special + strlen(special - 1)) = '\0';
 				
 					}
 				}		
