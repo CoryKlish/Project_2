@@ -237,6 +237,7 @@ int main(int argc, const char* argv[]) {
 
 				//get a field
 				field = strsep(&row,",");
+				trim(field);
 				
 				
 				//If there is a quote in this line
@@ -263,9 +264,6 @@ int main(int argc, const char* argv[]) {
 							//rather than considering the other nested commas to be other fields
 							if (*(qchecker) == ',')
 							{
-								
-								strcat(special, ", ");
-								qchecker++;
 								field = strsep(&row,",");
 							}
 							
@@ -338,7 +336,29 @@ int main(int argc, const char* argv[]) {
 	
 }//End main
 
-
+void trim(char* str)
+{
+	
+	//Get rid of leading whitespace
+	char* startStr = str;
+	while (*startStr != '\0' && isspace(*startStr))
+		startStr++;
+	//The size of the newstr
+	size_t length = strlen(startStr) + 1;
+	//removes the leading blanks of the orig string up to startStr
+	memmove(str, startStr, length)
+	//Get rid of trailing whitespace
+	char* endStr = string + length;
+	
+	while (strcmp(string, endStr) < 0 && isspace(*endStr))
+	{
+		endStr--;
+	}
+	
+	*endStr = '\0';
+	
+	
+}
 char VerifyMode(char mode)
 {
 	//If the mode == 'c' (first element in char* modes)
