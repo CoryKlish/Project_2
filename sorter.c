@@ -230,7 +230,7 @@ int main(int argc, const char* argv[]) {
 			//If double quotes are present,
 			char * qchecker;
 			int i;			
-			const char* comma = ",";
+			char* comma = ",";
 			//get tokens in the line
 			for(i = 0; i < numFields+1;i++)
 			{	
@@ -250,33 +250,23 @@ int main(int argc, const char* argv[]) {
 					if (*(field) == '"')
 					{
 						//create new char array
-						//a bit space inefficient, but it gets rid of strange characters that appear
-						//when you use malloc on this space.
 						char* special = (char*)calloc(strlen(qchecker),sizeof(char));
 						// move the ptr to the next char after the initial "
 						qchecker++;
-						
-						//special = strsep(qchecker,"\"");
 					
-						//Read characters one at a time until we reach a "
+						//Read everything but the "
+						//while (*(qchecker) != '"')
 						while (*(qchecker) != '\"')						
 						{
-							
+							//If the character is a comma, be sure to move the token ptr along with it
+							//mainly so that the tokenizer keeps up with the correct field
+							//rather than considering the other nested commas to be other fields
 							if (*(qchecker) == ',')
-							{
-								//move the tokenizer over after reading a comma, to get to next part of string
-								//This is mainly for making sure the tokenizer can reach all the fields it needs to
-								//without mistaking these extra ones for fields								
-								field = strsep(&row,",");							
-							}		
+								field = strsep(&row,",");
 							
-								//adds 1 character from qchecker to special
-									
-								//move pointer to next character
-								
-							}	
-							special = strncat(special,qchecker,1);
-							qchecker++;
+							//add to the special str and move ptr
+							special = strncat(special,qchecker,1);				
+							qchecker++;							
 
 						}
 
@@ -284,7 +274,9 @@ int main(int argc, const char* argv[]) {
 					field = strsep(&row,",");
 					//duplicate special str into field
 					field = strdup(special);
-					
+
+					*(special + strlen(special - 1)) = '\0';
+				
 					}
 				}		
 				
