@@ -53,7 +53,6 @@ void sortNum(Record list[], int left, int right);
 void printStructs(Record list[], int numStructs);
 void sortString(Record strArr[], int lo, int hi);
 void mergeString(Record strArr[], int lo, int mid, int hi);
-char *strstrip(char *s)
 
 //Large helper function
 /*
