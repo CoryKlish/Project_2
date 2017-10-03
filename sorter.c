@@ -237,7 +237,7 @@ int main(int argc, const char* argv[]) {
 
 				//get a field
 				field = strsep(&row,",");
-				trim(field);
+				field = strstrip(field);
 				
 				
 				//If there is a quote in this line
@@ -336,28 +336,25 @@ int main(int argc, const char* argv[]) {
 	
 }//End main
 
-void trim(char* str)
+char *strstrip(char *s)
 {
-	
-	//Get rid of leading whitespace
-	char* startStr = str;
-	while (*startStr != '\0' && isspace(*startStr))
-		startStr++;
-	//The size of the newstr
-	size_t length = strlen(startStr) + 1;
-	//removes the leading blanks of the orig string up to startStr
-	memmove(str, startStr, length)
-	//Get rid of trailing whitespace
-	char* endStr = string + length;
-	
-	while (strcmp(string, endStr) < 0 && isspace(*endStr))
-	{
-		endStr--;
-	}
-	
-	*endStr = '\0';
-	
-	
+    size_t size;
+    char *end;
+
+    size = strlen(s);
+
+    if (!size)
+        return s;
+
+    end = s + size - 1;
+    while (end >= s && isspace(*end))
+        end--;
+    *(end + 1) = '\0';
+
+    while (*s && isspace(*s))
+        s++;
+
+    return s;
 }
 char VerifyMode(char mode)
 {
