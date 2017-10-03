@@ -265,6 +265,7 @@ int main(int argc, const char* argv[]) {
 							{
 								
 								strcat(special, ", ");
+								qchecker++;
 								field = strsep(&row,",");
 							}
 							
