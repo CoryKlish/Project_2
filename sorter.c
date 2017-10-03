@@ -181,8 +181,6 @@ int main(int argc, const char* argv[]) {
 
 	//jumpstart the loop
 	bytes = getline(&line, &recordsize, stdin);	
-	printf("\nThe size of record is %lu\n",sizeof(Record));
-	printf("\nThe number of bytes read is %zu\n",bytes);
 
 
 	while (bytes != -1)
@@ -195,7 +193,7 @@ int main(int argc, const char* argv[]) {
 
 		if (bytes != -1)
 		{
-			printf("\nGot line %d\n",numRecords+1);
+
 			//increase count of records
 			numRecords++;
 			//Add to total amount of bytes
@@ -204,6 +202,7 @@ int main(int argc, const char* argv[]) {
 
 			
 			/*
+			Creates segfault
 			//Check if total bytes goes over
 			if(totalbytes > arSize)
 			{
@@ -284,8 +283,7 @@ int main(int argc, const char* argv[]) {
 				}		
 				
 				//Based on the index, it allocates token to that field in the struct.
-				printf("\nGot the token %d\n", i);
-				printf("field = %s\n",field);
+
 				allocateToken(ptrrecords, field, i);
 		
 			}//end token loop
@@ -302,27 +300,23 @@ int main(int argc, const char* argv[]) {
 		
 	}//end while
 	
-
-	
-	struct Record * first = allrecords + 500;
-	printf("\nmovie_title-%s\n",first->movie_title);
-	
 	
 
 	int numStructs = numRecords;
-	
+	//if the type is a string, the use the string sort
 	if ((strcmp(sortType,"color") == 0)||(strcmp(sortType,"director_name")== 0)||(strcmp(sortType,"actor_name_2")== 0)||(strcmp(sortType,"genres")== 0)||(strcmp(sortType,"actor_1_name")== 0)||(strcmp(sortType,"movie_title")== 0)||(strcmp(sortType,"actor_3_name")== 0)||(strcmp(sortType,"plot_keywords")== 0)||(strcmp(sortType,"movie_imdb_link")== 0)||(strcmp(sortType,"language")== 0)||(strcmp(sortType,"country")== 0)||(strcmp(sortType,"content_rating")== 0))
 	  {
 	    sortString(allrecords, 0, numStructs - 1);
 
 	  }
-
-          else{
+	//Otherwise, use the numsort		
+    else
+	{
 	         sortNum(allrecords, 0, numStructs - 1);
-        	}
+    }
 
   
- 
+	
     printStructs(allrecords, numStructs);
 
 	
@@ -336,26 +330,7 @@ int main(int argc, const char* argv[]) {
 	
 }//End main
 
-char *strstrip(char *s)
-{
-    size_t size;
-    char *end;
 
-    size = strlen(s);
-
-    if (!size)
-        return s;
-
-    end = s + size - 1;
-    while (end >= s && isspace(*end))
-        end--;
-    *(end + 1) = '\0';
-
-    while (*s && isspace(*s))
-        s++;
-
-    return s;
-}
 char VerifyMode(char mode)
 {
 	//If the mode == 'c' (first element in char* modes)
