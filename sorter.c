@@ -236,7 +236,7 @@ int main(int argc, const char* argv[]) {
 
 				//get a field
 				field = strsep(&row,",");
-				field = strstrip(field);
+			
 				
 				
 				//If there is a quote in this line
@@ -347,5 +347,4 @@ char VerifyMode(char mode)
 	}
 	
 }//End VerifyMode function
-
 
