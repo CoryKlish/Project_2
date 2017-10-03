@@ -230,7 +230,7 @@ int main(int argc, const char* argv[]) {
 			//If double quotes are present,
 			char * qchecker;
 			int i;			
-			char* comma = ",";
+			const char* comma = ",";
 			//get tokens in the line
 			for(i = 0; i < numFields+1;i++)
 			{	
