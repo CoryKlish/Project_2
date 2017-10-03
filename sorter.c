@@ -249,6 +249,7 @@ int main(int argc, const char* argv[]) {
 					//within the double quotes.
 					if (*(field) == '"')
 					{
+						
 						//create new char array
 						char* special = (char*)calloc(strlen(qchecker),sizeof(char));
 						// move the ptr to the next char after the initial "
@@ -256,27 +257,29 @@ int main(int argc, const char* argv[]) {
 					
 						//Read everything but the "
 						//while (*(qchecker) != '"')
+							
+						special = strsep(&qchecker,"\"");
 						while (*(qchecker) != '\"')						
 						{
 							
 							if (*(qchecker) == ',')
 							{
+								//move the tokenizer over after reading a comma, to get to next part of string
+								//This is mainly for making sure the tokenizer can reach all the fields it needs to
+								//without mistaking these extra ones for fields
 								field = strsep(&row,",");
-								special = strcat(special,comma);
-								
-	
-							}		
-							special = strncat(special,qchecker,1);				
-							qchecker++;							
-
+							}	
+							qchecker++;			
 						}
+						
+						
 
-					//get field to get the comma next to the quote out
-					field = strsep(&row,",");
-					//duplicate special str into field
-					field = strdup(special);
+						//get field to get the comma next to the quote out
+						field = strsep(&row,",");
+						//duplicate special str into field
+						field = strdup(special);
 
-					*(special + strlen(special - 1)) = '\0';
+						*(special + strlen(special - 1)) = '\0';
 				
 					}
 				}		
