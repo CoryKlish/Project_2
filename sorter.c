@@ -266,21 +266,16 @@ int main(int argc, const char* argv[]) {
 							{
 								//move the tokenizer over after reading a comma, to get to next part of string
 								//This is mainly for making sure the tokenizer can reach all the fields it needs to
-								//without mistaking these extra ones for fields
-								
-								special = strncat(special,qchecker,1);
-								
-								field = strsep(&row,",");
-
-							
+								//without mistaking these extra ones for fields								
+								field = strsep(&row,",");							
 							}		
-							else
-							{
+							
 								//adds 1 character from qchecker to special
-								special = strncat(special,qchecker,1);	
+									
 								//move pointer to next character
 								
 							}	
+							special = strncat(special,qchecker,1);
 							qchecker++;
 
 						}
