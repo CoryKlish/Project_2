@@ -269,7 +269,7 @@ int main(int argc, const char* argv[]) {
 								//without mistaking these extra ones for fields
 								
 								special = strncat(special,qchecker,1);
-								qchecker++;
+								
 								field = strsep(&row,",");
 
 							
@@ -279,8 +279,9 @@ int main(int argc, const char* argv[]) {
 								//adds 1 character from qchecker to special
 								special = strncat(special,qchecker,1);	
 								//move pointer to next character
-								qchecker++;	
-							}							
+								
+							}	
+							qchecker++;
 
 						}
 
