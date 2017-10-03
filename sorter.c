@@ -31,473 +31,7 @@ void printStructs(Record list[], int numStructs){
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-void mergeNum(Record list[], int left, int mid, int right){
-	
-    int LSize = mid - left + 1;
-    int RSize =  right - mid;
- 
-	
-    //Temp array dynamic allocation
-    //Record LArr[LSize], RArr[RSize];
-	
-	
-	Record* LArr = malloc(sizeof(Record) * LSize);
-	Record* RArr = malloc(sizeof(Record) * RSize);
-	
-	int l; //Left index counter
-	int r; //Right index counter
-	int m; //Merged index
- 
-    for (l = 0; l < LSize; l++){
-        LArr[l] = list[left + l];
-	}
-	
-    for (r = 0; r < RSize; r++){
-        RArr[r] = list[mid + 1 + r];
-	}
- 
-	//Merge subarrays
-    l = 0; 
-    r = 0; 
-    m = left; 
-    while (l < LSize && r < RSize){
-		
-		if(strcmp(sortType, "num_critic_for_reviews") == 0){
-			
-			if (LArr[l].num_critic_for_reviews <= RArr[r].num_critic_for_reviews){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "duration") == 0){
-			
-			if (LArr[l].duration <= RArr[r].duration){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "director_facebook_likes") == 0){
-			
-			if (LArr[l].director_facebook_likes <= RArr[r].director_facebook_likes){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "actor_3_facebook_likes") == 0){
-			
-			if (LArr[l].actor_3_facebook_likes <= RArr[r].actor_3_facebook_likes){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "actor_1_facebook_likes") == 0){
-			
-			if (LArr[l].actor_1_facebook_likes <= RArr[r].actor_1_facebook_likes){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "gross") == 0){
-			
-			if (LArr[l].gross <= RArr[r].gross){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "num_voted_users") == 0){
-			
-			if (LArr[l].num_voted_users <= RArr[r].num_voted_users){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "cast_total_facebook_likes") == 0){
-			
-			if (LArr[l].cast_total_facebook_likes <= RArr[r].cast_total_facebook_likes){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "facenumber_in_poster") == 0){
-			
-			if (LArr[l].facenumber_in_poster <= RArr[r].facenumber_in_poster){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "num_user_for_reviews") == 0){
-			
-			if (LArr[l].num_user_for_reviews <= RArr[r].num_user_for_reviews){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "budget") == 0){
-			
-			if (LArr[l].budget <= RArr[r].budget){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "title_year") == 0){
-			
-			if (LArr[l].title_year <= RArr[r].title_year){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "actor_2_facebook_likes") == 0){
-			
-			if (LArr[l].actor_2_facebook_likes <= RArr[r].actor_2_facebook_likes){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "imdb_score") == 0){
-			
-			if (LArr[l].imdb_score <= RArr[r].imdb_score){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "aspect_ratio") == 0){
-			
-			if (LArr[l].aspect_ratio <= RArr[r].aspect_ratio){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}else if(strcmp(sortType, "movie_facebook_likes") == 0){
-			
-			if (LArr[l].movie_facebook_likes <= RArr[r].movie_facebook_likes){
-			
-				list[m] = LArr[l];
-				l++;
-			}
-			else{
-			
-				list[m] = RArr[r];
-				r++;
-			}
-			m++;
-			
-		}
-			
-	}
- 
-    while (l < LSize){
-		
-        list[m] = LArr[l];
-        l++;
-        m++;
-    }
- 
-    while (r < RSize){
-		
-        list[m] = RArr[r];
-        r++;
-        m++;
-    }
-	
-	free(LArr);
-	LArr = NULL;
-	free(RArr);
-	RArr = NULL;
-}
- 
-void sortNum(Record list[], int left, int right)
-{
-    if (left < right){
-		
-        int mid = left + (right - left) / 2;
- 
-        sortNum(list, left, mid);
-        sortNum(list, mid + 1, right);
- 
-        mergeNum(list, left, mid, right);
-    }
-}
 
-*/
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-  void mergeString(Record strArr[], int lo, int mid, int hi){
-
-    //Merge arrays back together
-	
-	int left = mid - lo + 1;
-	int right = hi - mid;
-	
-	
-	//Dynamic mem allocation
-	Record* LArr = malloc(sizeof(Record) * left);//Allocate left array
-	Record* RArr = malloc(sizeof(Record) * right);//Allocate right array
-	
-	
-	int i = 0;
-	
-	for(i = 0; i < left; i++){
-		//LArr[i] = (char*)malloc(sizeof(strArr[lo + i]));
-		LArr[i] = strArr[lo + i];
-	}
-	
-	for(i = 0; i < right; i++){
-		//RArr[i] = (char*)malloc(sizeof(strArr[mid + 1 + i]));
-		RArr[i] = strArr[mid + 1 + i];
-	}
-	
-	int x = 0;//Initial Index of first subarray
-	int y = 0;//Initial Index of second subarray
-	i = 0;
-	y = lo;//Initial Index of merged subarray
-	
-	while(i < left && x < right){
-		
-		if(strcmp(sortType, "color") == 0){
-			
-			if(strcmp(LArr[i].color, RArr[x].color) < 0){
-				strArr[y++] = LArr[i++];
-			}
-			else{
-				strArr[y++] = RArr[x++];
-			}
-			
-		}else if(strcmp(sortType, "director_name") == 0){
-			
-			if(strcmp(LArr[i].director_name, RArr[x].director_name) < 0){
-				strArr[y++] = LArr[i++];
-			}
-			else{
-				strArr[y++] = RArr[x++];
-			}
-			
-		}else if(strcmp(sortType, "actor_2_name") == 0){
-			
-			if(strcmp(LArr[i].actor_2_name, RArr[x].actor_2_name) < 0){
-				strArr[y++] = LArr[i++];
-			}
-			else{
-				strArr[y++] = RArr[x++];
-			}
-			
-		}else if(strcmp(sortType, "genres") == 0){
-			
-			if(strcmp(LArr[i].genres, RArr[x].genres) < 0){
-				strArr[y++] = LArr[i++];
-			}
-			else{
-				strArr[y++] = RArr[x++];
-			}
-			
-		}else if(strcmp(sortType, "actor_1_name") == 0){
-			
-			if(strcmp(LArr[i].actor_1_name, RArr[x].actor_1_name) < 0){
-				strArr[y++] = LArr[i++];
-			}
-			else{
-				strArr[y++] = RArr[x++];
-			}
-			
-		}else if(strcmp(sortType, "movie_title") == 0){
-			
-			if(strcmp(LArr[i].movie_title, RArr[x].movie_title) < 0){
-				strArr[y++] = LArr[i++];
-			}
-			else{
-				strArr[y++] = RArr[x++];
-			}
-			
-		}else if(strcmp(sortType, "actor_3_name") == 0){
-			
-			if(strcmp(LArr[i].actor_3_name, RArr[x].actor_3_name) < 0){
-				strArr[y++] = LArr[i++];
-			}
-			else{
-				strArr[y++] = RArr[x++];
-			}
-			
-		}else if(strcmp(sortType, "plot_keywords") == 0){
-			
-			if(strcmp(LArr[i].plot_keywords, RArr[x].plot_keywords) < 0){
-				strArr[y++] = LArr[i++];
-			}
-			else{
-				strArr[y++] = RArr[x++];
-			}
-			
-		}else if(strcmp(sortType, "movie_imdb_link") == 0){
-			
-			if(strcmp(LArr[i].movie_imdb_link, RArr[x].movie_imdb_link) < 0){
-				strArr[y++] = LArr[i++];
-			}
-			else{
-				strArr[y++] = RArr[x++];
-			}
-			
-		}else if(strcmp(sortType, "language") == 0){
-			
-			if(strcmp(LArr[i].language, RArr[x].language) < 0){
-				strArr[y++] = LArr[i++];
-			}
-			else{
-				strArr[y++] = RArr[x++];
-			}
-			
-		}else if(strcmp(sortType, "country") == 0){
-			
-			if(strcmp(LArr[i].country, RArr[x].country) < 0){
-				strArr[y++] = LArr[i++];
-			}
-			else{
-				strArr[y++] = RArr[x++];
-			}
-			
-		}else if(strcmp(sortType, "content_rating") == 0){
-			
-			if(strcmp(LArr[i].content_rating, RArr[x].content_rating) < 0){
-				strArr[y++] = LArr[i++];
-			}
-			else{
-				strArr[y++] = RArr[x++];
-			}
-			
-		}
-		
-	}
-	
-	while(i < left){
-		strArr[y++] = LArr[i++];
-	}
-	
-	while(x < right){
-		strArr[y++] = RArr[x++];
-	}
-	
-	free(LArr);
-	LArr = NULL;
-	free(RArr);
-	RArr = NULL;
-}
-
-void sortString(Record strArr[], int lo, int hi){//Recursive divide and conquer sort
-	
-	if(lo < hi){
-		int mid = (lo + hi) / 2;//Find midpoint to split at
-		sortString(strArr, lo, mid);//Pass in left side to sort
-		sortString(strArr, mid + 1, hi);//Pass in right side to sort
-		mergeString(strArr, lo, mid, hi);
-	}
-	
-}
-*/
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //String that holds the modes for the sorter. 
@@ -633,11 +167,11 @@ int main(int argc, const char* argv[]) {
 	printf("\nOrganizing records...\n");
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds initial 4000 records
-	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 10000);
+	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 20000);
 	//For reallocation
 	struct Record *newall = NULL;
 	//size of the records array in bytes
-	size_t arSize = 10000 * (sizeof(Record));
+	size_t arSize = 20000 * (sizeof(Record));
 	//total bytes that accumulates after each getline
 	int totalbytes = 0;
 	
@@ -692,17 +226,18 @@ int main(int argc, const char* argv[]) {
 			
 			
 			//checks for a double quote in the row, which indicates there will be nested commas
-			//char * check = strstr(row,"\"");
+			char * check = strstr(row,"\"");
 			//If double quotes are present,
-			//char * qchecker;
+			char * qchecker;
 			int i;			
+			char* comma = ",";
 			//get tokens in the line
 			for(i = 0; i < numFields+1;i++)
 			{	
 
 				//get a field
 				field = strsep(&row,",");
-				/*
+				
 				
 				//If there is a quote in this line
 				if (check != NULL)
@@ -715,38 +250,42 @@ int main(int argc, const char* argv[]) {
 					if (*(field) == '"')
 					{
 						//create new char array
-						char* special = (char*)malloc(sizeof(char) * (strlen(qchecker)) + 2);
+						char* special = (char*)calloc(strlen(qchecker),sizeof(char));
 						// move the ptr to the next char after the initial "
 						qchecker++;
-						
-						//Read until the next comma
-						while (*(qchecker) != ',')
+					
+						//Read everything but the "
+						//while (*(qchecker) != '"')
+						while (*(qchecker) != '\"')						
 						{
-							//Read everything but the "
-							if (*(qchecker) != '"')
+							
+							if (*(qchecker) == ',')
 							{
-								special = strncat(special,qchecker,1);
-							}
-							qchecker++;
-						} 
-				*/	
-					//move the pointer over one to get to the real next field.	
-					//field = strsep(&row, ",");	
-				/*	
+								field = strsep(&row,",");
+								special = strcat(special,comma);
+								
+	
+							}		
+							special = strncat(special,qchecker,1);				
+							qchecker++;							
+
+						}
+
+					//get field to get the comma next to the quote out
+					field = strsep(&row,",");
 					//duplicate special str into field
 					field = strdup(special);
-					free(special);
-					special = NULL;
+
+					*(special + strlen(special - 1)) = '\0';
 				
 					}
 				}		
-				*/
+				
 				//Based on the index, it allocates token to that field in the struct.
 				printf("\nGot the token %d\n", i);
 				printf("field = %s\n",field);
 				allocateToken(ptrrecords, field, i);
-				//if a special "" section was detected, move the ptr to next field.
-
+		
 			}//end token loop
 				
 			
@@ -766,7 +305,7 @@ int main(int argc, const char* argv[]) {
 	struct Record * first = allrecords + 500;
 	printf("\nmovie_title-%s\n",first->movie_title);
 	
-	printf("\n%s",sortType);
+	
 
 	int numStructs = numRecords;
 	
