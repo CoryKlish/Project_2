@@ -262,7 +262,11 @@ int main(int argc, const char* argv[]) {
 							//mainly so that the tokenizer keeps up with the correct field
 							//rather than considering the other nested commas to be other fields
 							if (*(qchecker) == ',')
+							{
+								
+								strcat(special, ", ");
 								field = strsep(&row,",");
+							}
 							
 							//add to the special str and move ptr
 							special = strncat(special,qchecker,1);				
