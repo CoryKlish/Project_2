@@ -250,6 +250,8 @@ int main(int argc, const char* argv[]) {
 					if (*(field) == '"')
 					{
 						//create new char array
+						//a bit space inefficient, but it gets rid of strange characters that appear
+						//when you use malloc on this space.
 						char* special = (char*)calloc(strlen(qchecker),sizeof(char));
 						// move the ptr to the next char after the initial "
 						qchecker++;
