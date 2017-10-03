@@ -265,7 +265,8 @@ int main(int argc, const char* argv[]) {
 								//This is mainly for making sure the tokenizer can reach all the fields it needs to
 								//without mistaking these extra ones for fields
 								field = strsep(&row,",");
-								special = strcat(special,",");
+								special = strcat(special,comma);
+								qchecker++;
 								
 	
 							}		
