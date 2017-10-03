@@ -282,7 +282,6 @@ int main(int argc, const char* argv[]) {
 
 					//get field to get the comma next to the quote out
 					field = strsep(&row,",");
-					*(special + strlen(special - 1)) = '\0';
 					//duplicate special str into field
 					field = strdup(special);
 					
