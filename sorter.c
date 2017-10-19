@@ -79,6 +79,9 @@ int main(int argc, const char* argv[]) {
             printf("Third argument is not recognized, ending program");
             exit(0);
         }
+        char dirMode = VerifyMode(*(dir + 1));
+        if(mode == 'x')
+            exit(0);
     }
 	
     
@@ -90,11 +93,8 @@ int main(int argc, const char* argv[]) {
 	if(mode == 'x')
 		exit(0);
 	
-	/*
-	char dirMode = VerifyMode(*(dir + 1));
-	if(mode == 'x')
-		exit(0);
-*/
+
+
 	
 
 	
