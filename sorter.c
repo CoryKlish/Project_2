@@ -71,7 +71,7 @@ int main(int argc, const char* argv[]) {
 	}
     
 	//if directory option exists, check if legit
-    if (dir != null)
+    if (dir != NULL)
     {
         len = strlen (dir);
         if (len > 2 || *(dir) != '-')
