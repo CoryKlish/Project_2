@@ -168,6 +168,7 @@ int main(int argc, const char* argv[]) {
 	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 20000);
 	//For reallocation
 	struct Record *newall = NULL;
+	
 	//size of the records array in bytes
 	size_t arSize = 20000 * (sizeof(Record));
 	//total bytes that accumulates after each getline
@@ -183,112 +184,109 @@ int main(int argc, const char* argv[]) {
 
 	while (bytes != -1)
 	{
-		
 		//copy to row to free up the line var
 		char* row = strdup(line);
 		free(line);
 		line = NULL;
-
-		if (bytes != -1)
-		{
-
-			//increase count of records
-			numRecords++;
-			//Add to total amount of bytes
-			totalbytes += sizeof(Record);
-			
-
-			
-			/*
-			Creates segfault
-			//Check if total bytes goes over
-			if(totalbytes > arSize)
-			{
-				//Add 5000 to the number of input records
-				arSize += (5000 * sizeof(Record));
-				printf("\nexpanded arSize\n");
-
-				//reallocate, move pointer to new memory location with more mem
-				newall = realloc(allrecords, arSize);
-				ptrrecords = newall;
-				
-				//If this does not work, there is no more memory left to allocate
-				if (newall == NULL)
-				{
-					printf("Out of memory, exiting");
-					exit(0);
-				}
-			}
-			*/
-			
-			
-			//checks for a double quote in the row, which indicates there will be nested commas
-			char * check = strstr(row,"\"");
-			//If double quotes are present,
-			char * qchecker;
-			int i;			
-			char* comma = ",";
-			//get tokens in the line
-			for(i = 0; i < numFields+1;i++)
-			{	
-
-				//get a field
-				field = strsep(&row,",");
-			
-				
-				
-				//If there is a quote in this line
-				if (check != NULL)
-				{
-					//set qchecker to field to check for quote
-					qchecker = check;
-					//If there is a quote in the beginning of the field, this is string with " we checked for earlier 
-					//then we can replace field with the 'special' var that contains contains the field
-					//within the double quotes.
-					if (*(field) == '"')
-					{
-						//create new char array
-						char* special = (char*)calloc(strlen(qchecker),sizeof(char));
-						// move the ptr to the next char after the initial "
-						qchecker++;
-					
-						//Read everything but the "
-						//while (*(qchecker) != '"')
-						while (*(qchecker) != '\"')						
-						{
-							//If the character is a comma, be sure to move the token ptr along with it
-							//mainly so that the tokenizer keeps up with the correct field
-							//rather than considering the other nested commas to be other fields
-							if (*(qchecker) == ',')
-							{
-								field = strsep(&row,",");
-							}
-							
-							//add to the special str and move ptr
-							special = strncat(special,qchecker,1);				
-							qchecker++;							
-
-						}
-
-					//get field to get the comma next to the quote out
-					field = strsep(&row,",");
-					//duplicate special str into field
-					field = strdup(special);
-
-					*(special + strlen(special - 1)) = '\0';
-				
-					}
-				}		
-				
-				//Based on the index, it allocates token to that field in the struct.
-
-				allocateToken(ptrrecords, field, i);
 		
-			}//end token loop
-				
-			
 
-		}//end if bytes != -1
+
+		//increase count of records
+		numRecords++;
+		//Add to total amount of bytes
+		totalbytes += sizeof(Record);
+		
+
+		
+		/*
+		Creates segfault
+		//Check if total bytes goes over
+		if(totalbytes > arSize)
+		{
+			//Add 5000 to the number of input records
+			arSize += (5000 * sizeof(Record));
+			printf("\nexpanded arSize\n");
+
+			//reallocate, move pointer to new memory location with more mem
+			newall = realloc(allrecords, arSize);
+			ptrrecords = newall;
+			
+			//If this does not work, there is no more memory left to allocate
+			if (newall == NULL)
+			{
+				printf("Out of memory, exiting");
+				exit(0);
+			}
+		}
+		*/
+		
+		
+		//checks for a double quote in the row, which indicates there will be nested commas
+		char * check = strstr(row,"\"");
+		//If double quotes are present,
+		char * qchecker;
+		int i;			
+		char* comma = ",";
+		//get tokens in the line
+		for(i = 0; i < numFields+1;i++)
+		{	
+
+			//get a field
+			field = strsep(&row,",");
+		
+			
+			
+			//If there is a quote in this line
+			if (check != NULL)
+			{
+				//set qchecker to field to check for quote
+				qchecker = check;
+				//If there is a quote in the beginning of the field, this is string with " we checked for earlier 
+				//then we can replace field with the 'special' var that contains contains the field
+				//within the double quotes.
+				if (*(field) == '"')
+				{
+					//create new char array
+					char* special = (char*)calloc(strlen(qchecker),sizeof(char));
+					// move the ptr to the next char after the initial "
+					qchecker++;
+				
+					//Read everything but the "
+					//while (*(qchecker) != '"')
+					while (*(qchecker) != '\"')						
+					{
+						//If the character is a comma, be sure to move the token ptr along with it
+						//mainly so that the tokenizer keeps up with the correct field
+						//rather than considering the other nested commas to be other fields
+						if (*(qchecker) == ',')
+						{
+							field = strsep(&row,",");
+						}
+						
+						//add to the special str and move ptr
+						special = strncat(special,qchecker,1);				
+						qchecker++;							
+
+					}
+
+				//get field to get the comma next to the quote out
+				field = strsep(&row,",");
+				//duplicate special str into field
+				field = strdup(special);
+
+				*(special + strlen(special - 1)) = '\0';
+			
+				}
+			}		
+			
+			//Based on the index, it allocates token to that field in the struct.
+
+			allocateToken(ptrrecords, field, i);
+	
+		}//end token loop
+			
+		
+
 		
 	
 		bytes = getline(&line, &recordsize, stdin);
