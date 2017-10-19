@@ -69,7 +69,7 @@ int main(int argc, const char* argv[]) {
 		printf("First argument is not recognized, ending program");
 		exit(0);
 	}
-    /*
+    
 	//check if third argument is legitimate
 	len = strlen (dir);
 	if (len > 2 || *(dir) != '-')
@@ -77,7 +77,7 @@ int main(int argc, const char* argv[]) {
 		printf("Third argument is not recognized, ending program");
 		exit(0);
 	}
-    */
+    
 	
 	
 	//Verify mode against array of modes
