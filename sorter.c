@@ -35,7 +35,7 @@ void printStructs(Record list[], int numStructs){
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //String that holds the modes for the sorter. 
-const char* modes = "c";
+const char* modes = "cd";
 int numFields = 0; 
 //tracks location and name of the column desired
 char* column;
@@ -54,7 +54,7 @@ int main(int argc, const char* argv[]) {
 	printf("The number of arguments given to sorter: %d\n", argc-1);
 	
 	//For now, only accepting two arguments in the sorter
-	if(argc - 1 < 2 || argc - 1 > 2)
+	if(argc - 1 < 2)
 	{
 		printf("Wrong number of arguments passed.");
 	}
@@ -63,10 +63,22 @@ int main(int argc, const char* argv[]) {
 	//Since argv[0] is the executable, use argv[1]
 	const char* inputmode = argv[1]	;	
 	
+	//Third argument is optional directory mode
+	//Third argument is the -d symbol
+	const char* dir = argv[3];
+	
+	//checking if first argument is legitimate
 	int len = strlen (inputmode);
 	if (len > 2 || *(inputmode) != '-')
 	{
 		printf("First argument is not recognized, ending program");
+		exit(0);
+	}
+	//check if third argument is legitimate
+	len = strlen (dir);
+	(if (len > 2 || *(dir) != '-')
+	{
+		printf("Third argument is not recognized, ending program");
 		exit(0);
 	}
 	
@@ -75,9 +87,16 @@ int main(int argc, const char* argv[]) {
 	// *inputmode+1 to get the character instead of hyphen
 	char mode = VerifyMode(*(inputmode + 1));
 	if(mode == 'x')
-	{
 		exit(0);
+	
+	char dirMode = VerifyMode(*(dir + 1));
+	if(mode == 'x')
+		exit(0);
+	else if (mode == 'd')
+	{
+		printf("Finding .csv files in directory");
 	}
+	
 
 	
 //////////////////Parsing first line for column types and testing user input//////////////////////////////////////////////////
@@ -198,7 +217,7 @@ int main(int argc, const char* argv[]) {
 			numRecords++;
 			//Add to total amount of bytes
 			totalbytes += sizeof(Record);
-			printf("totalbytes is now %d and array size is %d",totalbytes,arSize);
+			
 
 			
 			/*
@@ -318,12 +337,6 @@ int main(int argc, const char* argv[]) {
   
 	
     printStructs(allrecords, numStructs);
-
-	
-	
-	
-
-
 	
 	return 0;
 	
@@ -338,6 +351,11 @@ char VerifyMode(char mode)
 	{
 		printf("\nThe sorter will organize by column");
 		return 'c';
+	}
+	if (*(modes + 1) == mode)
+	{
+		printf("\nThe sorter will find a directory");
+		return 'd';
 	}
 	//If a mode is entered that does not exist, return invalid char
 	else
