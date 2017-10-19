@@ -76,7 +76,7 @@ int main(int argc, const char* argv[]) {
 	}
 	//check if third argument is legitimate
 	len = strlen (dir);
-	(if (len > 2 || *(dir) != '-')
+	if (len > 2 || *(dir) != '-')
 	{
 		printf("Third argument is not recognized, ending program");
 		exit(0);
