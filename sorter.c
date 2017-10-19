@@ -92,7 +92,7 @@ int main(int argc, const char* argv[]) {
 	char dirMode = VerifyMode(*(dir + 1));
 	if(mode == 'x')
 		exit(0);
-	else if (mode == 'd')
+	else if (dirMode == 'd')
 	{
 		printf("Finding .csv files in directory");
 	}
