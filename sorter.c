@@ -173,7 +173,7 @@ int main(int argc, const char* argv[]) {
 		exit(0);
 	}
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
-	//holds initial 4000 records
+	//holds initial 20000 records
 	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 20000);
 	//For reallocation
 	struct Record *newall = NULL;
