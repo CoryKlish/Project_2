@@ -123,45 +123,36 @@ int main(int argc, const char* argv[]) {
 
 	//Take first field, puts ptr on first char of line
 	field = strtok(header, ",");
+	
 	//Start counting number of fields 
-	//If it is null, then there are no fields
 	if (field == NULL)
-	{
 		printf("ERROR, no fields");
-	}
+	
 	
 	//Just in case first column is the column to be sorted
 	if (strcmp(field, argv[2]) == 0)
 	{
-	
 		//Get length, allocate size and copy into 'column' variable
 		len = strlen(field);
 		sortType = (char*)malloc(sizeof(char) * len);
 		sortType = strdup(field);
 	}
 
-	//Count loop
 	while (field != NULL)
 	{		
-		
 		//Subsequent calls to strtok move the pointer and return the actual token
 		field = strtok(NULL, ",");
 		
-		
-		//Then i can start counting tokens
 		if (field != NULL)
 		{
 			numFields++;
-			
 			//Then check if that column is equivalent to the argument passed
 			if (strcmp(field, argv[2]) == 0)
 			{
-				
-				//dynamic allocate the mem and store string
+				//dynamic allocate the mem and store string if so
 				len = strlen(field);
 				sortType = (char*)malloc(sizeof(char) * len);
 				sortType = strdup(field);
-				
 			}
 		}
 			
@@ -173,7 +164,7 @@ int main(int argc, const char* argv[]) {
 		exit(0);
 	}
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
-	//holds initial 4000 records
+	//holds initial 20000 records
 	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 20000);
 	//For reallocation
 	struct Record *newall = NULL;
