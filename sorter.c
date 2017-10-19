@@ -80,7 +80,7 @@ int main(int argc, const char* argv[]) {
             exit(0);
         }
         char dirMode = VerifyMode(*(dir + 1));
-        if(mode == 'x')
+        if(dirMode == 'x')
             exit(0);
     }
 	
