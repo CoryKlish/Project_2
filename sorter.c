@@ -49,11 +49,6 @@ int len;
 */
 int main(int argc, const char* argv[]) {
 	
-	//argc counts the call of sorter as an argument
-	//Since we are trying to count arguments given to sorter, argc-1
-	printf("The number of arguments given to sorter: %d\n", argc-1);
-	
-	//For now, only accepting two arguments in the sorter
 	if(argc - 1 < 2)
 	{
 		printf("Wrong number of arguments passed.");
@@ -89,13 +84,11 @@ int main(int argc, const char* argv[]) {
 	if(mode == 'x')
 		exit(0);
 	
+	
 	char dirMode = VerifyMode(*(dir + 1));
 	if(mode == 'x')
 		exit(0);
-	else if (dirMode == 'd')
-	{
-		printf("Finding .csv files in directory");
-	}
+
 	
 
 	
@@ -112,21 +105,20 @@ int main(int argc, const char* argv[]) {
 	char* line = NULL;
 	char* field = NULL;
 	
-
-	//if getline == -1, means it reached EOF and read nothing
 	size_t bytes = getline(&line, &recordsize, stdin);
-	
 	if (bytes == -1)
 	{
 		printf("\nEOF, ending program");
 		exit(0);
 	}
+	
 	//create new str to hold getline input
 	char* header = strdup(line);
 	//Free getline allocated
-	free(line);
 	//Making sure the line is null after freeing it. 
+	free(line);	
 	line = NULL;
+	
 	
 
 	//Take first field, puts ptr on first char of line
@@ -180,10 +172,6 @@ int main(int argc, const char* argv[]) {
 		printf("The argument %s is not in the file. Ending program", sortType);
 		exit(0);
 	}
-	
-	printf("\nThe column to be sorted is %s\n",sortType);
-	
-	printf("\nOrganizing records...\n");
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds initial 4000 records
 	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 20000);
