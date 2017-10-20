@@ -10,7 +10,7 @@
 	Created argv for the mode of the sorter (-c for column) and name of column
 	
 */
-int main(int argc, const char* argv[]) {
+int main(int argc, char* argv[]) {
     //String that holds the modes for the sorter. 
 	
     
@@ -21,7 +21,7 @@ int main(int argc, const char* argv[]) {
 	
 	//First argument should be -mode, indicating what to analyze
 	//Since argv[0] is the executable, use argv[1]
-	const char* inputmode = strdup(argv[1])	;
+    char* inputmode = strdup(argv[1])	;
  
 	
 	//Third argument is optional directory mode
