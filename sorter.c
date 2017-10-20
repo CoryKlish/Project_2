@@ -55,7 +55,7 @@ int main(int argc, const char* argv[]) {
 	
 	//Verify mode against array of modes
 	// *inputmode+1 to get the character instead of hyphen
-	char mode = VerifyMode(*(inputmode + 1));
+	char mode = VerifyMode(*(argv[1] + 1));
 	if(mode == 'x')
 		exit(0);
 //////////////////Parsing first line for column types and testing user input//////////////////////////////////////////////////
