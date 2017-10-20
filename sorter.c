@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
         dir = strdup(argv[3]);
 	
 	//checking if first argument is legitimate
-	int len = strlen(inputmode);
+	int len = strlen (*inputmode);
 	if (len > 2 || *(inputmode) != '-')
 	{
 		printf("First argument is not recognized, ending program");
