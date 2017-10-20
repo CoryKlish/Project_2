@@ -5,7 +5,7 @@
 
 ///////////////////////////////////////////////////////STRING SORT////////////////////////////////////////////////////////////////////////////
 
-void mergeString(Record strArr[], int lo, int mid, int hi){//Merge arrays back together
+void mergeString(Record strArr[], int lo, int mid, int hi,char* sortType){//Merge arrays back together
 	
 	int left = mid - lo + 1;
 	int right = hi - mid;
@@ -285,13 +285,13 @@ void mergeString(Record strArr[], int lo, int mid, int hi){//Merge arrays back t
 	RArr = NULL;
 }
 
-void sortString(Record strArr[], int lo, int hi){//Recursive divide and conquer sort
+void sortString(Record strArr[], int lo, int hi,char* sortType){//Recursive divide and conquer sort
 	
 	if(lo < hi){
 		int mid = (lo + hi) / 2;//Find midpoint to split at
-		sortString(strArr, lo, mid);//Pass in left side to sort
-		sortString(strArr, mid + 1, hi);//Pass in right side to sort
-		mergeString(strArr, lo, mid, hi);
+		sortString(strArr, lo, mid,sortType);//Pass in left side to sort
+		sortString(strArr, mid + 1, hi,sortType);//Pass in right side to sort
+		mergeString(strArr, lo, mid, hi,sortType);
 	}
 	
 }

@@ -7,7 +7,7 @@
 ******/
 
 
-extern char* sortType;
+
 
 typedef struct Record{
 	char color[30];
@@ -52,7 +52,7 @@ void mergeNum(Record list[], int left, int mid, int right);
 void sortNum(Record list[], int left, int right);
 void printStructs(Record list[], int numStructs);
 void sortString(Record strArr[], int lo, int hi);
-void mergeString(Record strArr[], int lo, int mid, int hi);
+void mergeString(Record strArr[], int lo, int mid, int hi,char* sortType);
 
 
 //Large helper function: getHeader
