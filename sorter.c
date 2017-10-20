@@ -271,7 +271,7 @@ int main(int argc, const char* argv[]) {
 	//if the type is a string, the use the string sort
 	if ((strcmp(sortType,"color") == 0)||(strcmp(sortType,"director_name")== 0)||(strcmp(sortType,"actor_name_2")== 0)||(strcmp(sortType,"genres")== 0)||(strcmp(sortType,"actor_1_name")== 0)||(strcmp(sortType,"movie_title")== 0)||(strcmp(sortType,"actor_3_name")== 0)||(strcmp(sortType,"plot_keywords")== 0)||(strcmp(sortType,"movie_imdb_link")== 0)||(strcmp(sortType,"language")== 0)||(strcmp(sortType,"country")== 0)||(strcmp(sortType,"content_rating")== 0))
 	  {
-	    sortString(allrecords, 0, numStructs - 1);
+	    sortString(allrecords, 0, numStructs - 1,sortType);
 
 	  }
 	//Otherwise, use the numsort		
