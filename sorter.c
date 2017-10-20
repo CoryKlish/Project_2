@@ -12,9 +12,9 @@
 const char* modes = "cd";
 
 //tracks location and name of the column desired
-char* column;
+
 //for dynamic allocation of column name
-int len;
+
 
 
 /*
@@ -36,7 +36,8 @@ int main(int argc, const char* argv[]) {
 	//Third argument is the -d symbol
     
 	const char* dir = NULL;
-    if (argv[3] != NULL)
+    //if they pass more than -c and columnname
+    if (argc - 1 > 2)
         dir = strdup(argv[3]);
 	
 	//checking if first argument is legitimate
