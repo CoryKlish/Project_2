@@ -84,20 +84,11 @@ int main(int argc, const char* argv[]) {
             exit(0);
     }
 	
-    
-	
-	
 	//Verify mode against array of modes
 	// *inputmode+1 to get the character instead of hyphen
 	char mode = VerifyMode(*(inputmode + 1));
 	if(mode == 'x')
 		exit(0);
-	
-
-
-	
-
-	
 //////////////////Parsing first line for column types and testing user input//////////////////////////////////////////////////
 	
 	/*
@@ -127,7 +118,7 @@ int main(int argc, const char* argv[]) {
 	line = NULL;
     
     //evaluates the header,
-    char* headerEval = getHeader(header,argv[2],numFields);
+    const char* headerEval = getHeader(header,argv[2],numFields);
     // if headerEval == null, then specified  arg doesnt 
     // exist in the csv
     if (headerEval == NULL)
@@ -145,6 +136,7 @@ int main(int argc, const char* argv[]) {
 	size_t arSize = 20000 * (sizeof(Record));
 	//total bytes that accumulates after each getline
 	int totalbytes = 0;
+    char* field;
 	
 	//ptr for specifying struct
 	struct Record * ptrrecords = allrecords;
