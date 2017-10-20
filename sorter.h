@@ -7,8 +7,7 @@
 ******/
 
 
-
-//extern char* sortType;
+extern char* sortType;
 
 typedef struct Record{
 	char color[30];
