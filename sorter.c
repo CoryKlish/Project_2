@@ -99,7 +99,7 @@ int main(int argc, const char* argv[]) {
     // exist in the csv
     if (headerEval == NULL)
     {
-        printf("ERROR, argument %s is not in the file", argv[2]);
+        printf("ERROR, argument %s is not in the file", inputCol);
         exit(0);
     }
     char* sortType = strdup(headerEval);
@@ -171,9 +171,9 @@ int main(int argc, const char* argv[]) {
 			//If double quotes are present,
 			char * qchecker;
 			int i;			
-			char* comma = ",";
+	
 			//get tokens in the line
-			for(i = 0; i < (*numFields)+1;i++)
+			for(i = 0; i < (*numFields);i++)
 			{	
 
 				//get a field
@@ -234,7 +234,7 @@ int main(int argc, const char* argv[]) {
 
 		}//end if bytes != -1
 		
-	
+	//get next line, move pointer of records over
 		bytes = getline(&line, &recordsize, stdin);
 		if (bytes != -1)
 			ptrrecords++;
@@ -254,7 +254,7 @@ int main(int argc, const char* argv[]) {
 	//Otherwise, use the numsort		
     else
 	{
-	         sortNum(allrecords, 0, numStructs - 1,sortType);
+	   sortNum(allrecords, 0, numStructs - 1,sortType);
     }
 
   
