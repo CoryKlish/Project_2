@@ -48,8 +48,8 @@ typedef struct Record{
 static void allocateToken(Record*, char*, int);
 static const char* getHeader(char* header,char* colName, int* numFields);
 char VerifyMode(char mode);
-void mergeNum(Record list[], int left, int mid, int right);
-void sortNum(Record list[], int left, int right);
+void mergeNum(Record list[], int left, int mid, int right,char* sortType);
+void sortNum(Record list[], int left, int right,char* sortType);
 void printStructs(Record list[], int numStructs);
 void sortString(Record strArr[], int lo, int hi,char* sortType);
 void mergeString(Record strArr[], int lo, int mid, int hi,char* sortType);

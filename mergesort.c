@@ -299,7 +299,7 @@ void sortString(Record strArr[], int lo, int hi,char* sortType){//Recursive divi
 
 //////////////////////////////////////////////////////////////NUM SORT//////////////////////////////////////////////////////////////////////////
 
-void mergeNum(Record list[], int left, int mid, int right){
+void mergeNum(Record list[], int left, int mid, int right,char* sortType){
 	
     int LSize = mid - left + 1;
     int RSize =  right - mid;
@@ -578,15 +578,15 @@ void mergeNum(Record list[], int left, int mid, int right){
 	RArr = NULL;
 }
  
-void sortNum(Record list[], int left, int right)
+void sortNum(Record list[], int left, int right,char* sortType)
 {
     if (left < right){
 		
         int mid = left + (right - left) / 2;
  
-        sortNum(list, left, mid);
-        sortNum(list, mid + 1, right);
+        sortNum(list, left, mid,sortType);
+        sortNum(list, mid + 1, right,sortType);
  
-        mergeNum(list, left, mid, right);
+        mergeNum(list, left, mid, right,sortType);
     }
 }
