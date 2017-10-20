@@ -34,8 +34,10 @@ int main(int argc, const char* argv[]) {
 	
 	//Third argument is optional directory mode
 	//Third argument is the -d symbol
-    if (strlen(argv) > 2)
-	   const char* dir = argv[3];
+    
+	const char* dir = NULL;
+    if (argv[3] != NULL)
+        dir = strdup(argv[3]);
 	
 	//checking if first argument is legitimate
 	int len = strlen (inputmode);
