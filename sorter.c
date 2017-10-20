@@ -277,7 +277,7 @@ int main(int argc, const char* argv[]) {
 	//Otherwise, use the numsort		
     else
 	{
-	         sortNum(allrecords, 0, numStructs - 1);
+	         sortNum(allrecords, 0, numStructs - 1,sortType);
     }
 
   
