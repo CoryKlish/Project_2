@@ -34,7 +34,8 @@ int main(int argc, const char* argv[]) {
 	
 	//Third argument is optional directory mode
 	//Third argument is the -d symbol
-	const char* dir = argv[3];
+    if (strlen(argv) > 2)
+	   const char* dir = argv[3];
 	
 	//checking if first argument is legitimate
 	int len = strlen (inputmode);
@@ -105,11 +106,11 @@ int main(int argc, const char* argv[]) {
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds initial 20000 records
 	struct Record * allrecords = 
-        (Record *)malloc(sizeof(Record) * 20000);
+        (Record *)malloc(sizeof(Record) * 15000);
 	//For reallocation
 	struct Record *newall = NULL;
 	//size of the records array in bytes
-	size_t arSize = 20000 * (sizeof(Record));
+	size_t arSize = 15000 * (sizeof(Record));
 	//total bytes that accumulates after each getline
 	int totalbytes = 0;
     char* field;
