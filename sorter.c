@@ -8,32 +8,6 @@
 #include "sorter.h"
 
 
- 
-
-
-
-
-void printStructs(Record list[], int numStructs){
-	
-    int i;
-    for (i = 0; i < numStructs; i++){
-        printf("%s,%s,%f,%f,%f,%f,%s,%f,%f,%s,%s,%s,%f,%f,%s,%f,%s,%s,%f,%s,%s,%s,%f,%f,%f,%f,%f,%f\n", 
-		list[i].color, list[i].director_name, list[i].num_critic_for_reviews,
-		list[i].duration, list[i].director_facebook_likes, list[i].actor_3_facebook_likes,
-		list[i].actor_2_name, list[i].actor_1_facebook_likes, list[i].gross, list[i].genres,
-		list[i].actor_1_name, list[i].movie_title, list[i].num_voted_users, list[i].cast_total_facebook_likes,
-		list[i].actor_3_name, list[i].facenumber_in_poster, list[i].plot_keywords,
-		list[i].movie_imdb_link, list[i].num_user_for_reviews, list[i].language,
-		list[i].country, list[i].content_rating, list[i].budget, list[i].title_year,
-		list[i].actor_2_facebook_likes, list[i].imdb_score, list[i].aspect_ratio,
-		list[i].movie_facebook_likes);
-	}
-}
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //String that holds the modes for the sorter. 
 const char* modes = "cd";
 
