@@ -12,7 +12,7 @@
 */
 int main(int argc, const char* argv[]) {
     //String that holds the modes for the sorter. 
-	const char* modes = "cd";
+	
     
 	if(argc - 1 < 2)
 	{
@@ -262,6 +262,7 @@ int main(int argc, const char* argv[]) {
 
 char VerifyMode(char mode)
 {
+    const char* modes = "cd";
 	//If the mode == 'c' (first element in char* modes)
 	if (*(modes) == mode)
 	{
