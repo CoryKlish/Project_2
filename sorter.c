@@ -28,11 +28,11 @@ int main(int argc, const char* argv[]) {
     
 	const char* dir = NULL;
     //if they pass more than -c and columnname
-    if (argc - 1 > 2)
+    if (argc > 3)
         dir = strdup(argv[3]);
 	
 	//checking if first argument is legitimate
-	int len = strlen (inputmode);
+	int len = strlen(inputmode);
 	if (len > 2 || *(inputmode) != '-')
 	{
 		printf("First argument is not recognized, ending program");
