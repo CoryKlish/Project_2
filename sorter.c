@@ -84,7 +84,7 @@ int main(int argc, const char* argv[]) {
 	free(line);	
 	line = NULL;
     
-
+    char* inputCol = strdup(argv[2]);
     //evaluates the header,
     const char* headerEval = getHeader(header,inputCol,numFields);
     // if headerEval == null, then specified  arg doesnt 
