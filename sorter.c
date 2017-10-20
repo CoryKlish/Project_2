@@ -125,6 +125,9 @@ int main(int argc, const char* argv[]) {
         printf("ERROR, argument %s is not in the file", argv[2]);
         exit(0);
     }
+    char* sortType = strdup(headerEval);
+    free(headerEval);
+    
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds initial 20000 records
 	struct Record * allrecords = 
