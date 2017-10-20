@@ -8,7 +8,7 @@
 #include "sorter.h"
 
 
- char* sortType; //How we are sorting
+ 
 
 
 
@@ -126,7 +126,7 @@ int main(int argc, const char* argv[]) {
         exit(0);
     }
     char* sortType = strdup(headerEval);
-    free(headerEval);
+ 
     
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds initial 20000 records
