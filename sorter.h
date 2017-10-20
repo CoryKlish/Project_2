@@ -73,7 +73,7 @@ At the end:
     otherwise, return colName
 */
 
-char* static getHeader(char* header, char* colName, int* numFields)
+static char* getHeader(char* header, char* colName, int* numFields)
 {
     //If colName matches with a field, colName is copied into
     //sortType
