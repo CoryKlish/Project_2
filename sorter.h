@@ -8,7 +8,7 @@
 
 
 
-extern char* sortType;
+//extern char* sortType;
 
 typedef struct Record{
 	char color[30];
@@ -46,8 +46,8 @@ typedef struct Record{
 
 
 
-void static allocateToken(Record*, char*, int);
-char * static getHeader(char* header,char* colName, int* numFields);
+static void allocateToken(Record*, char*, int);
+static char* getHeader(char* header,char* colName, int* numFields);
 char VerifyMode(char mode);
 void mergeNum(Record list[], int left, int mid, int right);
 void sortNum(Record list[], int left, int right);
@@ -55,9 +55,9 @@ void printStructs(Record list[], int numStructs);
 void sortString(Record strArr[], int lo, int hi);
 void mergeString(Record strArr[], int lo, int mid, int hi);
 
-/*
-//Large helper function: getHeader
 
+//Large helper function: getHeader
+/*
 Params:
 header is the very first row of the csv, which is attained         outside this method
 colName is the desired column to be sorted
@@ -71,8 +71,8 @@ Counts how many tokens were taken from header
 At the end:
     If no matches with colName, return NULL
     otherwise, return colName
-
 */
+
 char* static getHeader(char* header, char* colName, int* numFields)
 {
     //If colName matches with a field, colName is copied into
@@ -118,7 +118,7 @@ char* static getHeader(char* header, char* colName, int* numFields)
 			
 	}//End while counting loop
     
-    
+    return sortType;
 
 }//end getHeader function
 

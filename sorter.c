@@ -110,7 +110,7 @@ int main(int argc, const char* argv[]) {
     int* numFields = 0; 
 	size_t recordsize;
 	char* line = NULL;
-	char* field = NULL;
+
 	
 	size_t bytes = getline(&line, &recordsize, stdin);
 	if (bytes == -1)
@@ -130,60 +130,11 @@ int main(int argc, const char* argv[]) {
     char* headerEval = getHeader(header,argv[2],numFields);
     // if headerEval == null, then specified  arg doesnt 
     // exist in the csv
-	
-	
-
-	//Take first field, puts ptr on first char of line
-	field = strtok(header, ",");
-	//Start counting number of fields 
-	//If it is null, then there are no fields
-	if (field == NULL)
-	{
-		printf("ERROR, no fields");
-	}
-	
-	//Just in case first column is the column to be sorted
-	if (strcmp(field, argv[2]) == 0)
-	{
-	
-		//Get length, allocate size and copy into 'column' variable
-		len = strlen(field);
-		sortType = (char*)malloc(sizeof(char) * len);
-		sortType = strdup(field);
-	}
-
-	//Count loop
-	while (field != NULL)
-	{		
-		
-		//Subsequent calls to strtok move the pointer and return the actual token
-		field = strtok(NULL, ",");
-		
-		
-		//Then i can start counting tokens
-		if (field != NULL)
-		{
-			numFields++;
-			
-			//Then check if that column is equivalent to the argument passed
-			if (strcmp(field, argv[2]) == 0)
-			{
-				
-				//dynamic allocate the mem and store string
-				len = strlen(field);
-				sortType = (char*)malloc(sizeof(char) * len);
-				sortType = strdup(field);
-				
-			}
-		}
-			
-	}
-	//If the column was never found, then it does not exist within the file.
-	if (sortType == NULL)
-	{
-		printf("The argument %s is not in the file. Ending program", sortType);
-		exit(0);
-	}
+    if (headerEval == NULL)
+    {
+        printf("ERROR, argument %s is not in the file", argv[2]);
+        exit(0);
+    }
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds initial 20000 records
 	struct Record * allrecords = 
@@ -251,7 +202,7 @@ int main(int argc, const char* argv[]) {
 			int i;			
 			char* comma = ",";
 			//get tokens in the line
-			for(i = 0; i < numFields+1;i++)
+			for(i = 0; i < (*numFields)+1;i++)
 			{	
 
 				//get a field
