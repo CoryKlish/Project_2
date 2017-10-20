@@ -21,7 +21,6 @@ int main(int argc, const char* argv[]) {
 	
 	//First argument should be -mode, indicating what to analyze
 	//Since argv[0] is the executable, use argv[1]
-	const char* inputmode = strdup(argv[1])	;
  
 	
 	//Third argument is optional directory mode
@@ -33,8 +32,8 @@ int main(int argc, const char* argv[]) {
         dir = strdup(argv[3]);
 	
 	//checking if first argument is legitimate
-	int len = strlen(inputmode);
-	if (len > 2 || *(inputmode) != '-')
+	int len = strlen(argv[1]);
+	if (len > 2 || *(argv[1]) != '-')
 	{
 		printf("First argument is not recognized, ending program");
 		exit(0);
