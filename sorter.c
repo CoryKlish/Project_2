@@ -21,7 +21,9 @@ int main(int argc, const char* argv[]) {
 	
 	//First argument should be -mode, indicating what to analyze
 	//Since argv[0] is the executable, use argv[1]
-	const char* inputmode = strdup(argv[1])	;	
+	const char* inputmode = strdup(argv[1])	;
+    if (inputmode == null)
+        printf("input mode is bad");
 	
 	//Third argument is optional directory mode
 	//Third argument is the -d symbol
