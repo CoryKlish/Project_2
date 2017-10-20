@@ -86,7 +86,7 @@ int main(int argc, const char* argv[]) {
     
 
     //evaluates the header,
-    const char* headerEval = getHeader(header,argv[2],numFields);
+    const char* headerEval = getHeader(header,inputCol,numFields);
     // if headerEval == null, then specified  arg doesnt 
     // exist in the csv
     if (headerEval == NULL)
@@ -95,8 +95,6 @@ int main(int argc, const char* argv[]) {
         exit(0);
     }
     char* sortType = strdup(headerEval);
-    if (sortType == NULL)
-        printf("This is bad");
     printf("\n%s",sortType);
  
     
