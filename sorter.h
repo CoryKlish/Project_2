@@ -46,7 +46,8 @@ typedef struct Record{
 
 
 
-void static inline allocateToken(Record*, char*, int);
+void static allocateToken(Record*, char*, int);
+char * static getHeader(char* header,char* colName, int* numFields);
 char VerifyMode(char mode);
 void mergeNum(Record list[], int left, int mid, int right);
 void sortNum(Record list[], int left, int right);
@@ -54,7 +55,74 @@ void printStructs(Record list[], int numStructs);
 void sortString(Record strArr[], int lo, int hi);
 void mergeString(Record strArr[], int lo, int mid, int hi);
 
-//Large helper function
+/*
+//Large helper function: getHeader
+
+Params:
+header is the very first row of the csv, which is attained         outside this method
+colName is the desired column to be sorted
+numFields is passed to this method so that we can count the
+    number of columns in the csv. Used later on to validate 
+    the csv. 
+    
+Gets token one by one from the header
+Compares token with colName
+Counts how many tokens were taken from header
+At the end:
+    If no matches with colName, return NULL
+    otherwise, return colName
+
+*/
+char* static getHeader(char* header, char* colName, int* numFields)
+{
+    //If colName matches with a field, colName is copied into
+    //sortType
+    char* sortType;
+    //put ptr on first char of line
+    char* field = strtok(header,",");
+    if (field == NULL)
+	{
+		printf("ERROR, no fields");
+        return NULL;
+	}
+    //Just in case first column is the column to be sorted
+	if (strcmp(field, colName) == 0)
+	{
+		//Get length, allocate size and copy into 'column' variable
+		len = strlen(field);
+		sortType = (char*)malloc(sizeof(char) * len);
+		sortType = strdup(field);
+	}
+    
+    //Count loop
+	while (field != NULL)
+	{		
+		//Subsequent calls to strtok move the pointer and return the actual token
+		field = strtok(NULL, ",");
+		//Then i can start counting tokens
+		if (field != NULL)
+		{
+			*numFields += 1;
+			
+			//Then check if that column is equivalent to the argument passed
+			if (strcmp(field, colName) == 0)
+			{
+				
+				//dynamic allocate the mem and store string
+				len = strlen(field);
+				sortType = (char*)malloc(sizeof(char) * len);
+				sortType = strdup(field);
+				
+			}
+		}
+			
+	}//End while counting loop
+    
+    
+
+}//end getHeader function
+
+//Large helper function: allocateToken
 /*
 	Allocate tokens to their fields based on the index of the loop. 
 	First index goes to color (first column), second index goes to director_name (second column)

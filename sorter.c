@@ -36,7 +36,7 @@ void printStructs(Record list[], int numStructs){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //String that holds the modes for the sorter. 
 const char* modes = "cd";
-int numFields = 0; 
+
 //tracks location and name of the column desired
 char* column;
 //for dynamic allocation of column name
@@ -107,6 +107,7 @@ int main(int argc, const char* argv[]) {
 		
 		Use size_t (unsigned integer) bc it's part of getline param
 	*/
+    int* numFields = 0; 
 	size_t recordsize;
 	char* line = NULL;
 	char* field = NULL;
@@ -124,6 +125,11 @@ int main(int argc, const char* argv[]) {
 	//Making sure the line is null after freeing it. 
 	free(line);	
 	line = NULL;
+    
+    //evaluates the header,
+    char* headerEval = getHeader(header,argv[2],numFields);
+    // if headerEval == null, then specified  arg doesnt 
+    // exist in the csv
 	
 	
 
@@ -180,7 +186,8 @@ int main(int argc, const char* argv[]) {
 	}
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds initial 20000 records
-	struct Record * allrecords = (Record *)malloc(sizeof(Record) * 20000);
+	struct Record * allrecords = 
+        (Record *)malloc(sizeof(Record) * 20000);
 	//For reallocation
 	struct Record *newall = NULL;
 	//size of the records array in bytes
@@ -220,7 +227,7 @@ int main(int argc, const char* argv[]) {
 			if(totalbytes > arSize)
 			{
 				//Add 5000 to the number of input records
-				arSize += (5000 * sizeof(Record));
+				size_t newSize = (;
 				printf("\nexpanded arSize\n");
 
 				//reallocate, move pointer to new memory location with more mem
