@@ -21,6 +21,7 @@ int main(int argc, const char* argv[]) {
 	
 	//First argument should be -mode, indicating what to analyze
 	//Since argv[0] is the executable, use argv[1]
+	const char* inputmode = strdup(argv[1])	;
  
 	
 	//Third argument is optional directory mode
@@ -32,8 +33,8 @@ int main(int argc, const char* argv[]) {
         dir = strdup(argv[3]);
 	
 	//checking if first argument is legitimate
-	int len = strlen(argv[1]);
-	if (len > 2 || *(argv[1]) != '-')
+	int len = strlen(inputmode);
+	if (len > 2 || *(inputmode) != '-')
 	{
 		printf("First argument is not recognized, ending program");
 		exit(0);
@@ -55,7 +56,7 @@ int main(int argc, const char* argv[]) {
 	
 	//Verify mode against array of modes
 	// *inputmode+1 to get the character instead of hyphen
-	char mode = VerifyMode(*(argv[1] + 1));
+	char mode = VerifyMode(*(inputmode + 1));
 	if(mode == 'x')
 		exit(0);
 //////////////////Parsing first line for column types and testing user input//////////////////////////////////////////////////
@@ -166,7 +167,7 @@ int main(int argc, const char* argv[]) {
 			int i;			
 	
 			//get tokens in the line
-			for(i = 0; i < *(numFields)+1;i++)
+			for(i = 0; i < *(numFields);i++)
 			{	
 
 				//get a field
