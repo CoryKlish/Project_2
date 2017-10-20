@@ -112,13 +112,12 @@ int main(int argc, const char* argv[]) {
 	
 	//create new str to hold getline input
 	char* header = strdup(line);
-	//Free getline allocated
-	//Making sure the line is null after freeing it. 
 	free(line);	
 	line = NULL;
     
+    char* inputCol = strdup(argv[2]);
     //evaluates the header,
-    const char* headerEval = getHeader(header,argv[2],numFields);
+    const char* headerEval = getHeader(header,inputCol,numFields);
     // if headerEval == null, then specified  arg doesnt 
     // exist in the csv
     if (headerEval == NULL)
