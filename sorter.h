@@ -90,7 +90,7 @@ static const char* getHeader(char* header, char* colName, int* numFields)
 	{
 		//Get length, allocate size and copy into 'column' variable
 		len = strlen(field);
-		sortType = (char*)malloc(sizeof(char) * len);
+		sortType = (char*)malloc((sizeof(char) * len) + 1);
 		sortType = strdup(field);
 	}
     
