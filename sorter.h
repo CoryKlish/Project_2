@@ -102,7 +102,7 @@ static const char* getHeader(char* header, char* colName, int* numFields)
 		//Then i can start counting tokens
 		if (field != NULL)
 		{
-			*numFields += 1;
+			*numFields = *numFields + 1;
 			
 			//Then check if that column is equivalent to the argument passed
 			if (strcmp(field, colName) == 0)
