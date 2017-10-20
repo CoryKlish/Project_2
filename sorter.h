@@ -47,7 +47,7 @@ typedef struct Record{
 
 
 static void allocateToken(Record*, char*, int);
-static char* getHeader(char* header,char* colName, int* numFields);
+static const char* getHeader(char* header,char* colName, int* numFields);
 char VerifyMode(char mode);
 void mergeNum(Record list[], int left, int mid, int right);
 void sortNum(Record list[], int left, int right);
@@ -73,7 +73,7 @@ At the end:
     otherwise, return colName
 */
 
-static char* getHeader(char* header, char* colName, int* numFields)
+static const char* getHeader(char* header, char* colName, int* numFields)
 {
     //If colName matches with a field, colName is copied into
     //sortType
@@ -89,7 +89,7 @@ static char* getHeader(char* header, char* colName, int* numFields)
 	if (strcmp(field, colName) == 0)
 	{
 		//Get length, allocate size and copy into 'column' variable
-		len = strlen(field);
+		int len = strlen(field);
 		sortType = (char*)malloc(sizeof(char) * len);
 		sortType = strdup(field);
 	}
