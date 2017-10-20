@@ -104,6 +104,7 @@ int main(int argc, const char* argv[]) {
         exit(0);
     }
     char* sortType = strdup(headerEval);
+    printf("\n%s",sortType);
  
     
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
