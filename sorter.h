@@ -78,6 +78,7 @@ static const char* getHeader(char* header, char* colName, int* numFields)
     //If colName matches with a field, colName is copied into
     //sortType
     char* sortType;
+    int len;
     //put ptr on first char of line
     char* field = strtok(header,",");
     if (field == NULL)
@@ -89,7 +90,7 @@ static const char* getHeader(char* header, char* colName, int* numFields)
 	if (strcmp(field, colName) == 0)
 	{
 		//Get length, allocate size and copy into 'column' variable
-		int len = strlen(field);
+		len = strlen(field);
 		sortType = (char*)malloc(sizeof(char) * len);
 		sortType = strdup(field);
 	}
