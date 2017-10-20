@@ -6,23 +6,14 @@
 #include <stdio.h>
 #include <string.h>
 #include "sorter.h"
-
-
-//String that holds the modes for the sorter. 
-const char* modes = "cd";
-
-//tracks location and name of the column desired
-
-//for dynamic allocation of column name
-
-
-
 /*
 	Created argv for the mode of the sorter (-c for column) and name of column
 	
 */
 int main(int argc, const char* argv[]) {
-	
+    //String that holds the modes for the sorter. 
+	const char* modes = "cd";
+    
 	if(argc - 1 < 2)
 	{
 		printf("Wrong number of arguments passed.");
@@ -93,9 +84,9 @@ int main(int argc, const char* argv[]) {
 	free(line);	
 	line = NULL;
     
-    char* inputCol = strdup(argv[2]);
+
     //evaluates the header,
-    const char* headerEval = getHeader(header,inputCol,numFields);
+    const char* headerEval = getHeader(header,argv[2],numFields);
     // if headerEval == null, then specified  arg doesnt 
     // exist in the csv
     if (headerEval == NULL)
@@ -104,6 +95,8 @@ int main(int argc, const char* argv[]) {
         exit(0);
     }
     char* sortType = strdup(headerEval);
+    if (sortType == NULL)
+        printf("This is bad");
     printf("\n%s",sortType);
  
     
