@@ -27,7 +27,7 @@ int main(int argc, const char* argv[]) {
 	//Third argument is optional directory mode
 	//Third argument is the -d symbol
     
-	const char* dir = NULL;
+    char* dir = NULL;
     //if they pass more than -c and columnname
     if (argc > 3)
         dir = strdup(argv[3]);
