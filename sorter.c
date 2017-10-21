@@ -66,7 +66,8 @@ int main(int argc, char* argv[]) {
 		
 		Use size_t (unsigned integer) bc it's part of getline param
 	*/
-    int* numFields = 0; 
+    int numFields = 0;
+    int* numP = &numFields; 
 	size_t recordsize;
 	char* line = NULL;
 
@@ -87,7 +88,7 @@ int main(int argc, char* argv[]) {
     char* inputCol = argv[2];
     //evaluates the header, assume size of 40
     char* sortType = (char*)malloc(sizeof(char) * 40);
-    sortType = getHeader(header,inputCol,numFields);
+    sortType = getHeader(header,inputCol,numP);
 
     // if headerEval == null, then specified  arg doesnt 
     // exist in the csv
@@ -164,7 +165,7 @@ int main(int argc, char* argv[]) {
 			int i;			
 	
 			//get tokens in the line
-			for(i = 0; i < *(numFields)+1;i++)
+			for(i = 0; i < numFields + 1;i++)
 			{	
 
 				//get a field
