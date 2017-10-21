@@ -149,7 +149,7 @@ int main(int argc, char* argv[]) {
 
 				
 				//If this does not work, there is no more memory left to allocate
-                ptrrecords = allrecords + (numrecords - 1);
+                ptrrecords = allrecords + (numRecords - 1);
 				if ( ptrrecords== NULL)
 				{
 					printf("Out of memory, exiting");
