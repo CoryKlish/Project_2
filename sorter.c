@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
     // exist in the csv
 
     char* sortType = (char*)malloc(sizeof(char) * 40); 
-    sortType = strdup(headerEval);
+    sortType = strcpy(sortType,headerEval);
     printf("\n%s",sortType);
  
     
