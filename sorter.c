@@ -164,7 +164,7 @@ int main(int argc, char* argv[]) {
 			int i;			
 	
 			//get tokens in the line
-			for(i = 0; i < *(numFields);i++)
+			for(i = 0; i < *(numFields)+1;i++)
 			{	
 
 				//get a field
