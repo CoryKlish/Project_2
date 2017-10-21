@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
 	//Third argument is optional directory mode
 	//Third argument is the -d symbol
     
-    char* dir = argv[3];
+    char * dir = argv[3];
  
 	
 	//checking if first argument is legitimate
