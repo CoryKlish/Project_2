@@ -100,15 +100,13 @@ int main(int argc, char* argv[]) {
 	//holds initial 20000 records
 	struct Record * allrecords = 
         (Record *)malloc(sizeof(Record) * 5000);
-	//For reallocation
-	struct Record *newall;
 	//size of the records array in bytes
 	size_t arSize = 5000* (sizeof(Record));
 	//total bytes that accumulates after each getline
 	int totalbytes = 0;
     char* field;
 	
-	//ptr for specifying struct
+	//ptr for indexing struct
 	struct Record * ptrrecords = allrecords;
 	int numRecords = 0;
 
@@ -144,14 +142,14 @@ int main(int argc, char* argv[]) {
 				arSize = arSize + (5000 * sizeof(Record));
 				printf("\nexpanded arSize\n");
                 
-                newall = malloc(sizeof(Record) * 10);
+
 
 				//reallocate, move pointer to new memory location with more mem
-				newall = (Record*)realloc(allrecords, arSize);
+				allrecords = (Record*)realloc(allrecords, arSize);
 
 				
 				//If this does not work, there is no more memory left to allocate
-                ptrrecords = newall + (numRecords - 1);
+                ptrrecords = allrecords + (numRecords - 1);
 				if ( ptrrecords== NULL)
 				{
 					printf("Out of memory, exiting");
