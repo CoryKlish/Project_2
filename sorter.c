@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
 	//Third argument is optional directory mode
 	//Third argument is the -d symbol
     
-    char dir[3];
+    char dir[3] = {0};
     //if they pass more than -c and columnname
     if (argc > 3)
         strncpy(dir, argv[3],3);
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 	}
     
 	//if directory option exists, check if legit
-    if (dir != NULL)
+    if (dir != 0)
     {
         len = strlen (dir);
         if (len > 2 || *(dir) != '-')
