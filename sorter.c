@@ -212,15 +212,15 @@ int main(int argc, char* argv[]) {
 					field = strdup(special);
 
 					*(special + strlen(special - 1)) = '\0';
-				
+				    free(row);
+                    row = NULL;
 					}
 				}		
 				
 				//Based on the index, it allocates token to that field in the struct.
 
 				allocateToken(ptrrecords, field, i);
-                free(row);
-                row = NULL;
+                
 		
 			}//end token loop
 				
