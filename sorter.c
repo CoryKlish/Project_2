@@ -79,13 +79,13 @@ int main(int argc, char* argv[]) {
 	}
 	
 	//create new str to hold getline input
-	char* header = malloc(sizeof(char) * (strlen(line)));
-    header= strdup(line);
+    len = strlen(line);
+    char* header = malloc(sizeof(char) * len);
+    header = strdup(line);
 	free(line);	
 	line = NULL;
     
-    char inputCol[30];
-    strcpy(inputCol,argv[2]);
+    char* inputCol = argv[2];
     //evaluates the header, assume size of 40
     char* headerEval = (char*)malloc(sizeof(char) * 40);
     headerEval = getHeader(header,inputCol,numFields);
