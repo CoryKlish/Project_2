@@ -144,14 +144,14 @@ int main(int argc, char* argv[]) {
 				arSize = arSize + (5000 * sizeof(Record));
 				printf("\nexpanded arSize\n");
                 
-                newall = malloc(sizeof(Record) * 10)
+                newall = malloc(sizeof(Record) * 10);
 
 				//reallocate, move pointer to new memory location with more mem
 				newall = (Record*)realloc(allrecords, arSize);
 
 				
 				//If this does not work, there is no more memory left to allocate
-                ptrrecords = newall + (numrecords - 1);
+                ptrrecords = newall + (numRecords - 1);
 				if ( ptrrecords== NULL)
 				{
 					printf("Out of memory, exiting");
