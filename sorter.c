@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
 	
 	//First argument should be -mode, indicating what to analyze
 	//Since argv[0] is the executable, use argv[1]
-    char* inputmode = strcpy(inputMode,argv[1]);
+    char* inputmode = strcpy(inputmode,argv[1]);
  
 	
 	//Third argument is optional directory mode
