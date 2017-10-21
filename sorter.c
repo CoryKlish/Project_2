@@ -141,7 +141,7 @@ int main(int argc, char* argv[]) {
 			if(totalbytes > arSize)
 			{
 				//Add 5000 to the number of input records
-				size_t newSize = arSize + (5000 * sizeof(Record));
+				arSize = arSize + (5000 * sizeof(Record));
 				printf("\nexpanded arSize\n");
 
 				//reallocate, move pointer to new memory location with more mem
