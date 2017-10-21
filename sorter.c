@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
     // if headerEval == null, then specified  arg doesnt 
     // exist in the csv
 
-    char* sortType = malloc(sizeof(char) * (strlen(headerEval) + 1)); 
+    char* sortType = malloc(sizeof(char) * 40); 
     sortType = strdup(headerEval);
     printf("\n%s",sortType);
  
