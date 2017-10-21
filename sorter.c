@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
         printf("ERROR, argument %s is not in the file", inputCol);
         exit(0);
     }
-    char* sortType = malloc(sizeof(char) * (strlen(headerEval))); 
+    char* sortType = malloc(sizeof(char) * (strlen(headerEval) + 1)); 
     sortType = strdup(headerEval);
     printf("\n%s",sortType);
  
