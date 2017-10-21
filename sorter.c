@@ -21,17 +21,14 @@ int main(int argc, char* argv[]) {
 	
 	//First argument should be -mode, indicating what to analyze
 	//Since argv[0] is the executable, use argv[1]
-    char inputmode[3];
-    strncpy(inputmode,argv[1],3);
+    char* inputmode = argv[1]
  
 	
 	//Third argument is optional directory mode
 	//Third argument is the -d symbol
     
-    char dir[3] = {0};
-    //if they pass more than -c and columnname
-    if (argc > 3)
-        strncpy(dir, argv[3],3);
+    char* dir = argv[3];
+ 
 	
 	//checking if first argument is legitimate
 	int len = strlen(inputmode);
@@ -42,7 +39,7 @@ int main(int argc, char* argv[]) {
 	}
     
 	//if directory option exists, check if legit
-    if (dir != 0)
+    if (dir != NULL)
     {
         len = strlen (dir);
         if (len > 2 || *(dir) != '-')
