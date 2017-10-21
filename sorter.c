@@ -87,13 +87,13 @@ int main(int argc, char* argv[]) {
     
     char* inputCol = argv[2];
     //evaluates the header, assume size of 40
-    char* headerEval = (char*)malloc(sizeof(char) * 40);
+    char* headerEval = (char*)malloc(sizeof(char) * 100);
     headerEval = getHeader(header,inputCol,numFields);
 
     // if headerEval == null, then specified  arg doesnt 
     // exist in the csv
 
-    char* sortType = (char*)malloc(sizeof(char) * 40); 
+    char* sortType = (char*)malloc(sizeof(char) * 100); 
     sortType = strdup(headerEval);
     printf("\n%s",sortType);
  
