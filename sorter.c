@@ -82,7 +82,8 @@ int main(int argc, char* argv[]) {
 	}
 	
 	//create new str to hold getline input
-	char* header = strdup(line);
+	char* header = malloc(sizeof(char) * (strlen(line)));
+    header= strdup(line);
 	free(line);	
 	line = NULL;
     
@@ -97,7 +98,7 @@ int main(int argc, char* argv[]) {
         printf("ERROR, argument %s is not in the file", inputCol);
         exit(0);
     }
-    char* sortType = " "; 
+    char* sortType = malloc(sizeof(char) * (strlen(headerEval))); 
     sortType = strdup(headerEval);
     printf("\n%s",sortType);
  
@@ -126,7 +127,8 @@ int main(int argc, char* argv[]) {
 	{
 		
 		//copy to row to free up the line var
-		char* row = strdup(line);
+		char* row = malloc(sizeof(char) * strlen(line)); 
+        row = strdup(line);
 		free(line);
 		line = NULL;
 
