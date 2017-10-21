@@ -90,7 +90,8 @@ int main(int argc, char* argv[]) {
     char inputCol[30];
     strcpy(inputCol,argv[2]);
     //evaluates the header,
-    char* headerEval = getHeader(header,inputCol,numFields);
+    char headerEval[30];
+    headerEval = getHeader(header,inputCol,numFields);
     // if headerEval == null, then specified  arg doesnt 
     // exist in the csv
     if (headerEval == NULL)
