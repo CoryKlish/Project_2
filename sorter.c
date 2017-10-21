@@ -82,11 +82,11 @@ int main(int argc, char* argv[]) {
 	}
 	
 	//create new str to hold getline input
-	char* header = strcpy(header,line);
+	char* header = strdup(line);
 	free(line);	
 	line = NULL;
     
-    char* inputCol = strcpy(inputCol,argv[2]);
+    char* inputCol[30] = strcpy(inputCol,argv[2]);
     //evaluates the header,
     const char* headerEval = getHeader(header,inputCol,numFields);
     // if headerEval == null, then specified  arg doesnt 
