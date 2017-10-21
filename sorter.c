@@ -212,8 +212,7 @@ int main(int argc, char* argv[]) {
 					field = strdup(special);
 
 					*(special + strlen(special - 1)) = '\0';
-				    free(row);
-                    row = NULL;
+				    
 					}
 				}		
 				
@@ -232,7 +231,9 @@ int main(int argc, char* argv[]) {
 		bytes = getline(&line, &recordsize, stdin);
 		if (bytes != -1)
 			ptrrecords++;
-
+ 
+        row = free(row);
+        row = NULL;
 		
 	}//end while
 	
