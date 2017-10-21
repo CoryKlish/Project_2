@@ -145,7 +145,7 @@ int main(int argc, char* argv[]) {
 				printf("\nexpanded arSize\n");
 
 				//reallocate, move pointer to new memory location with more mem
-				allrecords = realloc(allrecords, arSize);
+				ptrrecords = realloc(allrecords, arSize);
 
 				
 				//If this does not work, there is no more memory left to allocate
@@ -232,9 +232,10 @@ int main(int argc, char* argv[]) {
 		if (bytes != -1)
 			ptrrecords++;
  
+        /*
         free(row);
         row = NULL;
-		
+		*/
 	}//end while
 	
 	
