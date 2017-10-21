@@ -219,6 +219,8 @@ int main(int argc, char* argv[]) {
 				//Based on the index, it allocates token to that field in the struct.
 
 				allocateToken(ptrrecords, field, i);
+                free(row);
+                row = NULL;
 		
 			}//end token loop
 				
