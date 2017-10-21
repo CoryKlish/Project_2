@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
 	
 	//First argument should be -mode, indicating what to analyze
 	//Since argv[0] is the executable, use argv[1]
-    char* inputmode = strdup(argv[1]);
+    char* inputmode = strcpy(inputMode,argv[1]);
  
 	
 	//Third argument is optional directory mode
@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
     char* dir;
     //if they pass more than -c and columnname
     if (argc > 3)
-        dir = strdup(argv[3]);
+        dir = strcpy(dir, argv[1]);
 	
 	//checking if first argument is legitimate
 	int len = strlen(inputmode);
@@ -81,11 +81,11 @@ int main(int argc, char* argv[]) {
 	}
 	
 	//create new str to hold getline input
-	char* header = strdup(line);
+	char* header = strcpy(header,line);
 	free(line);	
 	line = NULL;
     
-    char* inputCol = strdup(argv[2]);
+    char* inputCol = strcpy(inputCol,argv[2]);
     //evaluates the header,
     const char* headerEval = getHeader(header,inputCol,numFields);
     // if headerEval == null, then specified  arg doesnt 
@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
         printf("ERROR, argument %s is not in the file", inputCol);
         exit(0);
     }
-    char* sortType = strdup(headerEval);
+    char* sortType = strcpy(sortType,headerEval);
     printf("\n%s",sortType);
  
     
