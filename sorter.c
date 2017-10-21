@@ -86,9 +86,10 @@ int main(int argc, char* argv[]) {
 	free(line);	
 	line = NULL;
     
-    char* inputCol[30] = strcpy(inputCol,argv[2]);
+    char inputCol[30];
+    strcpy(inputCol,argv[2]);
     //evaluates the header,
-    const char* headerEval = getHeader(header,inputCol,numFields);
+    char* headerEval = getHeader(header,inputCol,numFields);
     // if headerEval == null, then specified  arg doesnt 
     // exist in the csv
     if (headerEval == NULL)
@@ -96,7 +97,7 @@ int main(int argc, char* argv[]) {
         printf("ERROR, argument %s is not in the file", inputCol);
         exit(0);
     }
-    char* sortType = strcpy(sortType,headerEval);
+    char* sortType = strdup(headerEval);
     printf("\n%s",sortType);
  
     
