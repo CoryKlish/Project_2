@@ -232,7 +232,7 @@ int main(int argc, char* argv[]) {
 		if (bytes != -1)
 			ptrrecords++;
  
-        row = free(row);
+        free(row);
         row = NULL;
 		
 	}//end while
