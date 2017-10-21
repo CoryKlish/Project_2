@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     char dir[3];
     //if they pass more than -c and columnname
     if (argc > 3)
-        dir = strncpy(dir, argv[1],3);
+        dir = strncpy(dir, argv[3],3);
 	
 	//checking if first argument is legitimate
 	int len = strlen(inputmode);
