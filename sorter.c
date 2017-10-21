@@ -145,11 +145,11 @@ int main(int argc, char* argv[]) {
 				printf("\nexpanded arSize\n");
 
 				//reallocate, move pointer to new memory location with more mem
-				allrecords = (Record*)realloc(allrecords, arSize);
+				newall = (Record*)realloc(allrecords, arSize);
 
 				
-				//If this does not work, there is no more memory left to allocate
-                ptrrecords = allrecords + (numRecords - 1);
+                //move ptrrecords to new memory location and pick up where it was in loop
+                ptrrecords = newall + (numRecords - 1);
 				if ( ptrrecords== NULL)
 				{
 					printf("Out of memory, exiting");
