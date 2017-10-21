@@ -83,7 +83,7 @@ static char* getHeader(char* header, char* colName, int* numFields)
     if (field == NULL)
 	{
 		printf("ERROR, no fields");
-        return NULL;
+        exit(0);
 	}
     //Just in case first column is the column to be sorted
 	if (strcmp(field, colName) == 0)
