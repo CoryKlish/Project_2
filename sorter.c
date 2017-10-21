@@ -99,11 +99,11 @@ int main(int argc, char* argv[]) {
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds initial 20000 records
 	struct Record * allrecords = 
-        (Record *)malloc(sizeof(Record) * 15000);
+        (Record *)malloc(sizeof(Record) * 5000);
 	//For reallocation
 	struct Record *newall = NULL;
 	//size of the records array in bytes
-	size_t arSize = 15000 * (sizeof(Record));
+	size_t arSize = 5000* (sizeof(Record));
 	//total bytes that accumulates after each getline
 	int totalbytes = 0;
     char* field;
@@ -135,27 +135,27 @@ int main(int argc, char* argv[]) {
 			
 
 			
-			/*
-			Creates segfault
+			
+		
 			//Check if total bytes goes over
 			if(totalbytes > arSize)
 			{
 				//Add 5000 to the number of input records
-				size_t newSize = (;
+				size_t newSize = arSize + (5000 * sizeof(Record));
 				printf("\nexpanded arSize\n");
 
 				//reallocate, move pointer to new memory location with more mem
-				newall = realloc(allrecords, arSize);
-				ptrrecords = newall;
+				allrecords = realloc(allrecords, arSize);
+
 				
 				//If this does not work, there is no more memory left to allocate
-				if (newall == NULL)
+				if ( ptrrecords== NULL)
 				{
 					printf("Out of memory, exiting");
 					exit(0);
 				}
 			}
-			*/
+			
 			
 			
 			//checks for a double quote in the row, which indicates there will be nested commas
@@ -265,12 +265,12 @@ char VerifyMode(char mode)
 	//If the mode == 'c' (first element in char* modes)
 	if (*(modes) == mode)
 	{
-		printf("\nThe sorter will organize by column");
+		
 		return 'c';
 	}
 	if (*(modes + 1) == mode)
 	{
-		printf("\nThe sorter will find a directory");
+		
 		return 'd';
 	}
 	//If a mode is entered that does not exist, return invalid char
