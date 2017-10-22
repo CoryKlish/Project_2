@@ -58,14 +58,6 @@ int main(int argc, char* argv[]) {
 	if(mode == 'x')
 		exit(0);
 //////////////////Parsing first line for column types and testing user input//////////////////////////////////////////////////
-	
-	/*
-		Make assumption that the first row is 200 chars
-		but this doesn't matter bc getline method 
-		expands the char* array if it needs to
-		
-		Use size_t (unsigned integer) bc it's part of getline param
-	*/
     int numFields = 0;
     int* numP = &numFields; 
 	size_t recordsize;
@@ -81,14 +73,13 @@ int main(int argc, char* argv[]) {
 	
 	//create new str to hold getline input
     len = strlen(line);
-    char* header = malloc(sizeof(char) * len);
-    header = strdup(line);
+ 
 
     
     char* inputCol = argv[2];
     //evaluates the header, assume size of 40
-    char* sortType = (char*)malloc(sizeof(char) * 40);
-    sortType = getHeader(header,inputCol,numP);
+    char* sortType = (char*)malloc(sizeof(char) * len);
+    sortType = getHeader(line,inputCol,numP);
 
     // if headerEval == null, then specified  arg doesnt 
     // exist in the csv
@@ -157,8 +148,7 @@ int main(int argc, char* argv[]) {
 				}
                 
                 
-			}
-			
+            }
 			
 			
 			//checks for a double quote in the row, which indicates there will be nested commas
