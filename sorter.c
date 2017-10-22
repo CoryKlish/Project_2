@@ -100,6 +100,12 @@ int main(int argc, char* argv[]) {
 
 	while (bytes != -1)
 	{
+		
+		//copy to row to free up the line var
+		char* row = malloc(sizeof(char) * strlen(line)); 
+        row = strdup(line);
+		free(line);
+		line = NULL;
 
 		if (bytes != -1)
 		{
@@ -131,7 +137,7 @@ int main(int argc, char* argv[]) {
 ////////////////////////////////////end realloc section
 			
 			//checks for a double quote in the row, which indicates there will be nested commas
-			char * check = strstr(line,"\"");
+			char * check = strstr(row,"\"");
 			//If double quotes are present,
 			char * qchecker;
 			int i;			
@@ -141,10 +147,7 @@ int main(int argc, char* argv[]) {
 			{	
 
 				//get a field
-				field = strsep(&line,",");
-			
-				
-				
+				field = strsep(&row,",");
 				//If there is a quote in this line
 				if (check != NULL)
 				{
@@ -169,7 +172,7 @@ int main(int argc, char* argv[]) {
 							//rather than considering the other nested commas to be other fields
 							if (*(qchecker) == ',')
 							{
-								field = strsep(&line,",");
+								field = strsep(&row,",");
 							}
 							
 							//add to the special str and move ptr
@@ -179,7 +182,7 @@ int main(int argc, char* argv[]) {
 						}
 
 					//get field to get the comma next to the quote out
-					field = strsep(&line,",");
+					field = strsep(&row,",");
 					//duplicate special str into field
 					field = strdup(special);
 
@@ -194,12 +197,20 @@ int main(int argc, char* argv[]) {
                 
 		
 			}//end token loop
+				
+			
+
 		}//end if bytes != -1
 		
 	//get next line, move pointer of records over
 		bytes = getline(&line, &recordsize, stdin);
 		if (bytes != -1)
 			ptrrecords++;
+ 
+        /*
+        free(row);
+        row = NULL;
+		*/
 	}//end while
 	
 	
