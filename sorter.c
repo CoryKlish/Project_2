@@ -81,14 +81,8 @@ int main(int argc, char* argv[]) {
     char* sortType = (char*)malloc(sizeof(char) * len);
     sortType = getSortType(line,inputCol,numP);
 
-    // if headerEval == null, then specified  arg doesnt 
-    // exist in the csv
-
-  
- 
-    
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
-	//holds initial 20000 records
+	//holds initial 5000 records
 	struct Record * allrecords = 
         (Record *)malloc(sizeof(Record) * 5000);
 	//size of the records array in bytes
@@ -104,15 +98,8 @@ int main(int argc, char* argv[]) {
 	//jumpstart the loop
 	bytes = getline(&line, &recordsize, stdin);	
 
-
 	while (bytes != -1)
 	{
-		
-		//copy to row to free up the line var
-		char* row = malloc(sizeof(char) * strlen(line)); 
-        row = strdup(line);
-		free(line);
-		line = NULL;
 
 		if (bytes != -1)
 		{
@@ -121,24 +108,17 @@ int main(int argc, char* argv[]) {
 			numRecords++;
 			//Add to total amount of bytes
 			totalbytes += sizeof(Record);
-			
 
-			
-			
-		
+//////////////////////////////////mem realloc if go over		
 			//Check if total bytes goes over
 			if(totalbytes > arSize)
 			{
 				//Add 5000 to the number of input records
 				arSize = arSize + (5000 * sizeof(Record));
-			
-                
-
 
 				//reallocate, move pointer to new memory location with more mem
 				allrecords = (Record*)realloc(allrecords, arSize);
 
-				
 				//If this does not work, there is no more memory left to allocate
                 ptrrecords = allrecords + (numRecords - 1);
 				if ( ptrrecords== NULL)
@@ -146,13 +126,12 @@ int main(int argc, char* argv[]) {
 					printf("Out of memory, exiting");
 					exit(0);
 				}
-                
-                
+
             }
-			
+////////////////////////////////////end realloc section
 			
 			//checks for a double quote in the row, which indicates there will be nested commas
-			char * check = strstr(row,"\"");
+			char * check = strstr(line,"\"");
 			//If double quotes are present,
 			char * qchecker;
 			int i;			
@@ -162,7 +141,7 @@ int main(int argc, char* argv[]) {
 			{	
 
 				//get a field
-				field = strsep(&row,",");
+				field = strsep(&line,",");
 			
 				
 				
@@ -190,7 +169,7 @@ int main(int argc, char* argv[]) {
 							//rather than considering the other nested commas to be other fields
 							if (*(qchecker) == ',')
 							{
-								field = strsep(&row,",");
+								field = strsep(&line,",");
 							}
 							
 							//add to the special str and move ptr
@@ -200,7 +179,7 @@ int main(int argc, char* argv[]) {
 						}
 
 					//get field to get the comma next to the quote out
-					field = strsep(&row,",");
+					field = strsep(&line,",");
 					//duplicate special str into field
 					field = strdup(special);
 
@@ -215,20 +194,12 @@ int main(int argc, char* argv[]) {
                 
 		
 			}//end token loop
-				
-			
-
 		}//end if bytes != -1
 		
 	//get next line, move pointer of records over
 		bytes = getline(&line, &recordsize, stdin);
 		if (bytes != -1)
 			ptrrecords++;
- 
-        /*
-        free(row);
-        row = NULL;
-		*/
 	}//end while
 	
 	
