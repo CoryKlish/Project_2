@@ -131,7 +131,7 @@ int main(int argc, char* argv[]) {
 			{
 				//Add 5000 to the number of input records
 				arSize = arSize + (5000 * sizeof(Record));
-				printf("\nexpanded arSize\n");
+			
                 
 
 
