@@ -79,7 +79,7 @@ int main(int argc, char* argv[]) {
     char* inputCol = argv[2];
     //evaluates the header, assume size of 40
     char* sortType = (char*)malloc(sizeof(char) * len);
-    sortType = getHeader(line,inputCol,numP);
+    sortType = getSortType(line,inputCol,numP);
 
     // if headerEval == null, then specified  arg doesnt 
     // exist in the csv
