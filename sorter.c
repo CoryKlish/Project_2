@@ -187,6 +187,7 @@ int main(int argc, char* argv[]) {
                     while(commacounter + 1 != 0)
                     {
                         field = strsep(&row,",");
+                        commacounter -=1;
                     }
 	
 					//duplicate special str into field
