@@ -140,7 +140,7 @@ int main(int argc, char* argv[]) {
 			char * check = strstr(row,"\"");
 			//If double quotes are present,
 			char * qchecker;
-			int i;			
+			int i,commacounter = 0;			
 	
 			//get tokens in the line
 			for(i = 0; i < numFields + 1;i++)
@@ -165,24 +165,30 @@ int main(int argc, char* argv[]) {
 					
 						//Read everything but the "
 						//while (*(qchecker) != '"')
-						while (*(qchecker) != '\"')						
+						while (*(qchecker) != '\"')	
 						{
 							//If the character is a comma, be sure to move the token ptr along with it
 							//mainly so that the tokenizer keeps up with the correct field
 							//rather than considering the other nested commas to be other fields
 							if (*(qchecker) == ',')
 							{
-								field = strsep(&row,",");
+								commacounter += 1;
 							}
 							
 							//add to the special str and move ptr
-							special = strncat(special,qchecker,1);				
+							special = strncat(special,qchecker,1);
 							qchecker++;							
-
 						}
 
-					//get field to get the comma next to the quote out
-					field = strsep(&row,",");
+                    //based on the number of commas in the 
+                    //field, we skip over that many nested
+                        //commas + 1 to get over the commas
+                        //after the field
+                    while(commacounter + 1 != 0)
+                    {
+                        field = strsep(&row,",");
+                    }
+	
 					//duplicate special str into field
 					field = strdup(special);
 
@@ -192,14 +198,8 @@ int main(int argc, char* argv[]) {
 				}		
 				
 				//Based on the index, it allocates token to that field in the struct.
-
 				allocateToken(ptrrecords, field, i);
-                
-		
 			}//end token loop
-				
-			
-
 		}//end if bytes != -1
 		
 	//get next line, move pointer of records over
