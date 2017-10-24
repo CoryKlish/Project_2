@@ -21,7 +21,6 @@ int main(int argc, char* argv[]) {
 	//Third argument is the -d symbol
     //Fifth argument is the -o symbo
     //Fifth Designates OUTPUT directory
-    
     char inputmode = VerifyMode(argv[1]);
     
     if (argc-1 > 2)
@@ -29,7 +28,12 @@ int main(int argc, char* argv[]) {
         char dir = VerifyMode(argv[3]);
         if (dir == 'x')
         {
-            printf("\nInput Dir command not recognized, exiting");
+            printf("\nInput Dir command not recognized, exiting\n");
+            exit(0);
+        }
+        if (argv[4] == NULL)
+        {
+            printf("\nNo input directory specified, exiting\n");
             exit(0);
         }
     }
@@ -39,17 +43,17 @@ int main(int argc, char* argv[]) {
         char out = VerifyMode(argv[5]);
         if (out == 'x')
         {
-            printf("\nOutput Dir command not recognized, exiting");
+            printf("\nOutput Dir command not recognized, exiting\n");
             exit(0);
         }
-    }
-    
-    
-	
-	
+        if (argv[6] == NULL)
+        {
+            printf("\nNo output directory specified, exiting\n");
+            exit(0);
+        }
+    }	
 //////////////////Parsing first line for column types and testing user input//////////////////////////////////////////////////
- 
-    
+
     //recordsize and line both for getline method
 	size_t recordsize;
 	char* line = NULL;
@@ -60,14 +64,13 @@ int main(int argc, char* argv[]) {
 		printf("\nEOF, ending program");
 		exit(0);
 	}
-	
 	//create new str to hold getline input
     int len = strlen(line);
- 
-
+    
     //getSortType updates the number of fields, need a ptr to them
     int numFields = 0;
     int* numP = &numFields; 
+    
     //Validate user input (inputcol) against columns in the given csv
     char* inputCol = argv[2];
     char* sortType = (char*)malloc(sizeof(char) * len);
