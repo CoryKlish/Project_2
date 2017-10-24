@@ -24,6 +24,7 @@ int main(int argc, char* argv[]) {
     //Fifth argument is the -o symbo
     //Fifth Designates OUTPUT directory
     char inputmode = VerifyMode(argv[1]);
+    int dirlen, outlen;
     char dir,out;
     char* inDir, outDir;
     
@@ -40,7 +41,11 @@ int main(int argc, char* argv[]) {
             printf("\nNo input directory specified, exiting\n");
             exit(0);
         }
-        strcpy(inDir,argv[4]);
+        //get length of the directory field
+        dirlen = strlen(argv[4]);
+        inDir = malloc (sizeof(char) * dirlen);
+        //duplicate into dir
+        inDir = strdup(argv[4]);
     }
     
     if (argc-1 > 4)
@@ -56,7 +61,9 @@ int main(int argc, char* argv[]) {
             printf("\nNo output directory specified, exiting\n");
             exit(0);
         }
-        strcpy(outDir,argv[6]);
+        outlen = strlen(argv[6]);
+        outDir = malloc(sizeof(char) * outlen);
+        outDir = strdup(argv[6]);
     }	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
