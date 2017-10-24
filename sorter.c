@@ -72,6 +72,10 @@ int main(int argc, char* argv[]) {
     //evaluates the header, assume size of 40
     char* sortType = (char*)malloc(sizeof(char) * len);
     sortType = getSortType(line,inputCol,numP);
+    
+    int numRecords = 0;
+    int* pNumRecords = &numRecords;
+    Record* allrecords = createTable(pNumRecords,numFields); 
 
 
     

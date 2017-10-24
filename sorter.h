@@ -50,6 +50,7 @@ static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
 static void printStructs(Record list[], int numStructs);
 char VerifyMode(char mode);
+Record* createTable(int* pNumRecords,int numFields);
 void mergeNum(Record list[], int left, int mid, int right,char* sortType);
 void sortNum(Record list[], int left, int right,char* sortType);
 void sortString(Record strArr[], int lo, int hi,char* sortType);
