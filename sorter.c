@@ -26,7 +26,8 @@ int main(int argc, char* argv[]) {
     char inputmode = VerifyMode(argv[1]);
     int dirlen, outlen;
     char dir,out;
-    char* inDir, outDir;
+    char* inDir;
+    char* outDir;
     
     if (argc-1 > 2)
     {
