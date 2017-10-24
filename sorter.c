@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
             printf("\nNo input directory specified, exiting\n");
             exit(0);
         }
-        inDir = strcpy(argv[4],inDir);
+        inDir = strcpy(inDir,argv[4]);
     }
     
     if (argc-1 > 4)
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
             printf("\nNo output directory specified, exiting\n");
             exit(0);
         }
-        outDir = strcpy(argv[6], outDir);
+        outDir = strcpy(outDir,argv[6]);
     }	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
