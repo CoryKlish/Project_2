@@ -24,10 +24,12 @@ int main(int argc, char* argv[]) {
     //Fifth argument is the -o symbo
     //Fifth Designates OUTPUT directory
     char inputmode = VerifyMode(argv[1]);
+    char dir,out;
+    char* inDir, outDir;
     
     if (argc-1 > 2)
     {
-        char dir = VerifyMode(argv[3]);
+        dir = VerifyMode(argv[3]);
         if (dir == 'x')
         {
             printf("\nInput Dir command not recognized, exiting\n");
@@ -38,11 +40,12 @@ int main(int argc, char* argv[]) {
             printf("\nNo input directory specified, exiting\n");
             exit(0);
         }
+        inDir = strdup(argv[4]);
     }
     
     if (argc-1 > 4)
     {
-        char out = VerifyMode(argv[5]);
+        out = VerifyMode(argv[5]);
         if (out == 'x')
         {
             printf("\nOutput Dir command not recognized, exiting\n");
@@ -53,10 +56,12 @@ int main(int argc, char* argv[]) {
             printf("\nNo output directory specified, exiting\n");
             exit(0);
         }
+        outDir = strdup(argv[6]);
     }	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
-    if (dir == NULL)
+////////////////////////Stdin sort///////////////////////////////////////////////////////////////////////////////////
+    if (argc-1 == 2)
     {
         //recordsize and line both for getline method
         size_t recordsize;
@@ -88,7 +93,13 @@ int main(int argc, char* argv[]) {
 
         return 0;
     }
-	
+ 
+//////////////////////////////////////////// end stdin sort///////////////////////////////////////////////////////////////
+    
+////////////////////////////////////////////.csv file sort///////////////////////////
+    DIR * pDir = opendir(inDir);
+    struct dirent * entry
+    
 	
 }//End main
 
