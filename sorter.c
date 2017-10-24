@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
     if (argc-1 > 4)
     {
         char out = VerifyMode(argv[5]);
-        if (dir == 'x')
+        if (out == 'x')
         {
             printf("\nOutput Directory not recognized, exiting");
             exit(0);
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
 	}
 	
 	//create new str to hold getline input
-    len = strlen(line);
+    int len = strlen(line);
  
 
     //getSortType updates the number of fields, need a ptr to them
