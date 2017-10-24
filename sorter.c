@@ -22,12 +22,12 @@ int main(int argc, char* argv[]) {
     //Fifth argument is the -o symbo
     //Fifth Designates OUTPUT directory
     
-    char* inputmode = VerifyMode(argv[1]);
+    char inputmode = VerifyMode(argv[1]);
     
     if (argc-1 > 2)
     {
-        char* dir = VerifyMode(argv[3]);
-        if (*dir == 'x')
+        char dir = VerifyMode(argv[3]);
+        if (dir == 'x')
         {
             printf("\nInput Directory not recognized, exiting");
             exit(0);
@@ -36,8 +36,8 @@ int main(int argc, char* argv[]) {
     
     if (argc-1 > 4)
     {
-        char* out = VerifyMode(argv[5]);
-        if (*dir == 'x')
+        char out = VerifyMode(argv[5]);
+        if (dir == 'x')
         {
             printf("\nOutput Directory not recognized, exiting");
             exit(0);
