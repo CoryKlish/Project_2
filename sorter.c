@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
             printf("\nNo output directory specified, exiting\n");
             exit(0);
         }
-        outDir = strcpy(argv[6], outdir);
+        outDir = strcpy(argv[6], outDir);
     }	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
