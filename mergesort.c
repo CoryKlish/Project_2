@@ -15,6 +15,7 @@ Record* createTable(int* pNumRecords, int numFields)
 	int totalbytes = 0;
     char* field;
     char* line = NULL;
+    size_t recordsize;
 
 	
 	//ptr for indexing struct
@@ -37,7 +38,7 @@ Record* createTable(int* pNumRecords, int numFields)
 		{
 
 			//increase count of records
-			numRecords++;
+			*pNumRecords += 1;
 			//Add to total amount of bytes
 			totalbytes += sizeof(Record);
 
@@ -52,7 +53,7 @@ Record* createTable(int* pNumRecords, int numFields)
 				allrecords = (Record*)realloc(allrecords, arSize);
 
 				//If this does not work, there is no more memory left to allocate
-                ptrrecords = allrecords + (numRecords - 1);
+                ptrrecords = allrecords + (*pNumRecords - 1);
 				if ( ptrrecords== NULL)
 				{
 					printf("Out of memory, exiting");
