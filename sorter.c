@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
         char dir = VerifyMode(argv[3]);
         if (dir == 'x')
         {
-            printf("\nInput Directory not recognized, exiting");
+            printf("\nInput Dir command not recognized, exiting");
             exit(0);
         }
     }
@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
         char out = VerifyMode(argv[5]);
         if (out == 'x')
         {
-            printf("\nOutput Directory not recognized, exiting");
+            printf("\nOutput Dir command not recognized, exiting");
             exit(0);
         }
     }
