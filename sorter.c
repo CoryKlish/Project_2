@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
         dirlen = strlen(argv[4]);
         char indir[dirlen];
         //duplicate into dir
-        inDir = strcpy(inDir,argv[4]);
+        strcpy(inDir,argv[4]);
     }
     
     if (argc-1 > 4)
@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
         
         outlen = strlen(argv[6]);
         char outDir[outlen];
-        outDir = strcpy(outDir,argv[6]);
+        strcpy(outDir,argv[6]);
     }	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
