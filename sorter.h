@@ -47,10 +47,11 @@ typedef struct Record{
 
 static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
+static void sort (char* sortType, int numStructs, Record*);
+static void printStructs(Record list[], int numStructs);
 char VerifyMode(char mode);
 void mergeNum(Record list[], int left, int mid, int right,char* sortType);
 void sortNum(Record list[], int left, int right,char* sortType);
-static void printStructs(Record list[], int numStructs);
 void sortString(Record strArr[], int lo, int hi,char* sortType);
 void mergeString(Record strArr[], int lo, int mid, int hi,char* sortType);
 
@@ -282,4 +283,24 @@ static void printStructs(Record list[], int numStructs){
 		list[i].movie_facebook_likes);
 	}
 }
+
+//if the type is a string, the use the string sort
+static void sort (char* sortType, int numStructs, Record* allrecords)
+{
+	if ((strcmp(sortType,"color") == 0)||(strcmp(sortType,"director_name")== 0)||(strcmp(sortType,"actor_name_2")== 0)||(strcmp(sortType,"genres")== 0)||(strcmp(sortType,"actor_1_name")== 0)||(strcmp(sortType,"movie_title")== 0)||(strcmp(sortType,"actor_3_name")== 0)||(strcmp(sortType,"plot_keywords")== 0)||(strcmp(sortType,"movie_imdb_link")== 0)||(strcmp(sortType,"language")== 0)||(strcmp(sortType,"country")== 0)||(strcmp(sortType,"content_rating")== 0))
+	  {
+	    sortString(allrecords, 0, numStructs - 1,sortType);
+
+	  }
+	//Otherwise, use the numsort		
+    else
+	{
+	   sortNum(allrecords, 0, numStructs - 1,sortType);
+    }
+
+  
+	
+    printStructs(allrecords, numStructs);
+}//End mergesort function
+	
 
