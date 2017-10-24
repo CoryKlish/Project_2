@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     char inputmode = VerifyMode(argv[1]);
     int dirlen, outlen;
     char dir,out;
-    
+    char* inDir, outDir;
     
     if (argc-1 > 2)
     {
@@ -44,9 +44,9 @@ int main(int argc, char* argv[]) {
         
         //get length of the directory field
         dirlen = strlen(argv[4]);
-        char inDir[dirlen];
+        inDir = (char*)malloc (sizeof(char) * dirlen);
         //duplicate into dir
-        strcpy(inDir,argv[4]);
+        inDir = strdup(argv[4]);
     }
     
     if (argc-1 > 4)
@@ -64,8 +64,8 @@ int main(int argc, char* argv[]) {
         }
         
         outlen = strlen(argv[6]);
-        char outDir[outlen];
-        strcpy(outDir,argv[6]);
+        outDir = (char*)malloc(sizeof(char) * outlen);
+        outDir = strdup(argv[6]);
     }	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
