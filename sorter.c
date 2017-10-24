@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
         
         //get length of the directory field
         dirlen = strlen(argv[4]);
-        char indir[dirlen];
+        char inDir[dirlen];
         //duplicate into dir
         strcpy(inDir,argv[4]);
     }
