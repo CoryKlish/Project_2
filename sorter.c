@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
             printf("\nNo input directory specified, exiting\n");
             exit(0);
         }
-        inDir = strdup(argv[4]);
+        inDir = strcpy(argv[4],inDir);
     }
     
     if (argc-1 > 4)
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
             printf("\nNo output directory specified, exiting\n");
             exit(0);
         }
-        outDir = strdup(argv[6]);
+        outDir = strcpy(argv[6], outdir);
     }	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
     
 ////////////////////////////////////////////.csv file sort///////////////////////////
     DIR * pDir = opendir(inDir);
-    struct dirent * entry
+    struct dirent * entry;
     
 	
 }//End main
