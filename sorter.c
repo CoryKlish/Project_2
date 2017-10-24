@@ -88,7 +88,8 @@ char VerifyMode(char* mode)
 {
     //list of possible modes in a char*
     const char* modes = "cdo";
-    char vmode = NULL;
+    //by default, vmode is a non-valid mode
+    char vmode = 'x';
     //for looping through the modes
     int modeLen = strlen(modes);
     int len = strlen(mode);
@@ -104,9 +105,6 @@ char VerifyMode(char* mode)
         if(*(mode+1) == *(modes + i))
             vmode = (*(modes + i));
     }
-    
-    if (vmode == NULL)
-        vmode = 'x';
     
     return vmode;
 }//End VerifyMode function
