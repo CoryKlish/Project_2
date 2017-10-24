@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
         }
         //get length of the directory field
         dirlen = strlen(argv[4]);
-        inDir = malloc (sizeof(char) * dirlen);
+        inDir = (char*)malloc (sizeof(char) * dirlen);
         //duplicate into dir
         inDir = strdup(argv[4]);
     }
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
             exit(0);
         }
         outlen = strlen(argv[6]);
-        outDir = malloc(sizeof(char) * outlen);
+        outDir = (char*)malloc(sizeof(char) * outlen);
         outDir = strdup(argv[6]);
     }	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
