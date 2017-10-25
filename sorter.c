@@ -145,7 +145,7 @@ char VerifyMode(char* mode)
 
 DIR* getDirectory(char* path)
 {
-    if (dir == NULL)
+    if (path == NULL)
     {
         printf("\nNo Directory given");
         exit(0);
