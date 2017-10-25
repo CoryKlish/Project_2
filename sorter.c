@@ -147,7 +147,7 @@ DIR* getDirectory(char* path)
 {
     if (dir == NULL)
     {
-        printf("\nDirectory not found, ending");
+        printf("\nNo Directory given");
         exit(0);
     }
     
