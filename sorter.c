@@ -148,7 +148,7 @@ char VerifyMode(char* mode)
 
 DIR* getDirectory(char* path)
 {
-     DIR* dir =  (DIR*)openDir(path);
+     DIR* dir =  (DIR*)opendir(path);
     if (dir == NULL)
     {
         printf("\nDirectory not found, ending");
