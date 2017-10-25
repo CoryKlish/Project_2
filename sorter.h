@@ -5,7 +5,7 @@
 *
 *
 ******/
-
+#include <dirent.h>
 
 
 
@@ -50,6 +50,7 @@ static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
 static void printStructs(Record list[], int numStructs);
 DIR* getDirectory(char* path);
+DIR* processDirectory(DIR* directory)
 char VerifyMode(char* mode);
 Record* createTable(int* pNumRecords,int numFields);
 void mergeNum(Record list[], int left, int mid, int right,char* sortType);
