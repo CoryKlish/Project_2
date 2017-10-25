@@ -113,6 +113,7 @@ int main(int argc, char* argv[]) {
     //process the input directory
     DIR * pDir = getDirectory(inDir);
     
+    
 
     
     
