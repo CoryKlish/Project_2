@@ -48,6 +48,9 @@ int main(int argc, char* argv[]) {
     }
     
     if (argc-1 > 4)
+
+ 
+
     {
         out = VerifyMode(argv[5]);
         if (out == 'x')
@@ -59,8 +62,10 @@ int main(int argc, char* argv[]) {
         {
             printf("\nNo output directory specified, exiting\n");
             exit(0);
+
+ 
+
         }
-        
         outDir = argv[6];
     }	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
@@ -70,6 +75,9 @@ int main(int argc, char* argv[]) {
     {
         //recordsize and line both for getline method
         size_t recordsize;
+
+ 
+
         char* line = NULL;
         size_t bytes = getline(&line, &recordsize, stdin);
 
@@ -102,8 +110,12 @@ int main(int argc, char* argv[]) {
 //////////////////////////////////////////// end stdin sort///////////////////////////////////////////////////////////////
     
 ////////////////////////////////////////////.csv file sort///////////////////////////
-    DIR * pDir = opendir(inDir);
-    struct dirent * entry;
+    //process the input directory
+    DIR * pDir = getDirectory(inDir);
+    
+
+    
+    
     
 	
 }//End main
@@ -130,5 +142,17 @@ char VerifyMode(char* mode)
             vmode = (*(modes + i));
     }
     
-    return vmode;
+    return vmode;               
 }//End VerifyMode function
+
+DIR* getDirectory(char* path)
+{
+     DIR* dir =  openDir(path);
+    if (dir == NULL)
+    {
+        printf("\nDirectory not found, ending");
+        exit(0);
+    }
+    return dir;
+   
+}
