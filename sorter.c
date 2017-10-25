@@ -111,12 +111,9 @@ int main(int argc, char* argv[]) {
     
 ////////////////////////////////////////////.csv file sort///////////////////////////
     //process the input directory
+    
     DIR * pDir = getDirectory(inDir);
-    
-    
-
-    
-    
+    DIR* newDir = processDirectory(inDir);
     
 	
 }//End main
@@ -148,12 +145,25 @@ char VerifyMode(char* mode)
 
 DIR* getDirectory(char* path)
 {
-     DIR* dir =  (DIR*)opendir(path);
     if (dir == NULL)
     {
         printf("\nDirectory not found, ending");
         exit(0);
     }
+    
+    //verifying that the path passed is actually a directory
+    struct stat buffer;
+    //get infomation about the path, put into a buffer
+    stat(inDir,&buffer);
+    if (!(S_ISDIR(buffer.st_mode)))
+    {
+        printf("\nThe path passed to directory option NOT a directory\n");
+        exit(0);
+    }
+    
+    //otherwise, it is legit
+     DIR* dir =  (DIR*)opendir(path);
+    
     return dir;
    
 }

@@ -3,6 +3,29 @@
 #include <string.h>
 #include "sorter.h"
 
+/////////////////////////////////////////////////////////////Processing Directory method/////////////////////////////////////////////
+/*
+DIR* processDirectory(DIR* directory)
+{
+    struct dirent* entry;
+    while ((entry =  readdir(directory)) != NULL)
+    {
+        if (entry -> d_type == DT_REG)//if entry = regular file
+        {
+            /* process the file*/
+        }
+        
+    }
+    
+
+}//End processDirectory function
+*/
+    
+    
+/*
+Takes records from the csv one at a time from STDIN
+and places the fields under the correct header.
+*/
 Record* createTable(int* pNumRecords, int numFields)
 {
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////

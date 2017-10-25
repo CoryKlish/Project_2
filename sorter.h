@@ -59,6 +59,7 @@ void sortString(Record strArr[], int lo, int hi,char* sortType);
 void mergeString(Record strArr[], int lo, int mid, int hi,char* sortType);
 
 
+
 //Large helper function: getHeader
 /*
 Params:
