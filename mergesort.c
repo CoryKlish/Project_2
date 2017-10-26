@@ -104,6 +104,7 @@ Record* createTable(int* pNumRecords, int numFields)
 			//If double quotes are present,
 			char * qchecker;
 			int i,commacounter = 0;			
+            char* pField;
 	
 			//get tokens in the line
 			for(i = 0; i < numFields + 1;i++)
@@ -116,11 +117,16 @@ Record* createTable(int* pNumRecords, int numFields)
 				{
 					//set qchecker to field to check for quote
 					qchecker = check;
+                    
 					//If there is a quote in the beginning of the field, this is string with " we checked for earlier 
 					//then we can replace field with the 'special' var that contains contains the field
 					//within the double quotes.
+                    
 					if (*(field) == '"')
 					{
+                        //put pField to character after the \"
+                        pField = field + 1;
+                        /*
 						//create new char array
 						char* special = (char*)calloc(strlen(qchecker),sizeof(char));
 						// move the ptr to the next char after the initial "
@@ -152,15 +158,18 @@ Record* createTable(int* pNumRecords, int numFields)
                         field = strsep(&row,",");
                         commacounter -=1;
                     }
+                    */
+                    pField = strsep(&row,"\"");
 	
+                    
 					//duplicate special str into field
-					field = strdup(special);
+					field = strdup(pField);
 
-					*(special + strlen(special - 1)) = '\0';
+					//*(special + strlen(special - 1)) = '\0';
 				    
 					}
 				}		
-				
+				*/
 				//Based on the index, it allocates token to that field in the struct.
 				allocateToken(ptrrecords, field, i);
 			}//end token loop
