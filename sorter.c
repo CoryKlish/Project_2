@@ -114,8 +114,8 @@ int main(int argc, char* argv[]) {
 ////////////////////////////////////////////.csv file sort///////////////////////////
     //process the input directory
     
-    struct DIR * pDir = getDirectory(inDir);
-    struct DIR* newDir = processDirectory(pDir);
+     DIR * pDir = getDirectory(inDir);
+     DIR* newDir = processDirectory(pDir);
     
 	
 }//End main
@@ -145,7 +145,7 @@ char VerifyMode(char* mode)
     return vmode;               
 }//End VerifyMode function
 
-static struct DIR* getDirectory(char* path)
+static  DIR* getDirectory(char* path)
 {
     if (path == NULL)
     {
@@ -164,7 +164,7 @@ static struct DIR* getDirectory(char* path)
     }
     
     //otherwise, it is legit
-     struct DIR* dir =  opendir(path);
+    DIR* dir =  opendir(path);
     
     return dir;
    

@@ -5,9 +5,9 @@
 
 /////////////////////////////////////////////////////////////Processing Directory method/////////////////////////////////////////////
 
-struct DIR* processDirectory(struct DIR* directory)
+ DIR* processDirectory( DIR* directory)
 {
-    struct dirent* entry;
+     dirent* entry;
     char* csv = ".csv";
     while ((entry =  readdir(directory)) != NULL)
     {
