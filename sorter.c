@@ -113,7 +113,7 @@ int main(int argc, char* argv[]) {
     //process the input directory
     
     struct DIR * pDir = getDirectory(inDir);
-    struct DIR* newDir = processDirectory(inDir);
+    struct DIR* newDir = processDirectory(pDir);
     
 	
 }//End main
@@ -162,7 +162,7 @@ static struct DIR* getDirectory(char* path)
     }
     
     //otherwise, it is legit
-     DIR* dir =  (DIR*)opendir(path);
+     struct DIR* dir =  (DIR*)opendir(path);
     
     return dir;
    
