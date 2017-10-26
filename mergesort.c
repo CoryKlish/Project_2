@@ -4,22 +4,33 @@
 #include "sorter.h"
 
 /////////////////////////////////////////////////////////////Processing Directory method/////////////////////////////////////////////
-/*
-DIR* processDirectory(DIR* directory)
+
+struct DIR* processDirectory(DIR* directory)
 {
     struct dirent* entry;
+    char* csv = ".csv";
     while ((entry =  readdir(directory)) != NULL)
     {
         if (entry -> d_type == DT_REG)//if entry = regular file
         {
-            /* process the file*/
+            //pointer to the filename
+            char* fileName = (entry->d_name)
+            //create index that points to the 
+            char* fileext = strstr(fileName, csv);
+            if (fileext != NULL)
+            {
+                printf("\ncsv recognized.\n");
+                  /* process the file*/
+            }
+          
         }
+        
         
     }
     
 
 }//End processDirectory function
-*/
+
     
     
 /*
