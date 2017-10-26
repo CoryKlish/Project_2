@@ -14,7 +14,7 @@ struct DIR* processDirectory(DIR* directory)
         if (entry -> d_type == DT_REG)//if entry = regular file
         {
             //pointer to the filename
-            char* fileName = (entry->d_name)
+            char* fileName = (entry->d_name);
             //create index that points to the 
             char* fileext = strstr(fileName, csv);
             if (fileext != NULL)
