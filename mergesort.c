@@ -162,7 +162,7 @@ Record* createTable(int* pNumRecords, int numFields)
 				allocateToken(ptrrecords, field, i);
                 while(commacounter + 1 != 0)
                 {
-                    field = strsep(&row,",");
+                    strsep(&row,",");
                     commacounter -=1;
                 }
 			}//end token loop
