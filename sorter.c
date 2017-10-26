@@ -112,8 +112,8 @@ int main(int argc, char* argv[]) {
 ////////////////////////////////////////////.csv file sort///////////////////////////
     //process the input directory
     
-    DIR * pDir = getDirectory(inDir);
-    DIR* newDir = processDirectory(inDir);
+    struct DIR * pDir = getDirectory(inDir);
+    struct DIR* newDir = processDirectory(inDir);
     
 	
 }//End main
