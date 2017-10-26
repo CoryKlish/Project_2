@@ -9,7 +9,7 @@
 
  DIR* processDirectory( DIR* directory)
 {
-     dirent* entry;
+    dirent* entry;
     char* csv = ".csv";
     while ((entry =  readdir(directory)) != NULL)
     {
