@@ -44,7 +44,8 @@ int main(int argc, char* argv[]) {
         }
         
         //get length of the directory field
-        inDir = argv[4];
+        inDir = malloc(sizeof(char) * (strlen (argv[4])));
+        inDir = strdup(argv[4]);
     }
     
     if (argc-1 > 4)
@@ -66,7 +67,8 @@ int main(int argc, char* argv[]) {
  
 
         }
-        outDir = argv[6];
+        outDir = malloc(sizeof(char) * (strlen(argv[6])));
+        outDir = strdup(argv[6]);
     }	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
