@@ -7,7 +7,7 @@
 
 /////////////////////////////////////////////////////////////Processing Directory method/////////////////////////////////////////////
 
- DIR* processDirectory( DIR* directory)
+DIR* processDirectory( DIR* directory)
 {
     struct dirent* entry;
     char* csv = ".csv";
@@ -16,6 +16,7 @@
         if (entry -> d_type == DT_DIR)
         {
             DIR* newdir = getDirectory(entry->d_name); 
+            printf("%s\n",(entry -> d_name));
             /* fork() to process the directory*/
         }
         if (entry -> d_type == DT_REG)//if entry = regular file
