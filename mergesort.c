@@ -46,7 +46,7 @@ DIR* processDirectory( DIR* directory)
 Takes records from the csv one at a time from STDIN
 and places the fields under the correct header.
 */
-Record* createTable(int* pNumRecords, int numFields)
+Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 {
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds initial 5000 records
@@ -66,8 +66,14 @@ Record* createTable(int* pNumRecords, int numFields)
 
 
 	//jumpstart the loop
-	size_t bytes = getline(&line, &recordsize, stdin);	
-
+	if(fp == NULL){
+		size_t bytes = getline(&line, &recordsize, stdin);	
+	}
+	else
+	{
+		size_t bytes = getline(&line, &recordsize, fp);
+	}
+	
 	while (bytes != -1)
 	{
 		
@@ -179,7 +185,13 @@ Record* createTable(int* pNumRecords, int numFields)
 		}//end if bytes != -1
 		
 	//get next line, move pointer of records over
-		bytes = getline(&line, &recordsize, stdin);
+		if(fp == NULL){
+			bytes = getline(&line, &recordsize, stdin);
+		}
+		else
+		{
+			bytes = getline(&line, &recordsize, fp);
+		}
 		if (bytes != -1)
 			ptrrecords++;
  

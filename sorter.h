@@ -52,7 +52,7 @@ static void printStructs(Record list[], int numStructs);
 DIR* getDirectory(char* path);
 DIR* processDirectory( DIR* directory);
 char VerifyMode(char* mode);
-Record* createTable(int* pNumRecords,int numFields);
+Record* createTable(int* pNumRecords,int numFields, FILE *fp);
 void mergeNum(Record list[], int left, int mid, int right,char* sortType);
 void sortNum(Record list[], int left, int right,char* sortType);
 void sortString(Record strArr[], int lo, int hi,char* sortType);
@@ -306,5 +306,3 @@ static void sort (char* sortType, int numStructs, Record* allrecords)
 	
     printStructs(allrecords, numStructs);
 }//End mergesort function
-	
-

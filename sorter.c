@@ -1,13 +1,14 @@
 //Joshua Pineda
 //Cory Klish
 
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include "sorter.h"
+
 int main(int argc, char* argv[]) {
 
 ////////////////////////////////////Verifying the input arguments////////////////////////////////////    
@@ -78,8 +79,6 @@ int main(int argc, char* argv[]) {
         //recordsize and line both for getline method
         size_t recordsize;
 
- 
-
         char* line = NULL;
         size_t bytes = getline(&line, &recordsize, stdin);
 
@@ -103,7 +102,7 @@ int main(int argc, char* argv[]) {
 
         int numRecords = 0;
         int* pNumRecords = &numRecords;
-        Record* allrecords = createTable(pNumRecords,numFields); 
+        Record* allrecords = createTable(pNumRecords,numFields, NULL); 
         sort(sortType,numRecords,allrecords);
 
         return 0;
@@ -169,3 +168,81 @@ DIR* getDirectory(char* path)
     return dir;
    
 }//end getDirectory function
+
+///////////////////////////////////////READ & WRITE//////////////////////////////////////////
+
+void readFile(char *fileName, int *pNumRecords, int numFields){ 
+
+	FILE *fp;
+	char *line = NULL;
+	size_t recSize = 0;
+
+	fp = fopen(fileName, "r");
+
+	if(fp == NULL){
+		printf("Error: File does not exist\n");
+		exit(0);
+	}
+
+	getline(&line, &recSize, fp);
+
+	while(!feof(fp)){
+		createTable(pNumRecords, numFields, fp);
+	}
+
+	fclose(fp);
+}
+
+void writeFile(char *fileName, int numRecords, char *outDir){
+	
+	FILE *fp;
+	char *fileWrite;
+	fileWrite = (char *)malloc(strlen(fileName)+strlen(sortType)+9);
+	//+9 for "-sorted-" (8) and null terminating 0 (1)
+	
+	if(fileWrite == NULL){
+		printf("Not enough memory...exiting\n");
+		exit(0);
+	}
+	
+	fileWrite[0] = '\0';
+	
+	strcat(fileWrite, fileName);//Append fileName to empty string
+	strcat(fileWrite, "-sorted-");//Append "-sorted-" to end
+	strcat(fileWrite, sortType);//Append the global variable "sortType"
+	
+	if(outDir == NULL){
+		fp = fopen(fileWrite, "w");
+	}
+	else
+	{
+		char *placeToWrite = (char *)malloc(strlen(fileWrite)+strlen(outDir)+2);
+		placeToWrite[0] = '\0';
+		strcat(placeToWrite, outDir);//Append directory to store file
+		strcat(placeToWrite, "/");//Append forward slash
+		strcat(placeToWrite, fileWrite);//Append file to write name
+		
+		fp = fopen(placeToWrite, "w");
+	}
+
+	if(fp == NULL){
+		printf("Error: File does not exist\n");
+		exit(0);
+	}
+
+	for(i = 0; i < numRecords, i++){
+		fprintf(fp, "%s,%s,%f,%f,%f,%f,%s,%f,%f,%s,%s,%s,%f,%f,%s,%f,%s,%s,%f,%s,%s,%s,%f,%f,%f,%f,%f,%f\n", 
+			list[i].color, list[i].director_name, list[i].num_critic_for_reviews,
+			list[i].duration, list[i].director_facebook_likes, list[i].actor_3_facebook_likes,
+			list[i].actor_2_name, list[i].actor_1_facebook_likes, list[i].gross, list[i].genres,
+			list[i].actor_1_name, list[i].movie_title, list[i].num_voted_users, list[i].cast_total_facebook_likes,
+			list[i].actor_3_name, list[i].facenumber_in_poster, list[i].plot_keywords,
+			list[i].movie_imdb_link, list[i].num_user_for_reviews, list[i].language,
+			list[i].country, list[i].content_rating, list[i].budget, list[i].title_year,
+			list[i].actor_2_facebook_likes, list[i].imdb_score, list[i].aspect_ratio,
+			list[i].movie_facebook_likes);
+	}
+
+	fclose(fp);
+	free(fileWrite);
+}
