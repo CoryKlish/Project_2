@@ -13,6 +13,11 @@
     char* csv = ".csv";
     while ((entry =  readdir(directory)) != NULL)
     {
+        if (entry -> d_type == DT_DIR)
+        {
+            DIR* newdir = getDirectory(entry->d_name); 
+            /* fork() to process the directory*/
+        }
         if (entry -> d_type == DT_REG)//if entry = regular file
         {
             //pointer to the filename
@@ -22,10 +27,11 @@
             if (fileext != NULL)
             {
                 printf("\ncsv recognized: %s\n",fileName);
-                  /* process the file*/
+                  /* fork() to process the file*/
             }
           
         }
+        
         
         
     }
