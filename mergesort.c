@@ -21,7 +21,7 @@
             char* fileext = strstr(fileName, csv);
             if (fileext != NULL)
             {
-                printf("\ncsv recognized.\n");
+                printf("\ncsv recognized: %s\n",fileName);
                   /* process the file*/
             }
           
