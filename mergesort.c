@@ -5,7 +5,7 @@
 
 /////////////////////////////////////////////////////////////Processing Directory method/////////////////////////////////////////////
 
-struct DIR* processDirectory(DIR* directory)
+struct DIR* processDirectory(struct DIR* directory)
 {
     struct dirent* entry;
     char* csv = ".csv";
