@@ -148,6 +148,12 @@ Record* createTable(int* pNumRecords, int numFields)
                     //field, we skip over that many nested
                         //commas + 1 to get over the commas
                         //after the field
+                        
+                     while(commacounter + 1 != 0)
+                    {
+                        field = strsep(&row,",");
+                        commacounter -=1;
+                    }
                     
 	
 					//duplicate special str into field
@@ -160,11 +166,7 @@ Record* createTable(int* pNumRecords, int numFields)
 				
 				//Based on the index, it allocates token to that field in the struct.
 				allocateToken(ptrrecords, field, i);
-                while(commacounter + 1 != 0)
-                {
-                    strsep(&row,",");
-                    commacounter -=1;
-                }
+               
 			}//end token loop
 		}//end if bytes != -1
 		
