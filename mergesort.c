@@ -169,7 +169,7 @@ Record* createTable(int* pNumRecords, int numFields)
 				    
 					}
 				}		
-				*/
+				
 				//Based on the index, it allocates token to that field in the struct.
 				allocateToken(ptrrecords, field, i);
 			}//end token loop
