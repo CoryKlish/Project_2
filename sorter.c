@@ -162,7 +162,7 @@ static struct DIR* getDirectory(char* path)
     }
     
     //otherwise, it is legit
-     struct DIR* dir =  (DIR*)opendir(path);
+     struct DIR* dir =  opendir(path);
     
     return dir;
    
