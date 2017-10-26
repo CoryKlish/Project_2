@@ -145,7 +145,7 @@ char VerifyMode(char* mode)
     return vmode;               
 }//End VerifyMode function
 
-static  DIR* getDirectory(char* path)
+DIR* getDirectory(char* path)
 {
     if (path == NULL)
     {
