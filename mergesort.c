@@ -119,6 +119,7 @@ Record* createTable(int* pNumRecords, int numFields)
 					//If there is a quote in the beginning of the field, this is string with " we checked for earlier 
 					//then we can replace field with the 'special' var that contains contains the field
 					//within the double quotes.
+                    int fieldlen = strlen(field);
                     
 					if (*(field) == '"')
 					{
@@ -154,7 +155,7 @@ Record* createTable(int* pNumRecords, int numFields)
                         field = strsep(&row,",");
                         commacounter -=1;
                     }
-                    
+                    *(special + (fieldlen-1)) = ',';
 	
 					//duplicate special str into field
 					field = strdup(special);
