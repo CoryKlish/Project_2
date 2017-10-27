@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     //Fifth Designates OUTPUT directory
     char inputmode = VerifyMode(argv[1]);
     int dirlen, outlen;
-    char dir,out;
+    char dir = 0,out = 0;
     char* inDir;
     char* outDir;
     
@@ -107,8 +107,16 @@ int main(int argc, char* argv[]) {
 ////////////////////////////////////////////.csv file sort///////////////////////////
     //process the input directory
     char* inputCol = argv[2];
-    DIR * pDir = getDirectory(inDir);
-    DIR* newDir = processDirectory(pDir,inputCol);
+    //if there is a -d option, which was validated
+    if (dir)
+    {
+        DIR * pDir = getDirectory(inDir);
+        DIR* newDir = processDirectory(pDir,inputCol);
+    }
+    if (dir && out)
+    {
+        /* do same thing and other stuff*/
+    }
     
 	
 }//End main
