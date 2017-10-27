@@ -110,8 +110,13 @@ int main(int argc, char* argv[]) {
     //if there is a -d option, which was validated
     if (dir)
     {
-        DIR * pDir = getDirectory(inDir);
-        DIR* newDir = processDirectory(pDir,inputCol);
+        if (VerifyDirectory(inDir))
+             processDirectory(inDir,inputCol);
+        else
+        {
+            printf("The passed argument is not a directory");
+            exit(0);
+        }
     }
     if (dir && out)
     {
@@ -127,32 +132,25 @@ int main(int argc, char* argv[]) {
 	
 }//End main
 
-DIR* getDirectory(char* path)
+int VerifyDirectory(char* path)
 {
+    int flag = 0;
     if (path == NULL)
     {
-        printf("\nNo Directory given");
+        printf("\npath is null.");
         exit(0);
     }
-    
-    //verifying that the path passed is actually a directory
-    struct stat buffer;
-    //get infomation about the path, put into a buffer
+     struct stat buffer;
+     //get infomation about the path, put into a buffer
     if (stat(path,&buffer) != 0)
-        return 0;
-    if (!S_ISDIR(buffer.st_mode))
+        return flag;
+    if (S_ISDIR(buffer.st_mode))
     {
-         //if legit
-        printf("This is not a legit directory. ENding");
-        exit(0);
-        
+        //this is a directory
+       flag = 1;
     }
-    DIR* newDir = opendir(path);
-        return newDir;
-    
-   
-   
-}//end getDirectory function
+    return flag;
+}
 
 char VerifyMode(char* mode)
 {

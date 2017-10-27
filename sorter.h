@@ -54,7 +54,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType);
 
 //In SORTER.C
-DIR* getDirectory(char* path);
+int VerifyDirectory(char* path);
 char VerifyMode(char* mode);
 
 //IN mergesort.c
@@ -145,22 +145,26 @@ inputCol is what we are sorting on, which is validated in this
     method
 
 */
-static DIR* processDirectory(DIR* directory, char* inputCol)
+static void processDirectory(char* path, char* inputCol)
 {
+    
     struct dirent* entry;
     char* csv = ".csv";
+    //read from directory until nothing left
     while ((entry =  readdir(directory)) != NULL)
     {
-        if (strcmp (entry->d_name,".") == 0)
-            continue;
-        if (strcmp (entry->d_name,"..") == 0)
-            continue;
+       //if the entry is another directory
         if (entry -> d_type == DT_DIR)
         {
-            DIR* newdir = getDirectory(entry->d_name); 
-            printf("%s\n",(entry -> d_name));   
+            //max length of a directory path
+            char dpath[255];
+            //append current path tot he dpath
+            strcat(dpath, path);
+            //append new directory to the end of dpath.
+            strcat(dpath, entry->d_name);
+            
             /* fork() to process the directory*/
-            DIR* pDirectory = processDirectory(newdir,inputCol);
+            processDirectory(dpath,inputCol);
         }
 
 
