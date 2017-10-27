@@ -44,16 +44,20 @@ typedef struct Record{
 //Prototypes
 
 
-
+//in sorter.h
 static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*, int);
 static void printStructs(Record list[], int numStructs);
-DIR* getDirectory(char* path);
-DIR* processDirectory( DIR* directory, char* inputCol);
+static DIR* processDirectory( DIR* directory, char* inputCol);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol);
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType);
+
+//In SORTER.C
+DIR* getDirectory(char* path);
 char VerifyMode(char* mode);
+
+//IN mergesort.c
 Record* createTable(int* pNumRecords,int numFields, FILE *fp);
 void mergeNum(Record list[], int left, int mid, int right,char* sortType);
 void sortNum(Record list[], int left, int right,char* sortType);
@@ -141,7 +145,7 @@ inputCol is what we are sorting on, which is validated in this
     method
 
 */
-DIR* processDirectory(DIR* directory, char* inputCol)
+static DIR* processDirectory(DIR* directory, char* inputCol)
 {
     struct dirent* entry;
     char* csv = ".csv";
@@ -208,7 +212,8 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
 	fp = fopen(fileName, "r");
 
     //validation if real
-	if(fp == NULL){
+	if(fp == NULL)
+    {
 		printf("Error: File does not exist\n");
 		exit(0);
 	}
