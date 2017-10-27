@@ -233,7 +233,12 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     char* sortType = (char*)malloc(sizeof(char) * len);
     //getSortType also gets the number of fields
     sortType = getSortType(line,inputCol,numP);
-    if (sortType != inputCol || numFields != 28)
+    if (sortType != inputCol)
+    {
+        printf("gotcha");
+        exit(0);
+    }
+    if (*numP != 28)
     {
         printf("csv file is not in correct format");
         exit(0);
