@@ -151,9 +151,9 @@ static DIR* processDirectory(DIR* directory, char* inputCol)
     char* csv = ".csv";
     while ((entry =  readdir(directory)) != NULL)
     {
-        if ((strcmp(entry->d_type),".") == 0)
+        if (strcmp (entry->d_name,".") == 0)
             continue;
-        if ((strcmp(entry->d_type),"..") == 0)
+        if (strcmp (entry->d_name,"..") == 0)
             continue;
         if (entry -> d_type == DT_DIR)
         {
