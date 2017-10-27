@@ -119,7 +119,9 @@ int main(int argc, char* argv[]) {
     }
     else
     {
-        /* do stuff in original directory*/
+        /* do stuff in original directory
+        we can open the current directory with
+        opendir(".");*/
     }
     
 	
@@ -136,17 +138,18 @@ DIR* getDirectory(char* path)
     //verifying that the path passed is actually a directory
     struct stat buffer;
     //get infomation about the path, put into a buffer
-    stat(path,&buffer);
-    if (!(S_ISDIR(buffer.st_mode)))
+    if (stat(path,&buffer) != 0)
+        return 0;
+    if (!S_ISDIR(buffer.st_mode))
     {
-        printf("\nThe path passed to directory option NOT a directory\n");
+         //if legit
+        printf("This is not a legit directory. ENding");
         exit(0);
+        
     }
+    DIR* newDir = opendir(path)
     
-    //otherwise, it is legit
-    DIR* dir =  opendir(path);
-    
-    return dir;
+   
    
 }//end getDirectory function
 
