@@ -129,7 +129,7 @@ static char* getSortType(char* header, char* colName, int* numFields)
 			
 	}//End while counting loop
     
-    if (*numFields != 28)
+    if (*numFields != 27)
     {
         printf("\nWrong number of columns in csv.\n");
         exit(0);
@@ -238,7 +238,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         printf("gotcha");
         exit(0);
     }
-    if (*numP != 28)
+    if (*numP != 27)
     {
         printf("csv file is not in correct format");
         exit(0);
