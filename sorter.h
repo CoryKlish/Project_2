@@ -213,7 +213,7 @@ void writeFile(char *fileName, int numRecords, char *outDir,char* sortType){
 		exit(0);
 	}
     int i;
-	for(i = 0; i < numRecords, i++){
+	for(i = 0; i < numRecords; i++){
 		fprintf(fp, "%s,%s,%f,%f,%f,%f,%s,%f,%f,%s,%s,%s,%f,%f,%s,%f,%s,%s,%f,%s,%s,%s,%f,%f,%f,%f,%f,%f\n", 
 			list[i].color, list[i].director_name, list[i].num_critic_for_reviews,
 			list[i].duration, list[i].director_facebook_likes, list[i].actor_3_facebook_likes,
