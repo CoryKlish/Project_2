@@ -154,6 +154,7 @@ static void processDirectory(char* path, char* inputCol)
     //read from directory until nothing left
     while ((entry =  readdir(directory)) != NULL)
     {
+        printf("entry path:%s\n",entry->d_name);
        //if the entry is another directory
         if (entry -> d_type == DT_DIR)
         {
