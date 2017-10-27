@@ -49,7 +49,7 @@ static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*, int);
 static void printStructs(Record list[], int numStructs);
-static void processDirectory( char* path, char* inputCol);
+static void processDirectory( char* path, char* inputCol, char* outpath);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol);
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType);
 
