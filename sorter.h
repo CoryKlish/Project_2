@@ -152,13 +152,16 @@ static DIR* processDirectory(DIR* directory, char* inputCol)
     printf("heysl");
     while ((entry =  readdir(directory)) != NULL)
     {
+        /*
         if (entry -> d_type == DT_DIR)
         {
             DIR* newdir = getDirectory(entry->d_name); 
-            printf("%s\n",(entry -> d_name));
+            printf("%s\n",(entry -> d_name));   
             /* fork() to process the directory*/
-            DIR* processedDir = processDirectory(newdir,inputCol);
-        }
+           // DIR* processedDir = processDirectory(newdir,inputCol);
+       // }
+        */
+            
         if (entry -> d_type == DT_REG)//if entry = regular file
         {
             //pointer to the filename
