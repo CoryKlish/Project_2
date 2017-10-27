@@ -117,6 +117,10 @@ int main(int argc, char* argv[]) {
     {
         /* do same thing and other stuff*/
     }
+    else
+    {
+        /* do stuff in original directory*/
+    }
     
 	
 }//End main

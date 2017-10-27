@@ -149,6 +149,7 @@ static DIR* processDirectory(DIR* directory, char* inputCol)
 {
     struct dirent* entry;
     char* csv = ".csv";
+    printf("heysl");
     while ((entry =  readdir(directory)) != NULL)
     {
         if (entry -> d_type == DT_DIR)
