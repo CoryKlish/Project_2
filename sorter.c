@@ -147,7 +147,8 @@ DIR* getDirectory(char* path)
         exit(0);
         
     }
-    DIR* newDir = opendir(path)
+    DIR* newDir = opendir(path);
+        return newDir;
     
    
    
