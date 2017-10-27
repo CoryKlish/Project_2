@@ -91,7 +91,7 @@ static char* getSortType(char* header, char* colName, int* numFields)
     int len;
     //put ptr on first char of line
     char* field = strtok(header,",");
-    printf("%s",field);
+    printf("This is field: %s",field);
     if (field == NULL)
 	{
 		printf("ERROR, no fields");
