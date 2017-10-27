@@ -69,6 +69,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
     char* field;
     char* line = NULL;
     size_t recordsize;
+    size_t bytes;
 
 	
 	//ptr for indexing struct
@@ -77,11 +78,11 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 
 	//jumpstart the loop
 	if(fp == NULL){
-		size_t bytes = getline(&line, &recordsize, stdin);	
+        bytes = getline(&line, &recordsize, stdin);	
 	}
 	else
 	{
-		size_t bytes = getline(&line, &recordsize, fp);
+		bytes = getline(&line, &recordsize, fp);
 	}
 	
 	while (bytes != -1)
