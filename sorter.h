@@ -233,7 +233,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     char* sortType = (char*)malloc(sizeof(char) * len);
     //getSortType also gets the number of fields
     sortType = getSortType(line,inputCol,numP);
-    if (sortType != inputCol)
+    if (strcmp(sortType,inputCol) != 0)
     {
         printf("gotcha");
         exit(0);
