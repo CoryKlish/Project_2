@@ -7,50 +7,6 @@
 
 /////////////////////////////////////////////////////////////Processing Directory method/////////////////////////////////////////////
 
-DIR* processDirectory(DIR* directory, char* inputCol)
-{
-    struct dirent* entry;
-    char* csv = ".csv";
-    while ((entry =  readdir(directory)) != NULL)
-    {
-        if (entry -> d_type == DT_DIR)
-        {
-            DIR* newdir = getDirectory(entry->d_name); 
-            printf("%s\n",(entry -> d_name));
-            /* fork() to process the directory*/
-            DIR* processedDir = processDirectory(newdir,inputCol);
-        }
-        if (entry -> d_type == DT_REG)//if entry = regular file
-        {
-            //pointer to the filename
-            char* fileName = (entry->d_name);
-            //create index that points to the 
-            char* fileext = strstr(fileName, csv);
-            if (fileext != NULL)
-            {
-                printf("\ncsv recognized: %s\n",fileName);
-                  /* fork() to process the file*/
-                //need the numrecords for the mergesort
-                int numRecords = 0;
-                int* pNumRecords = &numRecords;
-                //readfile validates the input column and creates a record array
-                Record * table = readFile(fileName, pNumRecords, 0, inputCol);
-                printf("\nI did it\n");
-                //sorts the processed file
-                sort(inputCol, numRecords,table,0);
-                printStructs(table, numRecords);
-                
-                
-            }
-          
-        }
-        
-        
-        
-    }
-    
-
-}//End processDirectory function
 
     
     
