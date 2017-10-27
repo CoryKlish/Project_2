@@ -125,7 +125,7 @@ static char* getSortType(char* header, char* colName, int* numFields)
     
     if (*numFields != 27)
     {
-        printf("\nWrong number of columns in csv.\n")
+        printf("\nWrong number of columns in csv.\n");
         exit(0);
     }
     
@@ -159,7 +159,7 @@ Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCo
     char* line = NULL;
     //get a line from the file
     size_t bytes = getline(&line, &recordsize, fp);
-    
+    int len = strlen(line);
     //pointer to numfields in order to change its value
     int* numP = &numFields;
     //getting the sortType
@@ -212,7 +212,7 @@ void writeFile(char *fileName, int numRecords, char *outDir,char* sortType){
 		printf("Error: File does not exist\n");
 		exit(0);
 	}
-
+    int i;
 	for(i = 0; i < numRecords, i++){
 		fprintf(fp, "%s,%s,%f,%f,%f,%f,%s,%f,%f,%s,%s,%s,%f,%f,%s,%f,%s,%s,%f,%s,%s,%s,%f,%f,%f,%f,%f,%f\n", 
 			list[i].color, list[i].director_name, list[i].num_critic_for_reviews,
