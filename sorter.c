@@ -50,9 +50,6 @@ int main(int argc, char* argv[]) {
     }
     
     if (argc-1 > 4)
-
- 
-
     {
         out = VerifyMode(argv[5]);
         if (out == 'x')
@@ -64,9 +61,6 @@ int main(int argc, char* argv[]) {
         {
             printf("\nNo output directory specified, exiting\n");
             exit(0);
-
- 
-
         }
         outDir = malloc(sizeof(char) * (strlen(argv[6])));
         outDir = strdup(argv[6]);
@@ -112,37 +106,14 @@ int main(int argc, char* argv[]) {
     
 ////////////////////////////////////////////.csv file sort///////////////////////////
     //process the input directory
-    
-     DIR * pDir = getDirectory(inDir);
-     DIR* newDir = processDirectory(pDir);
+    char* inputCol = argv[2];
+    DIR * pDir = getDirectory(inDir);
+    DIR* newDir = processDirectory(pDir);
     
 	
 }//End main
 
-char VerifyMode(char* mode)
-{
-    //list of possible modes in a char*
-    const char* modes = "cdo";
-    //by default, vmode is a non-valid mode
-    char vmode = 'x';
-    //for looping through the modes
-    int modeLen = strlen(modes);
-    int len = strlen(mode);
-    if (len > 2 || *(mode) != '-')
-    {
-        printf("\n %s is not recognized, ending program",mode);
-    }
-    
-	int i;
-    for (i = 0; i < modeLen; i++)
-    {
-        //if the mode in param == something in modes
-        if(*(mode+1) == *(modes + i))
-            vmode = (*(modes + i));
-    }
-    
-    return vmode;               
-}//End VerifyMode function
+
 
 DIR* getDirectory(char* path)
 {
@@ -169,31 +140,7 @@ DIR* getDirectory(char* path)
    
 }//end getDirectory function
 
-///////////////////////////////////////READ & WRITE//////////////////////////////////////////
-
-void readFile(char *fileName, int *pNumRecords, int numFields){ 
-
-	FILE *fp;
-	char *line = NULL;
-	size_t recSize = 0;
-
-	fp = fopen(fileName, "r");
-
-	if(fp == NULL){
-		printf("Error: File does not exist\n");
-		exit(0);
-	}
-
-	getline(&line, &recSize, fp);
-
-	while(!feof(fp)){
-		createTable(pNumRecords, numFields, fp);
-	}
-
-	fclose(fp);
-}
-
-void writeFile(char *fileName, int numRecords, char *outDir){
+void writeFile(char *fileName, int numRecords, char *outDir,char* sortType){
 	
 	FILE *fp;
 	char *fileWrite;
@@ -246,3 +193,27 @@ void writeFile(char *fileName, int numRecords, char *outDir){
 	fclose(fp);
 	free(fileWrite);
 }
+char VerifyMode(char* mode)
+{
+    //list of possible modes in a char*
+    const char* modes = "cdo";
+    //by default, vmode is a non-valid mode
+    char vmode = 'x';
+    //for looping through the modes
+    int modeLen = strlen(modes);
+    int len = strlen(mode);
+    if (len > 2 || *(mode) != '-')
+    {
+        printf("\n %s is not recognized, ending program",mode);
+    }
+    
+	int i;
+    for (i = 0; i < modeLen; i++)
+    {
+        //if the mode in param == something in modes
+        if(*(mode+1) == *(modes + i))
+            vmode = (*(modes + i));
+    }
+    
+    return vmode;               
+}//End VerifyMode function

@@ -123,9 +123,111 @@ static char* getSortType(char* header, char* colName, int* numFields)
 			
 	}//End while counting loop
     
+    if (*numFields != 27)
+    {
+        printf("\nWrong number of columns in csv.\n")
+        exit(0);
+    }
+    
     return sortType;
 
-}//end getHeader function
+}//end getSortType function
+///////////////////////////////////////READ & WRITE//////////////////////////////////////////
+//Large Helper function: readFile
+/*
+PARAMS
+filename is given
+pNumRecords will initially be a pointer to a number that is 0
+    createTable method counts the number of records and changes the value of pNumRecords
+numFields is initially 0 as well and its value is given by the 
+    getSortType function
+inputCol is the given type to sort by. getSortType checks if the input from the user is in the csv file that is currently being read. if it is and the csv also has 27 fields then it is legit and we create a method
+*/
+Record * readFile(Record * char *fileName, int *pNumRecords, int numFields, char* inputCol){ 
+
+    //open the file for reading
+	FILE *fp;
+	fp = fopen(fileName, "r");
+
+    //validation if real
+	if(fp == NULL){
+		printf("Error: File does not exist\n");
+		exit(0);
+	}
+    //taking the header
+    size_t recordsize;
+    char* line = NULL;
+    size_t bytes = getline(&line, &recordsize, fp);
+    
+    //pointer to numfields in order to change its value
+    int* numP = &numFields;
+    //getting the sortType
+    char* sortType = (char*)malloc(sizeof(char) * len);
+    //getSortType also gets the number of fields
+    sortType = getSortType(line,inputCol,numP);
+    if (sortType != inputCol || numFields != 27)
+    {
+        printf("csv file is not in correct format");
+        exit(0);
+    }
+    Record* newRecords = createTable(pNumRecords, numFields, fp);
+	fclose(fp);
+    return newRecords;
+}
+
+void writeFile(char *fileName, int numRecords, char *outDir,char* sortType){
+	
+	FILE *fp;
+	char *fileWrite;
+	fileWrite = (char *)malloc(strlen(fileName)+strlen(sortType)+9);
+	//+9 for "-sorted-" (8) and null terminating 0 (1)
+	
+	if(fileWrite == NULL){
+		printf("Not enough memory...exiting\n");
+		exit(0);
+	}
+	
+	fileWrite[0] = '\0';
+	
+	strcat(fileWrite, fileName);//Append fileName to empty string
+	strcat(fileWrite, "-sorted-");//Append "-sorted-" to end
+	strcat(fileWrite, sortType);//Append the global variable "sortType"
+	
+	if(outDir == NULL){
+		fp = fopen(fileWrite, "w");
+	}
+	else
+	{
+		char *placeToWrite = (char *)malloc(strlen(fileWrite)+strlen(outDir)+2);
+		placeToWrite[0] = '\0';
+		strcat(placeToWrite, outDir);//Append directory to store file
+		strcat(placeToWrite, "/");//Append forward slash
+		strcat(placeToWrite, fileWrite);//Append file to write name
+		
+		fp = fopen(placeToWrite, "w");
+	}
+
+	if(fp == NULL){
+		printf("Error: File does not exist\n");
+		exit(0);
+	}
+
+	for(i = 0; i < numRecords, i++){
+		fprintf(fp, "%s,%s,%f,%f,%f,%f,%s,%f,%f,%s,%s,%s,%f,%f,%s,%f,%s,%s,%f,%s,%s,%s,%f,%f,%f,%f,%f,%f\n", 
+			list[i].color, list[i].director_name, list[i].num_critic_for_reviews,
+			list[i].duration, list[i].director_facebook_likes, list[i].actor_3_facebook_likes,
+			list[i].actor_2_name, list[i].actor_1_facebook_likes, list[i].gross, list[i].genres,
+			list[i].actor_1_name, list[i].movie_title, list[i].num_voted_users, list[i].cast_total_facebook_likes,
+			list[i].actor_3_name, list[i].facenumber_in_poster, list[i].plot_keywords,
+			list[i].movie_imdb_link, list[i].num_user_for_reviews, list[i].language,
+			list[i].country, list[i].content_rating, list[i].budget, list[i].title_year,
+			list[i].actor_2_facebook_likes, list[i].imdb_score, list[i].aspect_ratio,
+			list[i].movie_facebook_likes);
+	}
+
+	fclose(fp);
+	free(fileWrite);
+}
 
 //Large helper function: allocateToken
 /*
