@@ -51,6 +51,8 @@ static void sort (char* sortType, int numStructs, Record*, int);
 static void printStructs(Record list[], int numStructs);
 DIR* getDirectory(char* path);
 DIR* processDirectory( DIR* directory, char* inputCol);
+Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol)
+void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType)
 char VerifyMode(char* mode);
 Record* createTable(int* pNumRecords,int numFields, FILE *fp);
 void mergeNum(Record list[], int left, int mid, int right,char* sortType);
