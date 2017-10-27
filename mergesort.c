@@ -18,7 +18,7 @@ DIR* processDirectory(DIR* directory, char* inputCol)
             DIR* newdir = getDirectory(entry->d_name); 
             printf("%s\n",(entry -> d_name));
             /* fork() to process the directory*/
-            DIR* processedDir = processDirectory(newdir);
+            DIR* processedDir = processDirectory(newdir,inputCol);
         }
         if (entry -> d_type == DT_REG)//if entry = regular file
         {
