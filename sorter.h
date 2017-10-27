@@ -149,17 +149,17 @@ static DIR* processDirectory(DIR* directory, char* inputCol)
 {
     struct dirent* entry;
     char* csv = ".csv";
-    printf("heysl");
+    printf("heysalke");
     while ((entry =  readdir(directory)) != NULL)
     {
-        /*
+        
         if (entry -> d_type == DT_DIR)
         {
             DIR* newdir = getDirectory(entry->d_name); 
             printf("%s\n",(entry -> d_name));   
             /* fork() to process the directory*/
-           // DIR* processedDir = processDirectory(newdir,inputCol);
-       // }
+            DIR* processedDir = processDirectory(newdir,inputCol);
+        }
     
             
         if (entry -> d_type == DT_REG)//if entry = regular file
@@ -235,12 +235,12 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     sortType = getSortType(line,inputCol,numP);
     if (strcmp(sortType,inputCol) != 0)
     {
-        printf("gotcha");
+        printf("gotcha, sorttype freaking out\n");
         exit(0);
     }
     if (*numP != 27)
     {
-        printf("csv file is not in correct format");
+        printf("numP is freaking out, something wrong with columns???!?!?!\n");
         exit(0);
     }
     Record* newRecords = createTable(pNumRecords, numFields, fp);
