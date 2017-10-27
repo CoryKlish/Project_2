@@ -67,6 +67,7 @@ int main(int argc, char* argv[]) {
     }	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
+    /*
 ////////////////////////Stdin sort///////////////////////////////////////////////////////////////////////////////////
     if (argc-1 == 2)
     {
@@ -103,7 +104,7 @@ int main(int argc, char* argv[]) {
     }
  
 //////////////////////////////////////////// end stdin sort///////////////////////////////////////////////////////////////
-    
+    */
 ////////////////////////////////////////////.csv file sort///////////////////////////
     //process the input directory
     char* inputCol = argv[2];
@@ -111,17 +112,19 @@ int main(int argc, char* argv[]) {
     if (dir)
     {
         if (VerifyDirectory(inDir))
-             processDirectory(inDir,inputCol);
+             processDirectory(inDir,inputCol,".");
         else
         {
             printf("The passed argument is not a directory");
             exit(0);
         }
     }
+    //if there is both a -d and a -o option
     if (dir && out)
     {
         /* do same thing and other stuff*/
     }
+    //If neither the -d nor the -o option was given in execution
     else
     {
         /* do stuff in original directory

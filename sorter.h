@@ -145,7 +145,7 @@ inputCol is what we are sorting on, which is validated in this
     method
 
 */
-static void processDirectory(char* path, char* inputCol)
+static void processDirectory(char* path, char* inputCol, char* outpath)
 {
     
     struct dirent* entry;
@@ -193,10 +193,10 @@ static void processDirectory(char* path, char* inputCol)
                     int* pNumRecords = &numRecords;
                     //readfile validates the input column and creates a record array
                     Record * table = readFile(fileName, pNumRecords, 0, inputCol);
-                    printf("\nI did it\n");
                     //sorts the processed file
                     sort(inputCol, numRecords,table,0);
-                    printStructs(table, numRecords);
+                    
+                    
 
                 }
                 //else do nothing
@@ -217,6 +217,8 @@ pNumRecords will initially be a pointer to a number that is 0
 numFields is initially 0 as well and its value is given by the 
     getSortType function
 inputCol is the given type to sort by. getSortType checks if the input from the user is in the csv file that is currently being read. if it is and the csv also has 27 fields then it is legit and we create a method
+
+RETURNS: A Record* of the given csv file
 */
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol){ 
 
