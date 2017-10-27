@@ -178,7 +178,7 @@ static DIR* processDirectory(DIR* directory, char* inputCol)
                     int numRecords = 0;
                     int* pNumRecords = &numRecords;
                     //readfile validates the input column and creates a record array
-                    Record * table = readFile(fileName, pNumRecords, 1, inputCol);
+                    Record * table = readFile(fileName, pNumRecords, 0, inputCol);
                     printf("\nI did it\n");
                     //sorts the processed file
                     sort(inputCol, numRecords,table,0);
