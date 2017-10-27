@@ -165,6 +165,7 @@ static void processDirectory(char* path, char* inputCol)
             strcat(dpath, path);
             //append new directory to the end of dpath.
             strcat(dpath, entry->d_name);
+            printf("entry path: %s",entry->d_name);
             
             /* fork() to process the directory*/
             processDirectory(dpath,inputCol);
