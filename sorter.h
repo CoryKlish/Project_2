@@ -91,7 +91,6 @@ static char* getSortType(char* header, char* colName, int* numFields)
     int len;
     //put ptr on first char of line
     char* field = strtok(header,",");
-    printf("This is field: %s",field);
     if (field == NULL)
 	{
 		printf("ERROR, no fields");
@@ -155,7 +154,6 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
     //read from directory until nothing left
     while ((entry =  readdir(directory)) != NULL)
     {
-        printf("entry path:%s\n",entry->d_name);
        //if the entry is another directory
         if (entry -> d_type == DT_DIR)
         {
