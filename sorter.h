@@ -151,6 +151,8 @@ static void processDirectory(char* path, char* inputCol)
     struct dirent* entry;
     char* csv = ".csv";
     DIR* directory  = opendir(path);
+    if (directory = NULL)
+        return;
     //read from directory until nothing left
     while ((entry =  readdir(directory)) != NULL)
     {
@@ -254,7 +256,7 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	
 	FILE *fp;
 	char *fileWrite;
-	fileWrite = (char *)malloc(strlen(fileName)+strlen(sortType)+9);
+	fileWrite = (char *)malloc(strlen(fileName)+strlen(sortType)+9 + 4);
 	//+9 for "-sorted-" (8) and null terminating 0 (1)
 	
 	if(fileWrite == NULL){
@@ -267,6 +269,7 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	strcat(fileWrite, fileName);//Append fileName to empty string
 	strcat(fileWrite, "-sorted-");//Append "-sorted-" to end
 	strcat(fileWrite, sortType);//Append the global variable "sortType"
+    strcat(fileWrite,".csv");
 	
 	if(outDir == NULL){
 		fp = fopen(fileWrite, "w");
