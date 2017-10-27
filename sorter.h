@@ -172,7 +172,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
             printf("entry path: %s",entry->d_name);
             
             /* fork() to process the directory*/
-            processDirectory(dpath,inputCol);
+            processDirectory(dpath,inputCol,outpath);
         }
 
 
