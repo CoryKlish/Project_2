@@ -158,7 +158,7 @@ static DIR* processDirectory(DIR* directory, char* inputCol)
                 DIR* newdir = getDirectory(entry->d_name); 
                 printf("%s\n",(entry -> d_name));   
                 /* fork() to process the directory*/
-                DIR* pDirectory = processDirectory(newDir,inputCol);
+                DIR* pDirectory = processDirectory(newdir,inputCol);
             }
 
 
