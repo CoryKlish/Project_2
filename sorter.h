@@ -140,7 +140,7 @@ static char* getSortType(char* header, char* colName, int* numFields)
 }//end getSortType function
 /*
 PARAMS:
-directory is a validated directory
+path is a char* that will be opened using opendir
 inputCol is what we are sorting on, which is validated in this
     method
 
@@ -151,8 +151,6 @@ static void processDirectory(char* path, char* inputCol)
     struct dirent* entry;
     char* csv = ".csv";
     DIR* directory  = opendir(path);
-    if (directory = NULL)
-        return;
     //read from directory until nothing left
     while ((entry =  readdir(directory)) != NULL)
     {
