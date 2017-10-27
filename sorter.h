@@ -49,7 +49,7 @@ static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*, int);
 static void printStructs(Record list[], int numStructs);
-static DIR* processDirectory( DIR* directory, char* inputCol);
+static void processDirectory( char* path, char* inputCol);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol);
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType);
 
@@ -150,6 +150,7 @@ static void processDirectory(char* path, char* inputCol)
     
     struct dirent* entry;
     char* csv = ".csv";
+    DIR* directory  = opendir(path);
     //read from directory until nothing left
     while ((entry =  readdir(directory)) != NULL)
     {
