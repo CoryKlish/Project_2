@@ -240,7 +240,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     }
     if (*numP != 27)
     {
-        printf("numP is freaking out, something wrong with columns???!?!?!\n");
+        printf("numP is freaking out, something wrong with columns\n");
         exit(0);
     }
     Record* newRecords = createTable(pNumRecords, numFields, fp);
