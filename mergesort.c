@@ -30,6 +30,15 @@ DIR* processDirectory(DIR* directory, char* inputCol)
             {
                 printf("\ncsv recognized: %s\n",fileName);
                   /* fork() to process the file*/
+                //need the numrecords for the mergesort
+                int numRecords = 0;
+                int* pNumRecords = &numRecords;
+                //readfile validates the input column and creates a record array
+                Record * table = readFile(fileName, pNumRecords, 0, inputCol);
+                //sorts the processed file
+                sort(inputCol, numRecords,table,0);
+                
+                
             }
           
         }

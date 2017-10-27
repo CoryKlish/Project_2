@@ -47,7 +47,7 @@ typedef struct Record{
 
 static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
-static void sort (char* sortType, int numStructs, Record*);
+static void sort (char* sortType, int numStructs, Record*, int);
 static void printStructs(Record list[], int numStructs);
 DIR* getDirectory(char* path);
 DIR* processDirectory( DIR* directory);
@@ -143,7 +143,7 @@ numFields is initially 0 as well and its value is given by the
     getSortType function
 inputCol is the given type to sort by. getSortType checks if the input from the user is in the csv file that is currently being read. if it is and the csv also has 27 fields then it is legit and we create a method
 */
-Record * readFile(Record * char *fileName, int *pNumRecords, int numFields, char* inputCol){ 
+Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol){ 
 
     //open the file for reading
 	FILE *fp;
@@ -157,6 +157,7 @@ Record * readFile(Record * char *fileName, int *pNumRecords, int numFields, char
     //taking the header
     size_t recordsize;
     char* line = NULL;
+    //get a line from the file
     size_t bytes = getline(&line, &recordsize, fp);
     
     //pointer to numfields in order to change its value
@@ -391,7 +392,8 @@ static void printStructs(Record list[], int numStructs){
 }
 
 //if the type is a string, the use the string sort
-static void sort (char* sortType, int numStructs, Record* allrecords)
+//flag is parameter whether or not to print the output
+static void sort (char* sortType, int numStructs, Record* allrecords, int flag)
 {
 	if ((strcmp(sortType,"color") == 0)||(strcmp(sortType,"director_name")== 0)||(strcmp(sortType,"actor_name_2")== 0)||(strcmp(sortType,"genres")== 0)||(strcmp(sortType,"actor_1_name")== 0)||(strcmp(sortType,"movie_title")== 0)||(strcmp(sortType,"actor_3_name")== 0)||(strcmp(sortType,"plot_keywords")== 0)||(strcmp(sortType,"movie_imdb_link")== 0)||(strcmp(sortType,"language")== 0)||(strcmp(sortType,"country")== 0)||(strcmp(sortType,"content_rating")== 0))
 	  {
@@ -405,6 +407,6 @@ static void sort (char* sortType, int numStructs, Record* allrecords)
     }
 
   
-	
-    printStructs(allrecords, numStructs);
+	if (flag)
+        printStructs(allrecords, numStructs);
 }//End mergesort function

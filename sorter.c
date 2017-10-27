@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
         int numRecords = 0;
         int* pNumRecords = &numRecords;
         Record* allrecords = createTable(pNumRecords,numFields, NULL); 
-        sort(sortType,numRecords,allrecords);
+        sort(sortType,numRecords,allrecords,1);
 
         return 0;
     }
@@ -108,12 +108,10 @@ int main(int argc, char* argv[]) {
     //process the input directory
     char* inputCol = argv[2];
     DIR * pDir = getDirectory(inDir);
-    DIR* newDir = processDirectory(pDir);
+    DIR* newDir = processDirectory(pDir,inputCol);
     
 	
 }//End main
-
-
 
 DIR* getDirectory(char* path)
 {
@@ -140,59 +138,6 @@ DIR* getDirectory(char* path)
    
 }//end getDirectory function
 
-void writeFile(char *fileName, int numRecords, char *outDir,char* sortType){
-	
-	FILE *fp;
-	char *fileWrite;
-	fileWrite = (char *)malloc(strlen(fileName)+strlen(sortType)+9);
-	//+9 for "-sorted-" (8) and null terminating 0 (1)
-	
-	if(fileWrite == NULL){
-		printf("Not enough memory...exiting\n");
-		exit(0);
-	}
-	
-	fileWrite[0] = '\0';
-	
-	strcat(fileWrite, fileName);//Append fileName to empty string
-	strcat(fileWrite, "-sorted-");//Append "-sorted-" to end
-	strcat(fileWrite, sortType);//Append the global variable "sortType"
-	
-	if(outDir == NULL){
-		fp = fopen(fileWrite, "w");
-	}
-	else
-	{
-		char *placeToWrite = (char *)malloc(strlen(fileWrite)+strlen(outDir)+2);
-		placeToWrite[0] = '\0';
-		strcat(placeToWrite, outDir);//Append directory to store file
-		strcat(placeToWrite, "/");//Append forward slash
-		strcat(placeToWrite, fileWrite);//Append file to write name
-		
-		fp = fopen(placeToWrite, "w");
-	}
-
-	if(fp == NULL){
-		printf("Error: File does not exist\n");
-		exit(0);
-	}
-
-	for(i = 0; i < numRecords, i++){
-		fprintf(fp, "%s,%s,%f,%f,%f,%f,%s,%f,%f,%s,%s,%s,%f,%f,%s,%f,%s,%s,%f,%s,%s,%s,%f,%f,%f,%f,%f,%f\n", 
-			list[i].color, list[i].director_name, list[i].num_critic_for_reviews,
-			list[i].duration, list[i].director_facebook_likes, list[i].actor_3_facebook_likes,
-			list[i].actor_2_name, list[i].actor_1_facebook_likes, list[i].gross, list[i].genres,
-			list[i].actor_1_name, list[i].movie_title, list[i].num_voted_users, list[i].cast_total_facebook_likes,
-			list[i].actor_3_name, list[i].facenumber_in_poster, list[i].plot_keywords,
-			list[i].movie_imdb_link, list[i].num_user_for_reviews, list[i].language,
-			list[i].country, list[i].content_rating, list[i].budget, list[i].title_year,
-			list[i].actor_2_facebook_likes, list[i].imdb_score, list[i].aspect_ratio,
-			list[i].movie_facebook_likes);
-	}
-
-	fclose(fp);
-	free(fileWrite);
-}
 char VerifyMode(char* mode)
 {
     //list of possible modes in a char*
