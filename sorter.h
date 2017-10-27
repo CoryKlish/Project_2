@@ -51,8 +51,8 @@ static void sort (char* sortType, int numStructs, Record*, int);
 static void printStructs(Record list[], int numStructs);
 DIR* getDirectory(char* path);
 DIR* processDirectory( DIR* directory, char* inputCol);
-Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol);
-void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType);
+static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol);
+static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType);
 char VerifyMode(char* mode);
 Record* createTable(int* pNumRecords,int numFields, FILE *fp);
 void mergeNum(Record list[], int left, int mid, int right,char* sortType);
@@ -145,7 +145,7 @@ numFields is initially 0 as well and its value is given by the
     getSortType function
 inputCol is the given type to sort by. getSortType checks if the input from the user is in the csv file that is currently being read. if it is and the csv also has 27 fields then it is legit and we create a method
 */
-Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol){ 
+static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol){ 
 
     //open the file for reading
 	FILE *fp;
@@ -178,7 +178,7 @@ Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCo
     return newRecords;
 }
 //takes in the record set as "list"
-void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType){
+static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType){
 	
 	FILE *fp;
 	char *fileWrite;
