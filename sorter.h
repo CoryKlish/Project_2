@@ -129,7 +129,7 @@ static char* getSortType(char* header, char* colName, int* numFields)
 			
 	}//End while counting loop
     
-    if (*numFields != 27)
+    if (*numFields != 28)
     {
         printf("\nWrong number of columns in csv.\n");
         exit(0);
@@ -233,7 +233,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     char* sortType = (char*)malloc(sizeof(char) * len);
     //getSortType also gets the number of fields
     sortType = getSortType(line,inputCol,numP);
-    if (sortType != inputCol || numFields != 27)
+    if (sortType != inputCol || numFields != 28)
     {
         printf("csv file is not in correct format");
         exit(0);
