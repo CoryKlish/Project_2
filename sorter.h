@@ -158,6 +158,10 @@ static void processDirectory(char* path, char* inputCol)
        //if the entry is another directory
         if (entry -> d_type == DT_DIR)
         {
+            if (strcmp(entry->d_type,".") == 0)
+                continue;
+            if (strcmp(entry->d_type,"..") == 0)
+                continue;
             //max length of a directory path
             char dpath[255];
             strcat(dpath,"/");
