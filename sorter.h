@@ -160,7 +160,8 @@ static void processDirectory(char* path, char* inputCol)
         {
             //max length of a directory path
             char dpath[255];
-            //append current path tot he dpath
+            strcat(dpath,"/");
+            //append current path to the dpath'
             strcat(dpath, path);
             //append new directory to the end of dpath.
             strcat(dpath, entry->d_name);
