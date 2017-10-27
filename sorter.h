@@ -238,6 +238,11 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     char* line = NULL;
     //get a line from the file
     size_t bytes = getline(&line, &recordsize, fp);
+    if (bytes == -1)
+    {
+        printf("\nEOF reached\n");
+        exit(0);
+    }
     int len = strlen(line);
     //pointer to numfields in order to change its value
     int* numP = &numFields;
