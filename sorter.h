@@ -203,11 +203,13 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                     {
                         continue;
                     }
-                    
-                     Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader);
-                    //sorts the processed file
-                    sort(inputCol, numRecords,table);
-                    writeFile(table,fileName,numRecords,outpath,inputCol,header);
+                    else
+                    {
+                         Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader);
+                        //sorts the processed file
+                        sort(inputCol, numRecords,table);
+                        writeFile(table,fileName,numRecords,outpath,inputCol,header);
+                    }
                     
                    
                     
