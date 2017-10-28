@@ -50,7 +50,7 @@ static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*, int);
 static void printStructs(Record list[], int numStructs);
 static void processDirectory( char* path, char* inputCol, char* outpath);
-static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char* header);
+static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader);
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header);
 
 
@@ -195,7 +195,10 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                 
                     //readfile validates the input column and creates a record array
                     char* header;
-                    Record * table = readFile(fileName, pNumRecords, 0, inputCol, header);
+                    //char** pheader will change the value of 
+                    //char* header from within readFile
+                    char** pHeader = &header;
+                    Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader);
                     //sorts the processed file
                     sort(inputCol, numRecords,table,0);
                     writeFile(table,fileName,numRecords,outpath,inputCol,header);
@@ -225,7 +228,7 @@ header is a null char* that is to be filled with the header of
 
 RETURNS: A Record* of the given csv file
 */
-static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol, char* header){ 
+static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol, char** pHeader){ 
 
     //open the file for reading
 	FILE *fp;
@@ -247,10 +250,11 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         printf("\nEOF reached\n");
         exit(0);
     }
+    
     int len = strlen(line);
     //copy the header into "header" variable
-    header = (char*)malloc(sizeof(char) * len);
-    header = strdup(line);
+    *header = (char*)malloc(sizeof(char) * len);
+    *header = strdup(line);
     
     //pointer to numfields in order to change its value
     int* numP = &numFields;
