@@ -203,7 +203,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                     //sorts the processed file
                     sort(inputCol, numRecords,table);
                     int len = strlen(fileName);
-                   char* newFileName = malloc(sizeof(char) * len - 4); 
+                   char* newFileName = malloc(sizeof(char) * len); 
                    newFileName = strncpy(newFileName,fileName,len-4); writeFile(table,newFileName,numRecords,outpath,inputCol,header);
                     
 
