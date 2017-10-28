@@ -50,8 +50,9 @@ static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*, int);
 static void printStructs(Record list[], int numStructs);
 static void processDirectory( char* path, char* inputCol, char* outpath);
-static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol);
-static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType);
+static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char* header);
+static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header);
+
 
 //In SORTER.C
 int VerifyDirectory(char* path);
@@ -89,8 +90,10 @@ static char* getSortType(char* header, char* colName, int* numFields)
     //sortType
     char* sortType;
     int len;
+    storeHeader(header);
     //put ptr on first char of line
     char* field = strtok(header,",");
+    
     if (field == NULL)
 	{
 		printf("ERROR, no fields");
@@ -190,11 +193,13 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                     //need the numrecords for the mergesort
                     int numRecords = 0;
                     int* pNumRecords = &numRecords;
+                
                     //readfile validates the input column and creates a record array
-                    Record * table = readFile(fileName, pNumRecords, 0, inputCol);
+                    char* header;
+                    Record * table = readFile(fileName, pNumRecords, 0, inputCol, header);
                     //sorts the processed file
                     sort(inputCol, numRecords,table,0);
-                    writeFile(table,fileName,numRecords,outpath,inputCol);
+                    writeFile(table,fileName,numRecords,outpath,inputCol,header);
                     
 
                 }
@@ -216,10 +221,12 @@ pNumRecords will initially be a pointer to a number that is 0
 numFields is initially 0 as well and its value is given by the 
     getSortType function
 inputCol is the given type to sort by. getSortType checks if the input from the user is in the csv file that is currently being read. if it is and the csv also has 27 fields then it is legit and we create a method
+header is a null char* that is to be filled with the header of 
+    a csv file. This is needed when we need to write the header at the top of -sorted csv- files.
 
 RETURNS: A Record* of the given csv file
 */
-static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol){ 
+static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol, char* header){ 
 
     //open the file for reading
 	FILE *fp;
@@ -242,6 +249,10 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         exit(0);
     }
     int len = strlen(line);
+    //copy the header into "header" variable
+    header = (char*)malloc(sizeof(char) * len);
+    header = strdup(line);
+    
     //pointer to numfields in order to change its value
     int* numP = &numFields;
     //getting the sortType
@@ -263,7 +274,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     return newRecords;
 }
 //takes in the record set as "list"
-static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType){
+static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header){
 	
 	FILE *fp;
 	char *fileWrite;
@@ -303,6 +314,7 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 		printf("Error: File does not exist\n");
 		exit(0);
 	}
+    fprintf(fp, "%s\n",header)
     int i;
 	for(i = 0; i < numRecords; i++){
 		fprintf(fp, "%s,%s,%f,%f,%f,%f,%s,%f,%f,%s,%s,%s,%f,%f,%s,%f,%s,%s,%f,%s,%s,%s,%f,%f,%f,%f,%f,%f\n", 
