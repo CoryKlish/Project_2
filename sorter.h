@@ -292,7 +292,7 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	FILE *fp;
 	char *fileWrite;
     int len = strlen(fileName);
-    char* newFileName = (char*)malloc(sizeof(char) * len);
+    char* newFileName = (char*)calloc(sizeof(char) * len);
     newFileName = strncpy(newFileName,fileName,len-4);
     
 	fileWrite = (char *)malloc(strlen(newFileName) + strlen(sortType)+ 9);
