@@ -90,7 +90,6 @@ static char* getSortType(char* header, char* colName, int* numFields)
     //sortType
     char* sortType;
     int len;
-    storeHeader(header);
     //put ptr on first char of line
     char* field = strtok(header,",");
     
