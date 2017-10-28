@@ -282,7 +282,8 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	FILE *fp;
 	char *fileWrite;
     int len = strlen(fileName);
-    char* newFileName = strncpy(newFileName,fileName,len-4);
+    char* newFileName = (char*)malloc(sizeof(char) * len);
+    newFileName = strncpy(newFileName,fileName,len-4);
     
 	fileWrite = (char *)malloc(strlen(newFileName) + strlen(sortType)+ 9);
 	//+9 for "-sorted-" (8) and null terminating 0 (1)
