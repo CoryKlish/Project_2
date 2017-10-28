@@ -267,7 +267,10 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	
 	FILE *fp;
 	char *fileWrite;
-	fileWrite = (char *)malloc(strlen(fileName)+strlen(sortType)+9 + 4);
+    int len = strlen(fileName);
+    char* newFileName = strncpy(newFileName,fileName,len-4);
+    
+	fileWrite = (char *)malloc(strlen(newFileName) + strlen(sortType)+ 9);
 	//+9 for "-sorted-" (8) and null terminating 0 (1)
 	
 	if(fileWrite == NULL){
@@ -277,7 +280,7 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	
 	fileWrite[0] = '\0';
 	
-	strcat(fileWrite, fileName);//Append fileName to empty string
+	strcat(fileWrite, newFileName);//Append new fileName to empty string
 	strcat(fileWrite, "-sorted-");//Append "-sorted-" to end
 	strcat(fileWrite, sortType);//Append the global variable "sortType"
     strcat(fileWrite,".csv");
