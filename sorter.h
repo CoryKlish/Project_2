@@ -190,6 +190,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                     printf("\ncsv recognized: %s\n",fileName);
                       /* fork() to process the file*/
                     //need the numrecords for the mergesort
+                    free (fileext);
                     int numRecords = 0;
                     int* pNumRecords = &numRecords;
                 
@@ -198,10 +199,14 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                     //char** pheader will change the value of 
                     //char* header from within readFile
                     char** pHeader = &header;
-                    Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader);
-                    //sorts the processed file
-                    sort(inputCol, numRecords,table);
-                    writeFile(table,fileName,numRecords,outpath,inputCol,header);
+                    char* sorted = strstr(fileName,"-sorted-");
+                    if (sorted == NULL)
+                    {
+                        Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader);
+                        //sorts the processed file
+                        sort(inputCol, numRecords,table);
+                        writeFile(table,fileName,numRecords,outpath,inputCol,header);
+                    }
                     
 
                 }
