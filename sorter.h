@@ -47,7 +47,7 @@ typedef struct Record{
 //in sorter.h
 static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
-static void sort (char* sortType, int numStructs, Record*, int);
+static void sort (char* sortType, int numStructs, Record*);
 static void printStructs(Record list[], int numStructs);
 static void processDirectory( char* path, char* inputCol, char* outpath);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader);
@@ -168,6 +168,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
             strcat(dpath,"/");
             //append current path to the dpath'
             strcat(dpath, path);
+            strcat(dpath,"/");
             //append new directory to the end of dpath.
             strcat(dpath, entry->d_name);
             printf("entry path: %s",entry->d_name);
@@ -200,8 +201,10 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                     char** pHeader = &header;
                     Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader);
                     //sorts the processed file
-                    sort(inputCol, numRecords,table,0);
-                    writeFile(table,fileName,numRecords,outpath,inputCol,header);
+                    sort(inputCol, numRecords,table);
+                    int len = strlen(fileName) - 4;
+                   char* newFileName = malloc(sizeof(char) * len); 
+                   newFileName = strncpy(newFileName,fileName,len-4); writeFile(table,newFileName,numRecords,outpath,inputCol,header);
                     
 
                 }
@@ -281,10 +284,10 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	
 	FILE *fp;
 	char *fileWrite;
-    int len = strlen(fileName);
-    char* newFileName = strncpy(newFileName,fileName,len-4);
     
-	fileWrite = (char *)malloc(strlen(newFileName) + strlen(sortType)+ 9);
+    
+    
+	fileWrite = (char *)malloc(strlen(fileName) + strlen(sortType)+ 9);
 	//+9 for "-sorted-" (8) and null terminating 0 (1)
 	
 	if(fileWrite == NULL){
@@ -294,9 +297,9 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	
 	fileWrite[0] = '\0';
 	
-	strcat(fileWrite, newFileName);//Append new fileName to empty string
+	strcat(fileWrite, fileName);//Append new fileName to empty string
 	strcat(fileWrite, "-sorted-");//Append "-sorted-" to end
-	strcat(fileWrite, sortType);//Append the global variable "sortType"
+	strcat(fileWrite, sortType);//Append the variable "sortType"
     strcat(fileWrite,".csv");
 	
 	if(outDir == NULL){
@@ -502,7 +505,7 @@ static void printStructs(Record list[], int numStructs){
 
 //if the type is a string, the use the string sort
 //flag is parameter whether or not to print the output
-static void sort (char* sortType, int numStructs, Record* allrecords, int flag)
+static void sort (char* sortType, int numStructs, Record* allrecords)
 {
 	if ((strcmp(sortType,"color") == 0)||(strcmp(sortType,"director_name")== 0)||(strcmp(sortType,"actor_name_2")== 0)||(strcmp(sortType,"genres")== 0)||(strcmp(sortType,"actor_1_name")== 0)||(strcmp(sortType,"movie_title")== 0)||(strcmp(sortType,"actor_3_name")== 0)||(strcmp(sortType,"plot_keywords")== 0)||(strcmp(sortType,"movie_imdb_link")== 0)||(strcmp(sortType,"language")== 0)||(strcmp(sortType,"country")== 0)||(strcmp(sortType,"content_rating")== 0))
 	  {
@@ -516,6 +519,5 @@ static void sort (char* sortType, int numStructs, Record* allrecords, int flag)
     }
 
   
-	if (flag)
-        printStructs(allrecords, numStructs);
+	
 }//End mergesort function

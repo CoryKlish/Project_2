@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
         int numRecords = 0;
         int* pNumRecords = &numRecords;
         Record* allrecords = createTable(pNumRecords,numFields, NULL); 
-        sort(sortType,numRecords,allrecords,1);
+        sort(sortType,numRecords,allrecords);
 
         return 0;
     }
