@@ -190,7 +190,6 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                     printf("\ncsv recognized: %s\n",fileName);
                       /* fork() to process the file*/
                     //need the numrecords for the mergesort
-                    free (fileext);
                     int numRecords = 0;
                     int* pNumRecords = &numRecords;
                 
