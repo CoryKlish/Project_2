@@ -253,8 +253,8 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     
     int len = strlen(line);
     //copy the header into "header" variable
-    *header = (char*)malloc(sizeof(char) * len);
-    *header = strdup(line);
+    *pHeader = (char*)malloc(sizeof(char) * len);
+    *pHeader = strdup(line);
     
     //pointer to numfields in order to change its value
     int* numP = &numFields;
