@@ -120,7 +120,7 @@ int main(int argc, char* argv[]) {
         }
     }
     //if there is both a -d and a -o option
-    if (dir && out)
+    else if (dir && out)
     {
         if (VerifyDirectory(inDir))
         {
