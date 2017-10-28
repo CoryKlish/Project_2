@@ -317,7 +317,9 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 		printf("Error: File does not exist\n");
 		exit(0);
 	}
+    
     fprintf(fp, "%s\n",header);
+    fpurge(fp);
     int i;
 	for(i = 0; i < numRecords; i++){
 		fprintf(fp, "%s,%s,%f,%f,%f,%f,%s,%f,%f,%s,%s,%s,%f,%f,%s,%f,%s,%s,%f,%s,%s,%s,%f,%f,%f,%f,%f,%f\n", 
