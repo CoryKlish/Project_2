@@ -202,8 +202,8 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                     Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader);
                     //sorts the processed file
                     sort(inputCol, numRecords,table);
-                    int len = strlen(fileName) - 4;
-                   char* newFileName = malloc(sizeof(char) * len); 
+                    int len = strlen(fileName);
+                   char* newFileName = malloc(sizeof(char) * len - 4); 
                    newFileName = strncpy(newFileName,fileName,len-4); writeFile(table,newFileName,numRecords,outpath,inputCol,header);
                     
 
