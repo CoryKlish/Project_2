@@ -202,9 +202,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                     Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader);
                     //sorts the processed file
                     sort(inputCol, numRecords,table);
-                    int len = strlen(fileName);
-                   char* newFileName = malloc(sizeof(char) * len); 
-                   newFileName = strncpy(newFileName,fileName,len-4); writeFile(table,newFileName,numRecords,outpath,inputCol,header);
+                    writeFile(table,fileName,numRecords,outpath,inputCol,header);
                     
 
                 }
@@ -284,10 +282,10 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	
 	FILE *fp;
 	char *fileWrite;
+    int len = strlen(fileName);
+    char* newFileName = strncpy(newFileName,fileName,len-4);
     
-    
-    
-	fileWrite = (char *)malloc(strlen(fileName) + strlen(sortType)+ 9);
+	fileWrite = (char *)malloc(strlen(newFileName) + strlen(sortType)+ 9);
 	//+9 for "-sorted-" (8) and null terminating 0 (1)
 	
 	if(fileWrite == NULL){
@@ -297,9 +295,9 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	
 	fileWrite[0] = '\0';
 	
-	strcat(fileWrite, fileName);//Append new fileName to empty string
+	strcat(fileWrite, newFileName);//Append new fileName to empty string
 	strcat(fileWrite, "-sorted-");//Append "-sorted-" to end
-	strcat(fileWrite, sortType);//Append the variable "sortType"
+	strcat(fileWrite, sortType);//Append the  variable "sortType"
     strcat(fileWrite,".csv");
 	
 	if(outDir == NULL){
@@ -321,11 +319,10 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 		exit(0);
 	}
     
-    
+    fprintf(fp, "%s\n",header);
     int i;
 	for(i = 0; i < numRecords; i++){
-        if(!i)
-            fprintf(fp, "%s\n",header);
+       
 		fprintf(fp, "%s,%s,%f,%f,%f,%f,%s,%f,%f,%s,%s,%s,%f,%f,%s,%f,%s,%s,%f,%s,%s,%s,%f,%f,%f,%f,%f,%f\n", 
 			list[i].color, list[i].director_name, list[i].num_critic_for_reviews,
 			list[i].duration, list[i].director_facebook_likes, list[i].actor_3_facebook_likes,
