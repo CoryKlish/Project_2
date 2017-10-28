@@ -201,6 +201,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                     char* sorted = strstr(fileName,"-sorted-");
                     if (sorted != NULL)
                     {
+                        printf("ignored\n");
                         continue;
                     }
                     else
