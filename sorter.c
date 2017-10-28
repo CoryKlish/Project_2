@@ -122,14 +122,15 @@ int main(int argc, char* argv[]) {
     //if there is both a -d and a -o option
     if (dir && out)
     {
-        /* do same thing and other stuff*/
+        if (VerifyDirectory(inDir))
+        {
+            processDirectory(inDir,inputCol,outDir);
+        }
     }
     //If neither the -d nor the -o option was given in execution
     else
     {
-        /* do stuff in original directory
-        we can open the current directory with
-        opendir(".");*/
+       processDirectory(".",inputCol,".");
     }
     
 	

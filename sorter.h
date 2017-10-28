@@ -194,7 +194,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                     Record * table = readFile(fileName, pNumRecords, 0, inputCol);
                     //sorts the processed file
                     sort(inputCol, numRecords,table,0);
-                    
+                    writeFile(table,fileName,numRecords,outpath,inputCol);
                     
 
                 }
