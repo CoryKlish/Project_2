@@ -329,7 +329,6 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 		exit(0);
 	}
     
-    fprintf(fp, "%s\n",header);
     int i;
 	for(i = 0; i < numRecords; i++){
        
