@@ -243,7 +243,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
 
     //open the file for reading
 	FILE *fp;
-    if (strcmp(inpath,"."))
+    if (strcmp(inpath,".") == 0)
         fp = fopen(fileName, "r");
     else
     { 
@@ -253,6 +253,8 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         char* pathtofile = (char*)malloc(sizeof(char) * (plen + flen) + 2);
         pathtofile[0] = '\0';
         strcat(pathtofile,inpath);
+        strcat(pathtofile,"/");
+        strcat(pathtofile,fileName);
         fp = fopen(pathtofile,"r");
         
     }
