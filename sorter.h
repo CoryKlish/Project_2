@@ -309,18 +309,22 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
     strcat(fileWrite,".csv");
 	/// end section
     
-    //if the outdir is the current directory or not even existing
-	if(strcmp(outDir,".") == 0){
-		fp = fopen(fileWrite, "w");
-	}
-	else
-	{
-       //mallocing enough space for the sorted filename and the 
-        //output directory
-        
+    ///Section where the space for the filename and output 
+    ///directory is allocated
         //string that will hold the directory + filename
         char *placeToWrite = (char*)malloc(strlen(fileWrite)+strlen(outDir)+2);
         placeToWrite[0] = '\0';
+    ///End section
+    
+    //if the outdir is the current directory or not even existing
+	if(strcmp(outDir,".") == 0){
+        strcat(placeToWrite,"./");
+        strcat(placeToWrite,fileWrite);
+		fp = fopen(placeToWrite, "w");
+	}
+	else
+	{
+       
         
         //checking if the output directory exists
         DIR* testDir = opendir(outDir);
