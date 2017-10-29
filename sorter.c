@@ -111,17 +111,15 @@ int main(int argc, char* argv[]) {
     //if there is a -d option, which was validated
     if (dir)
     {
-        //if both -d and -o option
-        if (out)
+        if (VerifyDirectory(inDir))
         {
-            if (VerifyDirectory(outDir))
+            //if both -d and -o option
+            if (out)
                 processDirectory(inDir,inputCol,outDir);
         }
-        //otherwise test the just -d option
-        else if (VerifyDirectory(inDir))
-            processDirectory(inDir,inputCol,".");
+        processDirectory(inDir,inputCol,".");
+        
     }
-
     //If neither the -d nor the -o option was given in execution
     else
     {
