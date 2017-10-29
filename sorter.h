@@ -245,7 +245,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     //validation if real
 	if(fp == NULL)
     {
-		printf("Error: File does not exist\n");
+		printf("Error: Input directory does not exist\n");
 		exit(0);
 	}
     //taking the header
