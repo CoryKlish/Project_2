@@ -116,9 +116,16 @@ int main(int argc, char* argv[]) {
             //if both -d and -o option
             if (out)
                 processDirectory(inDir,inputCol,outDir);
+            //otherwise its just the -d option
+            else
+                processDirectory(inDir,inputCol,".");
         }
-        processDirectory(inDir,inputCol,".");
-        
+        //if we cant verify the input directory, just fail
+        else
+        {
+            printf("Did not give a valid input directory");
+            exit(0);
+        }
     }
     //If neither the -d nor the -o option was given in execution
     else
