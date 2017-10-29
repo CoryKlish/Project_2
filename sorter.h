@@ -50,7 +50,7 @@ static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
 static void printStructs(Record list[], int numStructs);
 static void processDirectory( char* path, char* inputCol, char* outpath);
-static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader);
+static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader, char* inpath);
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header);
 
 
@@ -181,8 +181,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
         {
             //pointer to the filename
             char* fileName = (entry->d_name);
-            if (strcmp (entry->d_name,".") != 0)
-            {
+  
                  //create index that points to the 
                 char* fileext = strstr(fileName, csv);
                 if (fileext != NULL)
@@ -204,19 +203,23 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                         printf("ignored\n");
                         continue;
                     }
+                    //If it is not already a sorted file
                     else
                     {
-                         Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader);
-                        //sorts the processed file
+
+                        Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
+                        
                         sort(inputCol, numRecords,table);
                         writeFile(table,fileName,numRecords,outpath,inputCol,header);
+                        }
+
                     }
 
                 }
-                //else do nothing
-            }
-        }
-    }
+                //if file ext is not csv, do nothing
+         
+        }//end if regular file
+    }//end whileloop for readdir
     
 
 }//End processDirectory function
@@ -236,11 +239,25 @@ header is a null char* that is to be filled with the header of
 
 RETURNS: A Record* of the given csv file
 */
-static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol, char** pHeader){ 
+static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol, char** pHeader, char* inpath){ 
 
     //open the file for reading
 	FILE *fp;
-	fp = fopen(fileName, "r");
+    if (strcmp(inpath,"."))
+        fp = fopen(fileName, "r");
+    else
+    { 
+        int plen = strlen(inpath);
+        int flen = strlen(fileName);
+        
+        char* pathtofile = (char*)malloc(sizeof(char) * (plen + flen) + 2);
+        pathtofile[0] = '\0';
+        strcat(pathtofile,inpath);
+        strcat(pathtofile,fileName);
+        strcat(pathtofile,'\0');
+    }
+    
+    
 
     //validation if real
 	if(fp == NULL)
