@@ -310,7 +310,7 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	/// end section
     
     //if the outdir is the current directory or not even existing
-	if(outDir == NULL || strcmp(outDir,".") == 0){
+	if(strcmp(outDir,".") == 0){
 		fp = fopen(fileWrite, "w");
 	}
 	else
