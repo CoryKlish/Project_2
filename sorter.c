@@ -115,7 +115,7 @@ int main(int argc, char* argv[]) {
              processDirectory(inDir,inputCol,".");
         else
         {
-            printf("The passed argument is not a directory");
+            printf("The passed argument is not a directory\n");
             exit(0);
         }
     }
@@ -125,6 +125,11 @@ int main(int argc, char* argv[]) {
         if (VerifyDirectory(inDir))
         {
             processDirectory(inDir,inputCol,outDir);
+        }
+        else
+        {
+            printf("The passed argument is not a directory  (Either output or input directory)\n");
+            exit(0);
         }
     }
     //If neither the -d nor the -o option was given in execution

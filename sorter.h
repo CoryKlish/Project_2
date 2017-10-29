@@ -211,9 +211,6 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                         sort(inputCol, numRecords,table);
                         writeFile(table,fileName,numRecords,outpath,inputCol,header);
                     }
-                    
-                   
-                    
 
                 }
                 //else do nothing
@@ -303,26 +300,50 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 		printf("Not enough memory...exiting\n");
 		exit(0);
 	}
-	
+	/// Section where the sorted file name is created
 	fileWrite[0] = '\0';
 	
 	strcat(fileWrite, newFileName);//Append new fileName to empty string
 	strcat(fileWrite, "-sorted-");//Append "-sorted-" to end
 	strcat(fileWrite, sortType);//Append the  variable "sortType"
     strcat(fileWrite,".csv");
-	
-	if(outDir == NULL){
+	/// end section
+    
+    //if the outdir is the current directory or not even existing
+	if(outDir == NULL || strcmp(outDir,".") == 0){
 		fp = fopen(fileWrite, "w");
 	}
 	else
 	{
-		char *placeToWrite = (char*)malloc(strlen(fileWrite)+strlen(outDir)+2);
-		placeToWrite[0] = '\0';
-		strcat(placeToWrite, outDir);//Append directory to store file
-		strcat(placeToWrite, "/");//Append forward slash
-		strcat(placeToWrite, fileWrite);//Append file to write name
-		
-		fp = fopen(placeToWrite, "w");
+       //mallocing enough space for the sorted filename and the 
+        //output directory
+        
+        //string that will hold the directory + filename
+        char *placeToWrite = (char*)malloc(strlen(fileWrite)+strlen(outDir)+2);
+        placeToWrite[0] = '\0';
+        
+        //checking if the output directory exists
+        DIR* testDir = opendir(outDir);
+        if (testDir)
+        {
+            //the directory exists and we can just append file to the name
+            strcat(placeToWrite, outDir);//Append directory to store file
+            strcat(placeToWrite, "/");//Append forward slash
+            strcat(placeToWrite, fileWrite);//Append file to write name
+            fp = fopen(placeToWrite,"w")
+        }
+	
+		else
+        {
+            //If it doesnt exist, make a new directory
+            //0744 is the permissions of the directory
+            //user and group have read-only access
+            mkdir(outdir,0744);
+            strcat(placeToWrite, outDir);//Append directory to store file
+            strcat(placeToWrite, "/");//Append forward slash
+            strcat(placeToWrite, fileWrite);//Append file to write name
+            fp = fopen(placeToWrite, "w");
+        }
 	}
 
 	if(fp == NULL){
