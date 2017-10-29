@@ -213,7 +213,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                         writeFile(table,fileName,numRecords,outpath,inputCol,header);
                         }
 
-                    }
+                    
 
                 }
                 //if file ext is not csv, do nothing
