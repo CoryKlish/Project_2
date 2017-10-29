@@ -254,7 +254,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         pathtofile[0] = '\0';
         strcat(pathtofile,inpath);
         strcat(pathtofile,fileName);
-        strcat(pathtofile,'\0');
+        
     }
     
     
