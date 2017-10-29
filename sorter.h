@@ -351,7 +351,7 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	}
 
 	if(fp == NULL){
-		printf("Error: File does not exist\n");
+		printf("Error: OutDir not found.\n");
 		exit(0);
 	}
     
