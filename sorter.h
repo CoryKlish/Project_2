@@ -330,7 +330,7 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
             strcat(placeToWrite, outDir);//Append directory to store file
             strcat(placeToWrite, "/");//Append forward slash
             strcat(placeToWrite, fileWrite);//Append file to write name
-            fp = fopen(placeToWrite,"w")
+            fp = fopen(placeToWrite,"w");
         }
 	
 		else
@@ -338,7 +338,7 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
             //If it doesnt exist, make a new directory
             //0744 is the permissions of the directory
             //user and group have read-only access
-            mkdir(outdir,0744);
+            mkdir(outDir,0744);
             strcat(placeToWrite, outDir);//Append directory to store file
             strcat(placeToWrite, "/");//Append forward slash
             strcat(placeToWrite, fileWrite);//Append file to write name
