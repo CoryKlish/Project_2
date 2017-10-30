@@ -172,8 +172,12 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
             //append new directory to the end of dpath.
             strcat(dpath, entry->d_name);
             
-            /* fork() to process the directory*/
-            processDirectory(dpath,inputCol,outpath);
+            int pT = fork();
+            
+			if (pT == 0)
+				processDirectory(dpath,inputCol,outpath);
+			else if (pT > 0)	
+				;
         }
 
 
@@ -247,6 +251,21 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         fp = fopen(fileName, "r");
     else
     { 
+		
+		char* rootaccess = malloc(sizeof(char) * 7);
+		char* rootaccess2 = malloc(sizeof(char) * 6);
+		strncpy(rootaccess,inpath,6);
+		strncpy(rootaccess2,inpath,5);
+		*(rootaccess + 7) = '\0';
+		*(rootaccess2 + 6) = '\0';
+		if (strcmp(rootaccess,"/root/") == 0 || strcmp(rootaccess2,"root/")
+			printf("No permissions to access root directory\n");
+		free(rootaccess);
+		free(rootaccess2);
+		rootaccess = NULL;
+		rootaccess2 = NULL;
+		
+		
         int plen = strlen(inpath);
         int flen = strlen(fileName);
         
@@ -255,6 +274,8 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         strcat(pathtofile,inpath);
         strcat(pathtofile,"/");
         strcat(pathtofile,fileName);
+        
+
         fp = fopen(pathtofile,"r");
         
     }
