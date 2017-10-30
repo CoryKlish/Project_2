@@ -258,9 +258,10 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
 		strncpy(rootaccess2,inpath,5);
 		*(rootaccess + 7) = '\0';
 		*(rootaccess2 + 6) = '\0';
-		if (strcmp(rootaccess,"/root/") == 0 || strcmp(rootaccess2,"root/"))
+		if (strcmp(rootaccess,"/root/") == 0 || strcmp(rootaccess2,"root/") == 0)
 		{
 			printf("No permissions to access root directory\n");
+			exit(0);
 		}
 		
 		free(rootaccess);
