@@ -184,7 +184,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
 				exit(0); 
 			}
 				
-				* /
+				*/
         }
 
 
