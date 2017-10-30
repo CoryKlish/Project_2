@@ -215,15 +215,26 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                         continue;
                     }
                     //If it is not already a sorted file
-                    else
-                    {
-
-                        Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
-                        
-                        sort(inputCol, numRecords,table);
-                        writeFile(table,fileName,numRecords,outpath,inputCol,header);
-                    }
-
+					else
+					{
+						int pT = fork();
+						if (pT == 0)
+						{
+							Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
+							sort(inputCol, numRecords,table);
+							writeFile(table,fileName,numRecords,outpath,inputCol,header);
+							
+						}
+						else if (pT > 0)
+							continue;
+							
+						else
+						{
+							printf("fork() failed. Ending process");
+							exit(0);
+						}
+	
+}
                     
 
                 }
