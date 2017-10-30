@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
             //if both -d and -o option
             if (out)
             {
-                printf("Initial PID: %d\n",getPID());
+                printf("Initial PID: %d\n",getpid());
                 processDirectory(inDir,inputCol,outDir);
                 
 
@@ -124,7 +124,7 @@ int main(int argc, char* argv[]) {
             //otherwise its just the -d option
             else
             {
-                printf("Initial PID: %d\n",getPID());
+                printf("Initial PID: %d\n",getpid());
                 processDirectory(inDir,inputCol,".");
             }
         }
@@ -138,7 +138,7 @@ int main(int argc, char* argv[]) {
     //If neither the -d nor the -o option was given in execution
     else
     {
-        printf("Initial PID: %d\n",getPID());
+        printf("Initial PID: %d\n",getpid());
         processDirectory(".",inputCol,".");
     }
     
