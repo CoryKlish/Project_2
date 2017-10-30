@@ -171,13 +171,20 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
             strcat(dpath,"/");
             //append new directory to the end of dpath.
             strcat(dpath, entry->d_name);
-            
+            /*
             int pT = fork();
             
 			if (pT == 0)
 				processDirectory(dpath,inputCol,outpath);
 			else if (pT > 0)	
-				;
+				continue;
+			else
+			{
+				printf("fork() failed.");
+				exit(0); 
+			}
+				
+				* /
         }
 
 
