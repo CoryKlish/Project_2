@@ -115,10 +115,18 @@ int main(int argc, char* argv[]) {
         {
             //if both -d and -o option
             if (out)
+            {
+                printf("Initial PID: %d\n",getPID());
                 processDirectory(inDir,inputCol,outDir);
+                
+
+            }
             //otherwise its just the -d option
             else
+            {
+                printf("Initial PID: %d\n",getPID());
                 processDirectory(inDir,inputCol,".");
+            }
         }
         //if we cant verify the input directory, just fail
         else
@@ -130,7 +138,8 @@ int main(int argc, char* argv[]) {
     //If neither the -d nor the -o option was given in execution
     else
     {
-       processDirectory(".",inputCol,".");
+        printf("Initial PID: %d\n",getPID());
+        processDirectory(".",inputCol,".");
     }
     
 	

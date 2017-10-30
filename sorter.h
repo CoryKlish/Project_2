@@ -211,7 +211,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                         
                         sort(inputCol, numRecords,table);
                         writeFile(table,fileName,numRecords,outpath,inputCol,header);
-                        }
+                    }
 
                     
 
