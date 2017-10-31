@@ -4,6 +4,8 @@
 #include <dirent.h>
 #include <sys/types.h>
 #include "sorter.h"
+#include <sys/mman.h>
+#include <fcntl.h>
 
 /////////////////////////////////////////////////////////////Processing Directory method/////////////////////////////////////////////
 

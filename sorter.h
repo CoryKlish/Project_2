@@ -70,7 +70,7 @@ void mergeString(Record strArr[], int lo, int mid, int hi,char* sortType);
 //Large helper function: getHeader
 /*
 Params:
-header is the very first row of the csv, which is attained         outside this method
+header is the very first row of the csv, which is attained outside this method
 colName is the desired column to be sorted
 numFields is passed to this method so that we can count the
     number of columns in the csv. Used later on to validate 
@@ -152,6 +152,8 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
     
     struct dirent* entry;
     char* csv = ".csv";
+    
+    
     DIR* directory  = opendir(path);
     //read from directory until nothing left
     while ((entry =  readdir(directory)) != NULL)
@@ -171,7 +173,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
             strcat(dpath,"/");
             //append new directory to the end of dpath.
             strcat(dpath, entry->d_name);
-            /*
+            
             int pT = fork();
             
 			if (pT == 0)
@@ -184,7 +186,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
 				exit(0); 
 			}
 				
-				*/
+				
         }
 
 
@@ -214,6 +216,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
                         printf("ignored\n");
                         continue;
                     }
+                    
                     //If it is not already a sorted file
 					else
 					{
@@ -234,7 +237,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
 							exit(0);
 						}
 	
-}
+					}
                     
 
                 }
