@@ -110,12 +110,14 @@ int main(int argc, char* argv[]) {
 ////////////////////////////////////////////.csv file sort///////////////////////////
     //process the input directory
     char* inputCol = argv[2];
-    int* sharedcounter = (int*)mmap(NULL,sizeof(int),PROT_READ | PROT_WRITE,MAP_SHARED,1,0);
+    
+    int* sharedcounter = mmap(0,sizeof(int),PROT_READ | PROT_WRITE,MAP_SHARED,1,0);
     if(sharedcounter == MAP_FAILED)
     {
 	printf("The mmap failed. Exiting.");
 	exit(EXIT_FAILURE);
     }
+    
 
     //if there is a -d option, which was validated
     if (dir)
