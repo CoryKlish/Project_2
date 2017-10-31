@@ -8,7 +8,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <sys/mman.h>
-#include <fcntl.h>
+#include <sys/wait.h>
 #include "sorter.h"
 
 int main(int argc, char* argv[]) {
@@ -110,6 +110,8 @@ int main(int argc, char* argv[]) {
 ////////////////////////////////////////////.csv file sort///////////////////////////
     //process the input directory
     char* inputCol = argv[2];
+    int status;
+    pid_t pid;
     
     int* sharedcounter = mmap(0,sizeof(int),PROT_READ | PROT_WRITE,MAP_SHARED,1,0);
     if(sharedcounter == MAP_FAILED)
@@ -128,7 +130,8 @@ int main(int argc, char* argv[]) {
             if (out)
             {
                 printf("Initial PID: %d\n",getpid());
-                processDirectory(inDir,inputCol,outDir);
+                printf("PID's of Child Processes: ");
+                pid = processDirectory(inDir,inputCol,outDir);
                 
 
             }
@@ -136,7 +139,8 @@ int main(int argc, char* argv[]) {
             else
             {
                 printf("Initial PID: %d\n",getpid());
-                processDirectory(inDir,inputCol,".");
+                printf("PID's of Child Processes: ");
+                pid = processDirectory(inDir,inputCol,inDir);
             }
         }
         //if we cant verify the input directory, just fail
@@ -150,8 +154,11 @@ int main(int argc, char* argv[]) {
     else
     {
         printf("Initial PID: %d\n",getpid());
-        processDirectory(".",inputCol,".");
+        printf("PID's of Child Processes: ");
+        pid = processDirectory(".",inputCol,".");
     }
+    
+    waitpid(pid);
     
 	
 }//End main

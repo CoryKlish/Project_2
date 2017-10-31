@@ -49,7 +49,7 @@ static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
 static void printStructs(Record list[], int numStructs);
-static void processDirectory( char* path, char* inputCol, char* outpath);
+static pid_t processDirectory( char* path, char* inputCol, char* outpath);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader, char* inpath);
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header);
 
@@ -147,12 +147,13 @@ inputCol is what we are sorting on, which is validated in this
     method
 
 */
-static void processDirectory(char* path, char* inputCol, char* outpath)
+static pid_t processDirectory(char* path, char* inputCol, char* outpath)
 {
     
     struct dirent* entry;
     char* csv = ".csv";
-    
+    pid_t pid;
+    int status;
     
     DIR* directory  = opendir(path);
     //read from directory until nothing left
@@ -176,10 +177,16 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
             
             int pT = fork();
             
+            //in the child process, process the directory 
+            //return the pid of the process after doing so 
 			if (pT == 0)
-				processDirectory(dpath,inputCol,outpath);
-			else if (pT > 0)	
-				continue;
+				pid = processDirectory(dpath,inputCol,outpath);
+            //If we are the parent process,
+			else if (pT > 0)
+            {
+                waitpid(pid,)
+                continue;
+            }
 			else
 			{
 				printf("fork() failed.");
@@ -221,15 +228,22 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
 					else
 					{
 						int pT = fork();
+                        //in the child process
+                        
 						if (pT == 0)
 						{
 							Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
 							sort(inputCol, numRecords,table);
-							writeFile(table,fileName,numRecords,outpath,inputCol,header);
+                            writeFile(table,fileName,numRecords,outpath,inputCol,header);
+                            printf("%d, ",getpid());
+                            pid = getpid();
 							
 						}
 						else if (pT > 0)
+                        {
 							continue;
+
+                        }
 							
 						else
 						{
@@ -246,7 +260,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
         }//end if regular file
     }//end whileloop for readdir
     
-
+    return pid;
 }//End processDirectory function
 
 ///////////////////////////////////////READ & WRITE//////////////////////////////////////////
