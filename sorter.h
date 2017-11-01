@@ -166,19 +166,18 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
             if (strcmp (entry->d_name,"..") != 0)
                 continue;
             //max length of a directory path
-            /*
             char dpath[255];
             dpath[0] = '\0';
             
             strcat(dpath,"/");
+            //finds all characters past the first /
+            char* str = strstr(path,"/");
             //append current path to the dpath'
-            strcat(dpath, path);
+            strcat(dpath, str);
             strcat(dpath,"/");
             //append new directory to the end of dpath.
             strcat(dpath, entry->d_name);
             printf("%s",entry->d_name);
-            strcat(dpath,"/");
-            */
             fflush(stdout);
             int pT = fork();
             
@@ -188,7 +187,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			{
 				processCounter++;
 				printf("%d, " , getpid());
-				processDirectory(entry->d_name,inputCol,outpath);
+				processDirectory(dpath,inputCol,outpath);
 				exit(processCounter);
 				
 			}
