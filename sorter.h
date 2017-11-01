@@ -158,8 +158,8 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     //read from directory until nothing left
     while ((entry =  readdir(directory)) != NULL)
     {
-        struct stat buffer;
-        if (stat(entry->d_name,&buffer) != 0)
+        struct stat st;
+        if (stat(entry->d_name,&st) != 0)
         {
             printf("unable to get information on directory object, ending\n");
             exit(0);
