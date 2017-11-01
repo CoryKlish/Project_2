@@ -201,10 +201,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 		   //if the entry is another directory
 			if (entry->d_type == DT_DIR)
 			{
-				
-				int len = strlen(path);
-				
-				
+				int len = strlen(path);				
 				fflush(stdout);
 				int pT = fork();
 				
@@ -221,7 +218,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				else if (pT > 0)
 				{
 					wait(&processCounter);
-					WEXITSTATUS(processCounter);
+					printf("\nWEXITSTATUS returns %d\n",WEXITSTATUS(processCounter));
 				
 				}
 				else
@@ -455,7 +452,8 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
     
     int i;
 	for(i = 0; i < numRecords; i++){
-       
+       if (i == 0)
+           fprintf(fp,"%s\n",header);
 		fprintf(fp, "%s,%s,%f,%f,%f,%f,%s,%f,%f,%s,%s,%s,%f,%f,%s,%f,%s,%s,%f,%s,%s,%s,%f,%f,%f,%f,%f,%f\n", 
 			list[i].color, list[i].director_name, list[i].num_critic_for_reviews,
 			list[i].duration, list[i].director_facebook_likes, list[i].actor_3_facebook_likes,
