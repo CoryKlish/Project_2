@@ -197,13 +197,14 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                 //Original path either ends with "/" or not
                 if (*(path + len - 1) == '/')
                 {
-                    
+                    strcat(dpath,path);
                     strcat(dpath,entry->d_name);
                     strcat(dpath,"\0");
                 }
                 else
                 {
- 
+                    strcat(dpath,path);
+                    strcat(dpath,"/");
                     strcat(dpath,entry->d_name);
                     strcat(dpath,"\0");
 
