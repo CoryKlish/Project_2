@@ -169,6 +169,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
        //if the entry is another directory
         if (S_ISDIR(st.st_mode))
         {
+            printf("Hey i know this is a directory\n");
             if (strcmp (entry->d_name,".") != 0)
                 continue;
             if (strcmp (entry->d_name,"..") != 0)
