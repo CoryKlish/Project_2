@@ -269,4 +269,3 @@ char VerifyMode(char* mode)
     
     return vmode;               
 }//End VerifyMode function
-
