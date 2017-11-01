@@ -171,7 +171,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
             
             strcat(dpath,"/");
             //if it is an absolute path
-            if (*path == "/")
+            if ((*path) == "/")
             {
                 char* str = strstr(path,"/");
                 strcat(dpath, str);
