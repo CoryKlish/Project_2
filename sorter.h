@@ -159,7 +159,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     while ((entry =  readdir(directory)) != NULL)
     {
        //if the entry is another directory
-        if (entry->d_type == DT_DIR)
+        if (entry ->d_type == DT_DIR)
         {
             if (strcmp (entry->d_name,".") != 0)
                 continue;
@@ -170,13 +170,23 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
             dpath[0] = '\0';
             
             strcat(dpath,"/");
-            //finds all characters past the first /
-            char* str = strstr(path,"/");
-            //append current path to the dpath'
-            strcat(dpath, str);
-            strcat(dpath,"/");
-            //append new directory to the end of dpath.
-            strcat(dpath, entry->d_name);
+            //if it is an absolute path
+            if (*path == "/")
+            {
+                char* str = strstr(path,"/");
+                strcat(dpath, str);
+                strcat(dpath,"/");
+                //append new directory to the end of dpath.
+                strcat(dpath, entry->d_name);
+            }
+            //if it is a relative path.
+            else
+            {
+                strcat(dpath,path);
+                strcat(dpath,"/");
+                //append new directory to the end of dpath.
+                strcat(dpath, entry->d_name);
+            }
             printf("%s",entry->d_name);
             fflush(stdout);
             int pT = fork();
