@@ -168,25 +168,10 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
             //max length of a directory path
             char dpath[255];
             dpath[0] = '\0';
-            
+            strcat(dpath, path);
             strcat(dpath,"/");
-            //if it is an absolute path
-            if (*path == '/')
-            {
-                char* str = strstr(path,"/");
-                strcat(dpath, str);
-                strcat(dpath,"/");
-                //append new directory to the end of dpath.
-                strcat(dpath, entry->d_name);
-            }
-            //if it is a relative path.
-            else
-            {
-                strcat(dpath,path);
-                strcat(dpath,"/");
-                //append new directory to the end of dpath.
-                strcat(dpath, entry->d_name);
-            }
+            //append new directory to the end of dpath.
+            strcat(dpath, entry->d_name);
             printf("%s",entry->d_name);
             fflush(stdout);
             int pT = fork();
