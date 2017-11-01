@@ -304,7 +304,8 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     int i;
     for (i = 0; i < processCounter; i++)
     {
-        wait(&processCounter);
+        wait(&status);
+        printf("\nStatus = %d\n",status);
     }
     return processCounter;
 }//End processDirectory function
