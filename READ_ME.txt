@@ -3,6 +3,8 @@ PROGRAM OVERVIEW
 //Cory Klish
 //Josh Pineda
 
+///////////////////////////~~PART 0~~//////////////////////////////////////////
+
 Our program consists of 2 major 'C' files: "sorter.c" and "mergesort.c".
 In "sorter.c" we handled the reading in of the CSV file through stdin using
 strtok to read in the sort types, strsep to fill in struct attributes, 
@@ -29,3 +31,7 @@ they want to sort it. The program reads in these fields, and sorts using
 mergesort.
 
 Compile normally: "gcc sorter.c mergesort.c -o sorter"
+
+///////////////////////////~~PART 1~~//////////////////////////////////////////
+
+In this section of the project, we added the ability to navigate through 

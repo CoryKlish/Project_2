@@ -37,76 +37,76 @@ int main(int argc, char* argv[]) {
     char* inDir;
     char* outDir;
     
-    if (argc-1 > 4)
-	{
-		dir = VerifyMode(argv[3]);
-		if (dir == 'd')
-		{
-			//get length of the directory field
-			if (argv[4] == NULL)
-			{
-				inDir = ".";
-			}
-			else
-			{
-				inDir = malloc(sizeof(char) * (strlen (argv[4])));
-				inDir = strdup(argv[4]);
-			}
-		}
-		
-		out = VerifyMode(argv[5]);
-		if (out == 'o')
-		{
-			if (argv[6] == NULL)
-			{
-				outDir = malloc(sizeof(char) * (strlen (argv[4])));
-				outDir = strdup(argv[4]);
-			}
-			else
-			{
-				outDir = malloc(sizeof(char) * (strlen(argv[6])));
-				outDir = strdup(argv[6]);
-			}
-		}
-		else
-		{
-			printf("Command arguments invalid\n");
-			exit(0);
-		}
-		
-	}
-    else if (argc-1 > 2)
+    if(VerifyMode(argv[1]) != 'c')
     {
-		dir = VerifyMode(argv[3]);
-		if (dir == 'd')
+		printf("First argument must be -c\n");
+		exit(0);
+	} 
+	
+	if( ((argc - 1) == 6) && VerifyMode(argv[3]) == 'd' && VerifyMode(argv[5]) == 'o') //6 arguments
+	{
+		inDir = (char*)malloc(sizeof(char) * strlen(argv[4]) + 1);
+		inDir = strdup(argv[4]);
+		
+		outDir = (char*)malloc(sizeof(char) * strlen(argv[6]) + 1);
+		outDir = strdup(argv[6]);
+	}
+	else if( (argc - 1) == 5) //5 arguments
+	{
+		if(VerifyMode(argv[4]) != 'o')
 		{
-			//get length of the directory field
-			if (argv[4] == NULL)
-			{
-				inDir = ".";
-			}
-			inDir = malloc(sizeof(char) * (strlen (argv[4])));
+			inDir = (char*)malloc(sizeof(char) * strlen(argv[4]) + 1);
 			inDir = strdup(argv[4]);
-		}
-		else if (dir == 'o')
-		{
-			if (argv[4] == NULL)
-			{
-				inDir = ".";
-			}
-			outDir = malloc(sizeof(char) * (strlen(argv[4])));
-			outDir = strdup(argv[4]);
 			
+			outDir = (char*)malloc(sizeof(char) * strlen(argv[4]) + 1);
+			outDir = strdup(argv[4]);
+		}
+		else if(VerifyMode(argv[4]) == 'o' && VerifyMode(argv[3]) == 'd')
+		{
+			inDir = ".";
+			
+			outDir = (char*)malloc(sizeof(char) * strlen(argv[5]) + 1);
+			outDir = strdup(argv[5]);
 		}
 		else
 		{
-			printf("Command arguments invalid\n");
+			printf("Invalid argument passing...Exiting\n");
 			exit(0);
 		}
-		
 	}
-	
-		
+	else if( (argc - 1) == 4) //4 arguments
+	{
+		if(VerifyMode(argv[3]) == 'd' && VerifyMode(argv[4]) == 'o')
+		{
+			inDir = ".";
+			outDir = ".";
+		}
+		else if(VerifyMode(argv[3]) == 'd' && VerifyMode(argv[4]) != 'o')
+		{
+			inDir = (char*)malloc(sizeof(char) * strlen(argv[4]) + 1);
+			inDir = strdup(argv[4]);
+			
+			outDir = (char*)malloc(sizeof(char) * strlen(argv[4]) + 1);
+			outDir = strdup(argv[4]);
+		}
+		else if(VerifyMode(argv[3]) == 'o')
+		{
+			inDir = ".";
+			
+			outDir = (char*)malloc(sizeof(char) * strlen(argv[4]) + 1);
+			outDir = strdup(argv[4]);
+		}
+	}
+	else if( (argc - 1) == 2 || (argc - 1) == 3 ) //2 or 3 arguments
+	{
+		inDir = ".";
+		outDir = ".";
+	}
+	else
+	{
+		printf("Incorrect formatting of arguments...Exiting\n");
+		exit(0);
+	}
 	
     	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
@@ -250,11 +250,14 @@ char VerifyMode(char* mode)
     char vmode = 'x';
     //for looping through the modes
     int modeLen = strlen(modes);
+    /
+    /*
     int len = strlen(mode);
     if (len > 2 || *(mode) != '-')
     {
-        printf("\n %s is not recognized, ending program",mode);
+        printf("\n %s is not recognized, ending program\n",mode);
     }
+    */
     
 	int i;
     for (i = 0; i < modeLen; i++)
