@@ -10,6 +10,11 @@
 #include <sys/wait.h>
 #include "sorter.h"
 
+char* header = "color,director_name,num_critic_for_reviews,duration,director_facebook_likes,actor_3_facebook_likes,actor_2_name,actor_1_facebook_likes,gross,genres,actor_1_name,\
+movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,\
+title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
+
+
 int main(int argc, char* argv[]) {
 
 ////////////////////////////////////Verifying the input arguments////////////////////////////////////    
@@ -109,52 +114,55 @@ int main(int argc, char* argv[]) {
 ////////////////////////////////////////////.csv file sort///////////////////////////
     //process the input directory
     char* inputCol = argv[2];
-    int processCounter;
-    
-    
-    
-    
-
-
-    //if there is a -d option, which was validated
-    if (dir)
+    char * verification = strstr(header,inputCol);
+    if (verification != NULL)
     {
-        if (VerifyDirectory(inDir))
-        {
-            //if both -d and -o option
-            if (out)
-            {
-                printf("Initial PID: %d\n",getpid());
-                printf("PID's of Child Processes: ");
-                processCounter = processDirectory(inDir,inputCol,outDir);
-                
+		int processCounter;
 
-            }
-            //otherwise its just the -d option
-            else
-            {
-                printf("Initial PID: %d\n",getpid());
-                printf("PID's of Child Processes: ");
-                processCounter = processDirectory(inDir,inputCol,inDir);
-            }
-        }
-        //if we cant verify the input directory, just fail
-        else
-        {
-            printf("Did not give a valid input directory\n");
-            exit(0);
-        }
-    }
-    //If neither the -d nor the -o option was given in execution
-    else
-    {
-        printf("Initial PID: %d\n",getpid());
-        printf("PID's of Child Processes: ");
-        processCounter = processDirectory(".",inputCol,".");
-    }
-    
-    printf("\nThe total number of processes: %d\n",processCounter);
-    
+		//if there is a -d option, which was validated
+		if (dir)
+		{
+			if (VerifyDirectory(inDir))
+			{
+				//if both -d and -o option
+				if (out)
+				{
+					printf("Initial PID: %d\n",getpid());
+					printf("PID's of Child Processes: ");
+					processCounter = processDirectory(inDir,inputCol,outDir);
+					
+
+				}
+				//otherwise its just the -d option
+				else
+				{
+					printf("Initial PID: %d\n",getpid());
+					printf("PID's of Child Processes: ");
+					processCounter = processDirectory(inDir,inputCol,inDir);
+				}
+			}
+			//if we cant verify the input directory, just fail
+			else
+			{
+				printf("Did not give a valid input directory\n");
+				exit(0);
+			}
+		}
+		//If neither the -d nor the -o option was given in execution
+		else
+		{
+			printf("Initial PID: %d\n",getpid());
+			printf("PID's of Child Processes: ");
+			processCounter = processDirectory(".",inputCol,".");
+		}
+		
+		printf("\nThe total number of processes: %d\n",processCounter);
+	}
+	else
+	{
+		printf("invalid sort type. exiting.\n");
+		exit(0);
+	}
 	
 }//End main
 

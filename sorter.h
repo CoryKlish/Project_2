@@ -137,11 +137,7 @@ static char* getSortType(char* header, char* colName, int* numFields)
         printf("\nWrong number of columns in csv.\n");
         exit(0);
     }
-    if (sortType == NULL)
-    {
-		printf("FUFCCCCCCCCCCCCCCCnewline\n");
-		exit(0);
-	}
+
     return sortType;
 
 }//end getSortType function
@@ -165,7 +161,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     
     while ((entry =  readdir(directory)) != NULL )
     {
-		if ((strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0)
+		if ((strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0 && (strcmp (entry->d_name,".git")) != 0)
 		{
 
 			struct stat buffer;
@@ -178,7 +174,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			}
 			else if(strcmp(path,".") == 0)
 			{
-				strcat(dpath,"/");
 				strcat(dpath,entry->d_name);
 				strcat(dpath,"\0");
 			}
@@ -377,11 +372,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     char* sortType = (char*)malloc(sizeof(char) * len);
     //getSortType also gets the number of fields
     sortType = getSortType(line,inputCol,numP);
-    if (strcmp(sortType,inputCol) != 0)
-    {
-        printf("gotcha, sorttype freaking out\n");
-        exit(0);
-    }
+ 
     if (*numP != 27)
     {
         printf("numP is freaking out, something wrong with columns\n");
