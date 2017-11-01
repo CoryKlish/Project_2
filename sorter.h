@@ -49,7 +49,7 @@ static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
 static void printStructs(Record list[], int numStructs);
-static pid_t processDirectory( char* path, char* inputCol, char* outpath);
+static int processDirectory( char* path, char* inputCol, char* outpath);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader, char* inpath);
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header);
 
@@ -147,13 +147,13 @@ inputCol is what we are sorting on, which is validated in this
     method
 
 */
-static pid_t processDirectory(char* path, char* inputCol, char* outpath)
+static int processDirectory(char* path, char* inputCol, char* outpath)
 {
-    
+   
     struct dirent* entry;
     char* csv = ".csv";
     pid_t pid;
-    int status;
+    int processCounter = 0;
     
     DIR* directory  = opendir(path);
     //read from directory until nothing left
@@ -180,11 +180,18 @@ static pid_t processDirectory(char* path, char* inputCol, char* outpath)
             //in the child process, process the directory 
             //return the pid of the process after doing so 
 			if (pT == 0)
+			{
+				processCounter++;
+				printf("%d, " , getpid());
 				pid = processDirectory(dpath,inputCol,outpath);
+				exit(processCounter);
+				
+			}
             //If we are the parent process,
 			else if (pT > 0)
             {
-                waitpid(pid,)
+                wait(&processCounter);
+                WEXITSTATUS(processCounter);
                 continue;
             }
 			else
@@ -206,7 +213,7 @@ static pid_t processDirectory(char* path, char* inputCol, char* outpath)
                 char* fileext = strstr(fileName, csv);
                 if (fileext != NULL)
                 {
-                    //printf("\ncsv recognized: %s\n",fileName);
+                    printf("\ncsv recognized: %s\n",fileName);
                       /* fork() to process the file*/
                     //need the numrecords for the mergesort
                     int numRecords = 0;
@@ -220,7 +227,7 @@ static pid_t processDirectory(char* path, char* inputCol, char* outpath)
                     char* sorted = strstr(fileName,"-sorted-");
                     if (sorted != NULL)
                     {
-                        //printf("ignored\n");
+                        printf("ignored\n");
                         continue;
                     }
                     
@@ -232,15 +239,18 @@ static pid_t processDirectory(char* path, char* inputCol, char* outpath)
                         
 						if (pT == 0)
 						{
+							processCounter++;
 							Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
 							sort(inputCol, numRecords,table);
                             writeFile(table,fileName,numRecords,outpath,inputCol,header);
                             printf("%d, ",getpid());
-                            pid = getpid();
+							exit(processCounter);
 							
 						}
 						else if (pT > 0)
                         {
+							wait(&processCounter);
+							WEXITSTATUS(processCounter);
 							continue;
 
                         }
@@ -260,7 +270,7 @@ static pid_t processDirectory(char* path, char* inputCol, char* outpath)
         }//end if regular file
     }//end whileloop for readdir
     
-    return pid;
+    return processCounter;
 }//End processDirectory function
 
 ///////////////////////////////////////READ & WRITE//////////////////////////////////////////
