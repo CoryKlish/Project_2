@@ -156,7 +156,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     int processCounter = 1;
     int len = strlen(path);
     
-    if(len == 5 || len == 6){
+    
 		char *rootaccess = (char *)malloc(sizeof(char) * 7);
 		char *rootaccess2 = (char *)malloc(sizeof(char) * 6);
 		strncpy(rootaccess, path, 6);
@@ -173,7 +173,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 		free(rootaccess2);
 		rootaccess = NULL;
 		rootaccess2 = NULL;
-	}
     
     DIR* directory  = opendir(path);
     //read from directory until nothing left
