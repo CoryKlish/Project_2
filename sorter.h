@@ -300,7 +300,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     int i;
     for (i = 0; i < processCounter; i++)
     {
-        wait();
+        wait(&processCounter);
     }
     return processCounter;
 }//End processDirectory function
