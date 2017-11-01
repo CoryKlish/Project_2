@@ -199,7 +199,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
             int pT = fork();
             
             //in the child process, process the directory 
-            //return the pid of the process after doing so 
 			if (pT == 0)
 			{
 				processCounter++;
