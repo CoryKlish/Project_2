@@ -175,7 +175,7 @@ int VerifyDirectory(char* path)
 	rootaccess2[5] = '\0';
 	if (strcmp(rootaccess,"/root/") == 0 || strcmp(rootaccess2,"/root") == 0 || strcmp(rootaccess2, "root/") == 0)
 	{
-		printf("\nNo permissions to access root directory\n");
+		printf("No permissions to access root directory\n");
 		exit(0);
 	}
 		
