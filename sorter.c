@@ -166,6 +166,24 @@ int VerifyDirectory(char* path)
         printf("\npath is null.");
         exit(0);
     }
+   
+	char *rootaccess = (char *)malloc(sizeof(char) * 7);
+	char *rootaccess2 = (char *)malloc(sizeof(char) * 6);
+	strncpy(rootaccess, path, 6);
+	strncpy(rootaccess2, path, 5);
+	rootaccess[6] = '\0';
+	rootaccess2[5] = '\0';
+	if (strcmp(rootaccess,"/root/") == 0 || strcmp(rootaccess2,"/root") == 0 || strcmp(rootaccess2, "root/") == 0)
+	{
+		printf("\nNo permissions to access root directory\n");
+		exit(0);
+	}
+		
+	free(rootaccess);
+	free(rootaccess2);
+	rootaccess = NULL;
+	rootaccess2 = NULL;
+		
      struct stat buffer;
      //get infomation about the path, put into a buffer
     if (stat(path,&buffer) != 0)
