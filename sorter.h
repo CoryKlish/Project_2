@@ -164,7 +164,39 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
         if (strcmp (entry->d_name,"..") != 0)
             continue;
         struct stat st;
-        if (stat(entry->d_name,&st) != 0)
+        char dpath[255];
+        dpath[0] = '\0';
+        if (strcmp(path,"./") == 0)
+        {
+            strcat(dpath,entry->d_name);
+            strcat(dpath,"\0");
+        }
+        else if(strcmp(path,".") == 0)
+        {
+            strcat(dpath,"/");
+            strcat(dpath,entry->d_name);
+            strcat(dpath,"\0");
+        }
+        //if the path is not a "." or "./"
+        else
+        {
+            //Original path either ends with "/" or not
+            if (*(path + len - 1) == '/')
+            {
+                strcat(dpath,path);
+                strcat(dpath,entry->d_name);
+                strcat(dpath,"\0");
+            }
+            else
+            {
+                strcat(dpath,path);
+                strcat(dpath,"/");
+                strcat(dpath,entry->d_name);
+                strcat(dpath,"\0");
+            }
+        }
+        
+        if (stat(dpath,&st) != 0)
         {
             printf("unable to get information on directory object, ending\n");
             exit(0);
@@ -175,41 +207,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
         {
             printf("Hey i know this is a directory\n");
             int len = strlen(path);
-            char dpath[255];
-            dpath[0] = '\0';
-       
-            if (strcmp(path,"./") == 0)
-            {
-                strcat(dpath,entry->d_name);
-                strcat(dpath,"\0");
-
-            }
-            else if(strcmp(path,".") == 0)
-            {
-                strcat(dpath,"/");
-                strcat(dpath,entry->d_name);
-                strcat(dpath,"\0");
-
-            }
-            //if the path is not a "." or "./"
-            else
-            {
-                //Original path either ends with "/" or not
-                if (*(path + len - 1) == '/')
-                {
-                    strcat(dpath,path);
-                    strcat(dpath,entry->d_name);
-                    strcat(dpath,"\0");
-                }
-                else
-                {
-                    strcat(dpath,path);
-                    strcat(dpath,"/");
-                    strcat(dpath,entry->d_name);
-                    strcat(dpath,"\0");
-
-                }
-            } 
+            
             printf("%s",dpath);
             fflush(stdout);
             int pT = fork();
@@ -240,7 +238,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
         }//end if directory
 
 
-        if (entry -> d_type == DT_REG)//if entry = regular file
+        if (S_ISREG(st.st_mode))//if entry = regular file
         {
             //pointer to the filename
             char* fileName = (entry->d_name);
