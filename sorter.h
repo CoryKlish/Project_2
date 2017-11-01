@@ -89,7 +89,7 @@ static char* getSortType(char* header, char* colName, int* numFields)
 {
     //If colName matches with a field, colName is copied into
     //sortType
-    char* sortType;
+    char* sortType = NULL;
     int len;
     //put ptr on first char of line
     char* field = strtok(header,",");
@@ -137,7 +137,11 @@ static char* getSortType(char* header, char* colName, int* numFields)
         printf("\nWrong number of columns in csv.\n");
         exit(0);
     }
-    
+    if (sortType == NULL)
+    {
+		printf("FUFCCCCCCCCCCCCCCCnewline\n");
+		exit(0);
+	}
     return sortType;
 
 }//end getSortType function
@@ -158,153 +162,149 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     
     DIR* directory  = opendir(path);
     //read from directory until nothing left
-    while ((entry =  readdir(directory)) != NULL)
+    
+    while ((entry =  readdir(directory)) != NULL )
     {
-        if (strcmp (entry->d_name,".") != 0)
-            continue;
-        if (strcmp (entry->d_name,"..") != 0)
-            continue;
-        struct stat buffer;
-        char dpath[255];
-        dpath[0] = '\0';
-        if (strcmp(path,"./") == 0)
-        {
-            strcat(dpath,entry->d_name);
-            strcat(dpath,"\0");
-        }
-        else if(strcmp(path,".") == 0)
-        {
-            strcat(dpath,"/");
-            strcat(dpath,entry->d_name);
-            strcat(dpath,"\0");
-        }
-        //if the path is not a "." or "./"
-        else
-        {
-            //Original path either ends with "/" or not
-            if (*(path + len - 1) == '/')
-            {
-                strcpy(dpath,path);
-                strcat(dpath,entry->d_name);
-                strcat(dpath,"\0");
-            }
-            else
-            {
-                strcpy(dpath,path);
-                strcat(dpath,"/");
-                strcat(dpath,entry->d_name);
-                strcat(dpath,"\0");
-            }
-        }
-        if (stat(dpath,&buffer) != 0)
-        {
-            printf("unable to get information on directory object, ending\n");
-            exit(0);
-        }
-        
-        
-       //if the entry is another directory
-        if (S_ISDIR(buffer.st_mode))
-        {
-            printf("Hey i know this is a directory\n");
-            int len = strlen(path);
-            
-            printf("%s",dpath);
-            fflush(stdout);
-            int pT = fork();
-            
-            //in the child process, process the directory 
-			if (pT == 0)
+		if ((strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0)
+		{
+
+			struct stat buffer;
+			char dpath[255];
+			dpath[0] = '\0';
+			if (strcmp(path,"./") == 0)
 			{
-				processCounter++;
-				printf("%d, " , getpid());
-				processDirectory(dpath,inputCol,outpath);
-				exit(processCounter);
-				
+				strcat(dpath,entry->d_name);
+				strcat(dpath,"\0");
 			}
-            //If we are the parent process,
-			else if (pT > 0)
-            {
-                wait(&processCounter);
-                WEXITSTATUS(processCounter);
-                continue;
-            }
+			else if(strcmp(path,".") == 0)
+			{
+				strcat(dpath,"/");
+				strcat(dpath,entry->d_name);
+				strcat(dpath,"\0");
+			}
+			//if the path is not a "." or "./"
 			else
 			{
-				printf("fork() failed.");
-				exit(0); 
+				//Original path either ends with "/" or not
+				if (*(path + len - 1) == '/')
+				{
+					strcpy(dpath,path);
+					strcat(dpath,entry->d_name);
+					strcat(dpath,"\0");
+				}
+				else
+				{
+					strcpy(dpath,path);
+					strcat(dpath,"/");
+					strcat(dpath,entry->d_name);
+					strcat(dpath,"\0");
+				}
 			}
+			
+			
+			
+		   //if the entry is another directory
+			if (entry->d_type == DT_DIR)
+			{
+				
+				int len = strlen(path);
 				
 				
-        }//end if directory
+				fflush(stdout);
+				int pT = fork();
+				
+				//in the child process, process the directory 
+				if (pT == 0)
+				{
+					processCounter++;
+					printf("%d, " , getpid());
+					processDirectory(dpath,inputCol,outpath);
+					exit(processCounter);
+					
+				}
+				//If we are the parent process,
+				else if (pT > 0)
+				{
+					wait(&processCounter);
+					WEXITSTATUS(processCounter);
+				
+				}
+				else
+				{
+					printf("fork() failed.");
+					exit(0); 
+				}
+					
+					
+			}//end if directory
 
 
-        if (S_ISREG(buffer.st_mode))//if entry = regular file
-        {
-            //pointer to the filename
-            char* fileName = (entry->d_name);
-  
-                 //create index that points to the 
-                char* fileext = strstr(fileName, csv);
-                if (fileext != NULL)
-                {
-                  //  printf("\ncsv recognized: %s\n",fileName);
-                      /* fork() to process the file*/
-                    //need the numrecords for the mergesort
-                    int numRecords = 0;
-                    int* pNumRecords = &numRecords;
-                
-                    //readfile validates the input column and creates a record array
-                    char* header;
-                    //char** pheader will change the value of 
-                    //char* header from within readFile
-                    char** pHeader = &header;
-                    char* sorted = strstr(fileName,"-sorted-");
-                    if (sorted != NULL)
-                    {
-                       // printf("ignored\n");
-                        continue;
-                    }
-                    
-                    //If it is not already a sorted file
-					else
+			if (entry->d_type == DT_REG)//if entry = regular file
+			{
+				//pointer to the filename
+				char* fileName = (entry->d_name);
+	  
+					 //create index that points to the 
+					char* fileext = strstr(fileName, csv);
+					if (fileext != NULL)
 					{
-						fflush(stdout);
-						int pT = fork();
-                        //in the child process
-                        
-						if (pT == 0)
+					  //  printf("\ncsv recognized: %s\n",fileName);
+						  /* fork() to process the file*/
+						//need the numrecords for the mergesort
+						int numRecords = 0;
+						int* pNumRecords = &numRecords;
+					
+						//readfile validates the input column and creates a record array
+						char* header;
+						//char** pheader will change the value of 
+						//char* header from within readFile
+						char** pHeader = &header;
+						char* sorted = strstr(fileName,"-sorted-");
+						if (sorted != NULL)
 						{
-							processCounter++;
-							Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
-							sort(inputCol, numRecords,table);
-                            writeFile(table,fileName,numRecords,outpath,inputCol,header);
-                            printf("%d, ",getpid());
-							exit(processCounter);
-							
-						}
-						else if (pT > 0)
-                        {
-							wait(&processCounter);
-							WEXITSTATUS(processCounter);
+						   // printf("ignored\n");
 							continue;
-
-                        }
-							
+						}
+						
+						//If it is not already a sorted file
 						else
 						{
-							printf("fork() failed. Ending process");
-							exit(0);
-						}
-	
-					}
-                    
+							fflush(stdout);
+							int pT = fork();
+							//in the child process
+							
+							if (pT == 0)
+							{
+								processCounter++;
+								Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
+								sort(inputCol, numRecords,table);
+								writeFile(table,fileName,numRecords,outpath,inputCol,header);
+								printf("%d, ",getpid());
+								exit(processCounter);
+								
+							}
+							else if (pT > 0)
+							{
+								wait(&processCounter);
+								WEXITSTATUS(processCounter);
 
-                }
-                //if file ext is not csv, do nothing
-         
-        }//end if regular file
-        
+							}
+								
+							else
+							{
+								printf("fork() failed. Ending process");
+								exit(0);
+							}
+		
+						}
+						
+
+					}
+					//if file ext is not csv, do nothing
+			 
+			}//end if regular file
+			
+        }//end if
     }//end whileloop for readdir
     
     return processCounter;
@@ -329,7 +329,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
 
     //open the file for reading
 	FILE *fp;
-    if (strcmp(inpath,".") == 0)
+    if (strcmp(inpath,".") == 0 || (strcmp(inpath,"./") == 0))
         fp = fopen(fileName, "r");
     else
     { 
