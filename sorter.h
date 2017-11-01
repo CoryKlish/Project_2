@@ -159,7 +159,12 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     while ((entry =  readdir(directory)) != NULL)
     {
         struct stat st;
-        lstat(entry->d_name,&st);
+        if (stat(entry->d_name,&st) != 0)
+        {
+            printf("unable to get information on directory object, ending\n");
+            exit(0);
+        }
+        
        //if the entry is another directory
          if (S_ISDIR(st.st_mode))
         {
