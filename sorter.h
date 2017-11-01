@@ -153,7 +153,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
    
     struct dirent* entry;
     char* csv = ".csv";
-    int processCounter = 0;
     int len = strlen(path);
     
     
