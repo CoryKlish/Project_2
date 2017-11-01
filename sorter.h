@@ -164,8 +164,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
             continue;
         if (strcmp (entry->d_name,"..") != 0)
             continue;
-        printf("Can i even fucking print");
-        struct stat st;
+        struct stat buffer;
         char dpath[255];
         dpath[0] = '\0';
         if (strcmp(path,"./") == 0)
@@ -196,8 +195,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                 strcat(dpath,"\0");
             }
         }
-        printf("I've made it this far");
-        if (stat(dpath,&st) != 0)
+        if (stat(dpath,&buffer) != 0)
         {
             printf("unable to get information on directory object, ending\n");
             exit(0);
@@ -205,7 +203,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
         
         
        //if the entry is another directory
-        if (S_ISDIR(st.st_mode))
+        if (S_ISDIR(buffer.st_mode))
         {
             printf("Hey i know this is a directory\n");
             int len = strlen(path);
@@ -240,7 +238,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
         }//end if directory
 
 
-        if (S_ISREG(st.st_mode))//if entry = regular file
+        if (S_ISREG(buffer.st_mode))//if entry = regular file
         {
             //pointer to the filename
             char* fileName = (entry->d_name);
