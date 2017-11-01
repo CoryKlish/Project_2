@@ -141,7 +141,7 @@ int main(int argc, char* argv[]) {
         //if we cant verify the input directory, just fail
         else
         {
-            printf("Did not give a valid input directory");
+            printf("Did not give a valid input directory\n");
             exit(0);
         }
     }
@@ -153,7 +153,7 @@ int main(int argc, char* argv[]) {
         processCounter = processDirectory(".",inputCol,".");
     }
     
-    printf("The total number of processes: %d",processCounter);
+    printf("The total number of processes: %d\n",processCounter);
     
 	
 }//End main
