@@ -196,12 +196,12 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                 strcat(dpath,"\0");
             }
         }
-        
         if (stat(dpath,&st) != 0)
         {
             printf("unable to get information on directory object, ending\n");
             exit(0);
         }
+        
         
        //if the entry is another directory
         if (S_ISDIR(st.st_mode))
@@ -304,6 +304,10 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                 //if file ext is not csv, do nothing
          
         }//end if regular file
+        else
+        {
+            printf("FUCCCCC\n");
+        }
     }//end whileloop for readdir
     
     return processCounter;
