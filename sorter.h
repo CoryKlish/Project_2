@@ -156,6 +156,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     int processCounter = 1;
     int len = strlen(path);
     
+    
     DIR* directory  = opendir(path);
     //read from directory until nothing left
     
@@ -219,6 +220,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				{
 					wait(&processCounter);
 					printf("\nWEXITSTATUS returns %d\n",WEXITSTATUS(processCounter));
+                    processCounter = WEXITSTATUS(processCounter);
                     
 				
 				}
