@@ -213,7 +213,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                 char* fileext = strstr(fileName, csv);
                 if (fileext != NULL)
                 {
-                    printf("\ncsv recognized: %s\n",fileName);
+                  //  printf("\ncsv recognized: %s\n",fileName);
                       /* fork() to process the file*/
                     //need the numrecords for the mergesort
                     int numRecords = 0;
@@ -227,7 +227,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                     char* sorted = strstr(fileName,"-sorted-");
                     if (sorted != NULL)
                     {
-                        printf("ignored\n");
+                       // printf("ignored\n");
                         continue;
                     }
                     
