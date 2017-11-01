@@ -219,7 +219,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				//If we are the parent process,
 				else if (pT > 0)
 				{
-					printf("\nWEXITSTATUS returns %d\n",WEXITSTATUS(processCounter));
+					printf("\nWEXITSTATUS directories %d\n",WEXITSTATUS(processCounter));
                     
 				}
 				else
@@ -278,7 +278,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 							}
 							else if (pT > 0)
 							{
-								
+								printf("\nWEXITSTATUS FILES: %d\n",WEXITSTATUS(processCounter));
 
 							}
 								
