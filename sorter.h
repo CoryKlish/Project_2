@@ -210,7 +210,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				//in the child process, process the directory 
 				if (pT == 0)
 				{
-					processCounter++;
+					processCounter += 1;
 					printf("%d, " , getpid());
 					processDirectory(dpath,inputCol,outpath);
                     printf("\ndirectory baby process counter is %d",processCounter);
@@ -276,7 +276,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 								writeFile(table,fileName,numRecords,outpath,inputCol,header);
 								printf("%d, ",getpid());
                                 printf("\nfile childProcess Counter is %d\n",processCounter);
-								exit(processCounter);
+								exit(1);
 								
 							}
                             //file DADDY
