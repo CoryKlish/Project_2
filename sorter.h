@@ -167,7 +167,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
         }
         
        //if the entry is another directory
-         if (S_ISDIR(st.st_mode))
+        if (S_ISDIR(st.st_mode))
         {
             if (strcmp (entry->d_name,".") != 0)
                 continue;
@@ -236,7 +236,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			}
 				
 				
-        }
+        }//end if directory
 
 
         if (entry -> d_type == DT_REG)//if entry = regular file
