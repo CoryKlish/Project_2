@@ -156,6 +156,25 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     int processCounter = 1;
     int len = strlen(path);
     
+    if(len == 5 || len == 6){
+		char *rootaccess = (char *)malloc(sizeof(char) * 7);
+		char *rootaccess2 = (char *)malloc(sizeof(char) * 6);
+		strncpy(rootaccess, path, 6);
+		strncpy(rootaccess2, path, 5);
+		rootaccess[6] = '\0';
+		rootaccess2[5] = '\0';
+		if (strcmp(rootaccess,"/root/") == 0 || strcmp(rootaccess2,"/root") == 0 || strcmp(rootaccess2, "root/") == 0)
+		{
+			printf("\nNo permissions to access root directory\n");
+			exit(0);
+		}
+		
+		free(rootaccess);
+		free(rootaccess2);
+		rootaccess = NULL;
+		rootaccess2 = NULL;
+	}
+    
     DIR* directory  = opendir(path);
     //read from directory until nothing left
     while ((entry =  readdir(directory)) != NULL)
@@ -333,14 +352,14 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         fp = fopen(fileName, "r");
     else
     { 
-		
-		char* rootaccess = malloc(sizeof(char) * 7);
-		char* rootaccess2 = malloc(sizeof(char) * 6);
-		strncpy(rootaccess,inpath,6);
-		strncpy(rootaccess2,inpath,5);
-		*(rootaccess + 7) = '\0';
-		*(rootaccess2 + 6) = '\0';
-		if (strcmp(rootaccess,"/root/") == 0 || strcmp(rootaccess2,"root/") == 0)
+		/*
+		char *rootaccess = (char *)malloc(sizeof(char) * 7);
+		char *rootaccess2 = (char *)malloc(sizeof(char) * 6);
+		strncpy(rootaccess, inpath, 6);
+		strncpy(rootaccess2, inpath, 5);
+		rootaccess[6] = '\0';
+		rootaccess2[5] = '\0';
+		if (strcmp(rootaccess,"/root/") == 0 || strcmp(rootaccess2,"/root") == 0 || strcmp(rootaccess2,"root/") == 0)
 		{
 			printf("No permissions to access root directory\n");
 			exit(0);
@@ -350,7 +369,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
 		free(rootaccess2);
 		rootaccess = NULL;
 		rootaccess2 = NULL;
-		
+		*/
 		
         int plen = strlen(inpath);
         int flen = strlen(fileName);
