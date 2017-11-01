@@ -159,6 +159,10 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     //read from directory until nothing left
     while ((entry =  readdir(directory)) != NULL)
     {
+        if (strcmp (entry->d_name,".") != 0)
+            continue;
+        if (strcmp (entry->d_name,"..") != 0)
+            continue;
         struct stat st;
         if (stat(entry->d_name,&st) != 0)
         {
@@ -170,10 +174,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
         if (S_ISDIR(st.st_mode))
         {
             printf("Hey i know this is a directory\n");
-            if (strcmp (entry->d_name,".") != 0)
-                continue;
-            if (strcmp (entry->d_name,"..") != 0)
-                continue;
             int len = strlen(path);
             char dpath[255];
             dpath[0] = '\0';
