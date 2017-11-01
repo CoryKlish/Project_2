@@ -154,6 +154,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     struct dirent* entry;
     char* csv = ".csv";
     int processCounter = 0;
+    int len = path;
     
     DIR* directory  = opendir(path);
     //read from directory until nothing left
