@@ -220,9 +220,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				{
 					wait(&processCounter);
 					printf("\nWEXITSTATUS returns %d\n",WEXITSTATUS(processCounter));
-                    processCounter = WEXITSTATUS(processCounter);
-                    
-				
+                    processCounter += WEXITSTATUS(processCounter);
 				}
 				else
 				{
