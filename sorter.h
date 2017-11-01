@@ -220,7 +220,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				else if (pT > 0)
 				{
                    processCounter += WEXITSTATUS(processCounter);
-                    exit(processCounter);
                     
 				}
 				else
@@ -267,6 +266,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 							int pT = fork();
 							//in the child process
 							
+                            //file child
 							if (pT == 0)
 							{
 								processCounter++;
@@ -277,10 +277,11 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 								exit(processCounter);
 								
 							}
+                            //file DADDY
 							else if (pT > 0)
 							{
                                 processCounter += WEXITSTATUS(processCounter);
-                                exit(processCounter);
+                                
 
 							}
 								
