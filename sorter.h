@@ -154,13 +154,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     char* csv = ".csv";
     int processCounter = 0;
     
-    char inDirPath[255];
-    inDirPath = '\0';
-    if (*inDir == '/')
-    {
-        
-    }
-    
     DIR* directory  = opendir(path);
     //read from directory until nothing left
     while ((entry =  readdir(directory)) != NULL)
@@ -175,17 +168,32 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
             int len = strlen(path);
             char dpath[255];
             dpath[0] = '\0';
-            if (*(path + len -1) == '/')
+       
+            if (strcmp(path,"./") == 0)
             {
-                strcat(dpath,path);
                 strcat(dpath,entry->d_name);
             }
-            else
+            else if(strcmp(path,".") == 0)
             {
-                strcat(dpath,path);
                 strcat(dpath,"/");
                 strcat(dpath,entry->d_name);
             }
+            //if the path is not a "." or "./"
+            else
+            {
+                //Original path either ends with "/" or not
+                if (*(path + len - 1) == '/')
+                {
+                    strcat(dpath,path);
+                    strcat(dpath,entry->d_name);
+                }
+                else
+                {
+                    strcat(dpath,path);
+                    strcat(dpath,"/");
+                    strcat(dpath,entry->d_name);
+                }
+            } 
             printf("%s",dpath);
             fflush(stdout);
             int pT = fork();
