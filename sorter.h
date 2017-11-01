@@ -174,6 +174,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
         }
         else if(strcmp(path,".") == 0)
         {
+            strcat(dpath,"/");
             strcat(dpath,entry->d_name);
             strcat(dpath,"\0");
         }
