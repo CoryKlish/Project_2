@@ -213,7 +213,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 					processCounter++;
 					printf("%d, " , getpid());
 					processDirectory(dpath,inputCol,outpath);
-                  
+                    printf("\ndirectory baby process counter is %d",processCounter);
 					exit(processCounter);
 					
 				}
@@ -221,7 +221,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				else if (pT > 0)
 				{
                    processCounter += WEXITSTATUS(processCounter);
-                    printf("\nProcess Counter is %d\n",processCounter);
+                    printf("\n directory daddy Process Counter is %d\n",processCounter);
 				}
 				else
 				{
@@ -275,7 +275,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 								sort(inputCol, numRecords,table);
 								writeFile(table,fileName,numRecords,outpath,inputCol,header);
 								printf("%d, ",getpid());
-                                printf("\nProcess Counter is %d\n",processCounter);
+                                printf("\nfile childProcess Counter is %d\n",processCounter);
 								exit(processCounter);
 								
 							}
@@ -283,7 +283,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 							else if (pT > 0)
 							{
                                 processCounter += WEXITSTATUS(processCounter);
-                                printf("\nProcess Counter is %d\n",processCounter);
+                                printf("\nfile daddyProcess Counter is %d\n",processCounter);
 
 							}
 								
