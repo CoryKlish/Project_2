@@ -174,7 +174,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
             strcat(dpath,"/");
             //append new directory to the end of dpath.
             strcat(dpath, entry->d_name);
-            
+            fflush(stdout);
             int pT = fork();
             
             //in the child process, process the directory 
@@ -234,6 +234,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                     //If it is not already a sorted file
 					else
 					{
+						fflush(stdout);
 						int pT = fork();
                         //in the child process
                         

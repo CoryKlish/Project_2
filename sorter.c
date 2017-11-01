@@ -134,7 +134,7 @@ int main(int argc, char* argv[]) {
             else
             {
                 printf("Initial PID: %d\n",getpid());
-                printf("PID's of Child Processes: \n");
+                printf("PID's of Child Processes: ");
                 processCounter = processDirectory(inDir,inputCol,inDir);
             }
         }
