@@ -30,47 +30,85 @@ int main(int argc, char* argv[]) {
 	//Third argument is the -d symbol
     //Fifth argument is the -o symbo
     //Fifth Designates OUTPUT directory
+   
     char inputmode = VerifyMode(argv[1]);
     int dirlen, outlen;
     char dir = 0,out = 0;
     char* inDir;
     char* outDir;
     
-    if (argc-1 > 2)
-    {
-        dir = VerifyMode(argv[3]);
-        if (dir == 'x')
-        {
-            printf("\nInput Dir command not recognized, exiting\n");
-            exit(0);
-        }
-        if (argv[4] == NULL)
-        {
-            printf("\nNo input directory specified, exiting\n");
-            exit(0);
-        }
-        
-        //get length of the directory field
-        inDir = malloc(sizeof(char) * (strlen (argv[4])));
-        inDir = strdup(argv[4]);
-    }
-    
     if (argc-1 > 4)
+	{
+		dir = VerifyMode(argv[3]);
+		if (dir == 'd')
+		{
+			//get length of the directory field
+			if (argv[4] == NULL)
+			{
+				inDir = ".";
+			}
+			else
+			{
+				inDir = malloc(sizeof(char) * (strlen (argv[4])));
+				inDir = strdup(argv[4]);
+			}
+		}
+		
+		out = VerifyMode(argv[5]);
+		if (out == 'o')
+		{
+			if (argv[6] == NULL)
+			{
+				outDir = malloc(sizeof(char) * (strlen (argv[4])));
+				outDir = strdup(argv[4]);
+			}
+			else
+			{
+				outDir = malloc(sizeof(char) * (strlen(argv[6])));
+				outDir = strdup(argv[6]);
+			}
+		}
+		else
+		{
+			printf("Command arguments invalid\n");
+			exit(0);
+		}
+		
+	}
+    else if (argc-1 > 2)
     {
-        out = VerifyMode(argv[5]);
-        if (out == 'x')
-        {
-            printf("\nOutput Dir command not recognized, exiting\n");
-            exit(0);
-        }
-        if (argv[6] == NULL)
-        {
-            printf("\nNo output directory specified, exiting\n");
-            exit(0);
-        }
-        outDir = malloc(sizeof(char) * (strlen(argv[6])));
-        outDir = strdup(argv[6]);
-    }	
+		dir = VerifyMode(argv[3]);
+		if (dir == 'd')
+		{
+			//get length of the directory field
+			if (argv[4] == NULL)
+			{
+				inDir = ".";
+			}
+			inDir = malloc(sizeof(char) * (strlen (argv[4])));
+			inDir = strdup(argv[4]);
+		}
+		else if (dir == 'o')
+		{
+			if (argv[4] == NULL)
+			{
+				inDir = ".";
+			}
+			outDir = malloc(sizeof(char) * (strlen(argv[4])));
+			outDir = strdup(argv[4]);
+			
+		}
+		else
+		{
+			printf("Command arguments invalid\n");
+			exit(0);
+		}
+		
+	}
+	
+		
+	
+    	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
     /*
