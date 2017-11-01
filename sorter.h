@@ -168,12 +168,15 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                 continue;
             //max length of a directory path
             char dpath[255];
+            dpath[0] = '\0';
+            
             strcat(dpath,"/");
             //append current path to the dpath'
             strcat(dpath, path);
             strcat(dpath,"/");
             //append new directory to the end of dpath.
             strcat(dpath, entry->d_name);
+            strcat(dpath,"/");
             fflush(stdout);
             int pT = fork();
             
