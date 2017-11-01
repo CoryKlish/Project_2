@@ -158,10 +158,9 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     //read from directory until nothing left
     while ((entry =  readdir(directory)) != NULL)
     {
-        struct stat st;
-        lstat(entry->d_name,&st);
+
        //if the entry is another directory
-         if (S_ISDIR(st.st_mode))
+        if (entry->d_name == DT_DIR)
         {
             if (strcmp (entry->d_name,".") != 0)
                 continue;
