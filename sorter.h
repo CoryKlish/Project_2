@@ -219,6 +219,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				//If we are the parent process,
 				else if (pT > 0)
 				{
+                     processCounter += WEXITSTATUS(processCounter);
 					printf("\nWEXITSTATUS directories %d\n",WEXITSTATUS(processCounter));
                     
 				}
@@ -278,6 +279,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 							}
 							else if (pT > 0)
 							{
+                                processCounter += WEXITSTATUS(processCounter);
 								printf("\nWEXITSTATUS FILES: %d\n",WEXITSTATUS(processCounter));
 
 							}
@@ -298,7 +300,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			
         }//end if
     }//end whileloop for readdir
-    processCounter += WEXITSTATUS(processCounter);
     int i;
     for (i = 0; i < processCounter; i++)
     {
