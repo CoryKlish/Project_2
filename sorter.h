@@ -152,7 +152,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
    
     struct dirent* entry;
     char* csv = ".csv";
-    pid_t pid;
     int processCounter = 0;
     
     DIR* directory  = opendir(path);
@@ -176,6 +175,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
             strcat(dpath,"/");
             //append new directory to the end of dpath.
             strcat(dpath, entry->d_name);
+            printf("%s",entry->d_name);
             strcat(dpath,"/");
             fflush(stdout);
             int pT = fork();
@@ -186,7 +186,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			{
 				processCounter++;
 				printf("%d, " , getpid());
-				pid = processDirectory(dpath,inputCol,outpath);
+				processDirectory(dpath,inputCol,outpath);
 				exit(processCounter);
 				
 			}
