@@ -210,9 +210,10 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				//in the child process, process the directory 
 				if (pT == 0)
 				{
-					processCounter++;
+					processCounter += 1;
 					printf("%d, " , getpid());
 					processDirectory(dpath,inputCol,outpath);
+                    printf("\ndirectory baby process counter is %d",processCounter);
 					exit(processCounter);
 					
 				}
@@ -220,8 +221,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				else if (pT > 0)
 				{
                    processCounter += WEXITSTATUS(processCounter);
-                    exit(processCounter);
-                    
+                    printf("\n directory daddy Process Counter is %d\n",processCounter);
 				}
 				else
 				{
@@ -267,6 +267,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 							int pT = fork();
 							//in the child process
 							
+                            //file child
 							if (pT == 0)
 							{
 								processCounter++;
@@ -274,13 +275,15 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 								sort(inputCol, numRecords,table);
 								writeFile(table,fileName,numRecords,outpath,inputCol,header);
 								printf("%d, ",getpid());
-								exit(processCounter);
+                                printf("\nfile childProcess Counter is %d\n",processCounter);
+								exit(1);
 								
 							}
+                            //file DADDY
 							else if (pT > 0)
 							{
                                 processCounter += WEXITSTATUS(processCounter);
-                                exit(processCounter);
+                                printf("\nfile daddyProcess Counter is %d\n",processCounter);
 
 							}
 								
@@ -304,6 +307,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     for (i = 0; i < processCounter; i++)
     {
         wait(&status);
+        printf("\nStatus = %d\n",status);
     }
     return processCounter;
 }//End processDirectory function
