@@ -110,16 +110,11 @@ int main(int argc, char* argv[]) {
 ////////////////////////////////////////////.csv file sort///////////////////////////
     //process the input directory
     char* inputCol = argv[2];
-    int status;
-    pid_t pid;
+    int processCounter;
     
-    int* sharedcounter = mmap(0,sizeof(int),PROT_READ | PROT_WRITE,MAP_SHARED,1,0);
-    if(sharedcounter == MAP_FAILED)
-    {
-	printf("The mmap failed. Exiting.");
-	exit(EXIT_FAILURE);
-    }
     
+    
+
 
     //if there is a -d option, which was validated
     if (dir)
@@ -131,7 +126,7 @@ int main(int argc, char* argv[]) {
             {
                 printf("Initial PID: %d\n",getpid());
                 printf("PID's of Child Processes: ");
-                pid = processDirectory(inDir,inputCol,outDir);
+                processCounter = processDirectory(inDir,inputCol,outDir);
                 
 
             }
@@ -140,7 +135,7 @@ int main(int argc, char* argv[]) {
             {
                 printf("Initial PID: %d\n",getpid());
                 printf("PID's of Child Processes: ");
-                pid = processDirectory(inDir,inputCol,inDir);
+                processCounter = processDirectory(inDir,inputCol,inDir);
             }
         }
         //if we cant verify the input directory, just fail
@@ -155,10 +150,10 @@ int main(int argc, char* argv[]) {
     {
         printf("Initial PID: %d\n",getpid());
         printf("PID's of Child Processes: ");
-        pid = processDirectory(".",inputCol,".");
+        processCounter = processDirectory(".",inputCol,".");
     }
     
-    waitpid(pid);
+    printf("The total number of processes: %d",processCounter);
     
 	
 }//End main
