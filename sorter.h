@@ -160,7 +160,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     {
 
        //if the entry is another directory
-        if (entry->d_name == DT_DIR)
+        if (entry->d_type == DT_DIR)
         {
             if (strcmp (entry->d_name,".") != 0)
                 continue;
