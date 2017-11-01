@@ -174,11 +174,15 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
             if (strcmp(path,"./") == 0)
             {
                 strcat(dpath,entry->d_name);
+                strcat(dpath,"\0");
+
             }
             else if(strcmp(path,".") == 0)
             {
                 strcat(dpath,"/");
                 strcat(dpath,entry->d_name);
+                strcat(dpath,"\0");
+
             }
             //if the path is not a "." or "./"
             else
@@ -188,12 +192,15 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                 {
                     strcat(dpath,path);
                     strcat(dpath,entry->d_name);
+                    strcat(dpath,"\0");
                 }
                 else
                 {
                     strcat(dpath,path);
                     strcat(dpath,"/");
                     strcat(dpath,entry->d_name);
+                    strcat(dpath,"\0");
+
                 }
             } 
             printf("%s",dpath);
