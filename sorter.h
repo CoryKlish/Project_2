@@ -153,7 +153,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
    
     struct dirent* entry;
     char* csv = ".csv";
-    int processCounter = 0;
+    int processCounter = 1;
     int len = strlen(path);
     
     DIR* directory  = opendir(path);
@@ -174,7 +174,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
         }
         else if(strcmp(path,".") == 0)
         {
-            strcat(dpath,"/");
             strcat(dpath,entry->d_name);
             strcat(dpath,"\0");
         }
@@ -184,19 +183,19 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
             //Original path either ends with "/" or not
             if (*(path + len - 1) == '/')
             {
-                strcat(dpath,path);
+                strcpy(dpath,path);
                 strcat(dpath,entry->d_name);
                 strcat(dpath,"\0");
             }
             else
             {
-                strcat(dpath,path);
+                strcpy(dpath,path);
                 strcat(dpath,"/");
                 strcat(dpath,entry->d_name);
                 strcat(dpath,"\0");
             }
         }
-        if (lstat(dpath,&st) != 0)
+        if (stat(dpath,&st) != 0)
         {
             printf("unable to get information on directory object, ending\n");
             exit(0);
