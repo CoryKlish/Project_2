@@ -164,6 +164,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
             continue;
         if (strcmp (entry->d_name,"..") != 0)
             continue;
+        printf("Can i even fucking print");
         struct stat st;
         char dpath[255];
         dpath[0] = '\0';
