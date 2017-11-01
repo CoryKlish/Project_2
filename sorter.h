@@ -195,6 +195,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                 strcat(dpath,"\0");
             }
         }
+        printf("I've made it this far");
         if (stat(dpath,&st) != 0)
         {
             printf("unable to get information on directory object, ending\n");
