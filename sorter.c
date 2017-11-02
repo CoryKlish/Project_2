@@ -156,7 +156,7 @@ int main(int argc, char* argv[]) {
 		
 	}
 	
-	printf("\nTotal number of processes: %d", processCounter);
+	printf("\nTotal number of processes: %d\n\n", processCounter);
 	
 	
 	
