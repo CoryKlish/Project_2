@@ -50,7 +50,7 @@ static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
 static void printStructs(Record list[], int numStructs);
-static int processDirectory( char* path, char* inputCol, char* outpath);
+static void processDirectory( char* path, char* inputCol, char* outpath);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader, char* inpath);
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header);
 
@@ -148,9 +148,8 @@ inputCol is what we are sorting on, which is validated in this
     method
 
 */
-static int processDirectory(char* path, char* inputCol, char* outpath)
+static void processDirectory(char* path, char* inputCol, char* outpath)
 {
-   
     struct dirent* entry;
     char* csv = ".csv";
     int processCounter = 1;
@@ -165,7 +164,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     {
 		if ((strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0 && (strcmp (entry->d_name,".git")) != 0)
 		{
-
 			struct stat buffer;
 			char dpath[255];
 			dpath[0] = '\0';
@@ -309,7 +307,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
         wait(&status);
         printf("\nStatus = %d\n",status);
     }
-    return processCounter;
+    
 }//End processDirectory function
 
 ///////////////////////////////////////READ & WRITE//////////////////////////////////////////

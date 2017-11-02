@@ -168,8 +168,6 @@ int main(int argc, char* argv[]) {
 					printf("Initial PID: %d\n",getpid());
 					printf("PID's of Child Processes: ");
 					processCounter = processDirectory(inDir,inputCol,outDir);
-					
-
 				}
 				//otherwise its just the -d option
 				else
@@ -250,7 +248,7 @@ char VerifyMode(char* mode)
     char vmode = 'x';
     //for looping through the modes
     int modeLen = strlen(modes);
-    /
+    
     /*
     int len = strlen(mode);
     if (len > 2 || *(mode) != '-')
