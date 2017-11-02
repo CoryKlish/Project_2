@@ -223,6 +223,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				{
                     //
                     wait(&status);
+                    printf("%d, " , getpid());
                    processCounter += WEXITSTATUS(processCounter);
                     //
      //               printf("\n%d Directory WEXITSTATUS returning ",WEXITSTATUS(processCounter));
@@ -292,6 +293,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 							{
                                 //
                                 wait(&status);
+                                printf("%d, " , getpid());
                                 processCounter += WEXITSTATUS(processCounter);
     //                            printf("\n%d File WEXITSTATUS returning ",WEXITSTATUS(processCounter));
                                 exit(processCounter);
