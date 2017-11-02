@@ -222,9 +222,11 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				else if (pT > 0)
 				{
                     //
+                    wait(&status);
                    processCounter += WEXITSTATUS(processCounter);
                     //
      //               printf("\n%d Directory WEXITSTATUS returning ",WEXITSTATUS(processCounter));
+                    
 				}
 				else
 				{
@@ -284,10 +286,11 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 								exit(processCounter);
 								//
 							}
-                            //file DADDY
+        
 							else if (pT > 0)
 							{
                                 //
+                                wait(&status);
                                 processCounter += WEXITSTATUS(processCounter);
     //                            printf("\n%d File WEXITSTATUS returning ",WEXITSTATUS(processCounter));
                                 exit(processCounter);
@@ -310,11 +313,13 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			
         }//end if
     }//end whileloop for readdir
+    /*
     int i;
     for (i = 0; i < processCounter; i++)
     {
         wait(&status);
     }
+    */
     return processCounter;
 }//End processDirectory function
 
