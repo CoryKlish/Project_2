@@ -34,4 +34,29 @@ Compile normally: "gcc sorter.c mergesort.c -o sorter"
 
 ///////////////////////////~~PART 1~~//////////////////////////////////////////
 
-In this section of the project, we added the ability to navigate through 
+In this section of the project, we added the ability to navigate through directories
+and their respective ".csv" files through using the fork() system call to sort each 
+file. We accomplished this using many libraries and 3 main ones: dirent.h (used to navigate 
+directories, recognize new files, and open them), unistd.h & sys/wait.h (allowing us to call
+fork() and wait() on our spawned processes. We used a recursive method to find and open all
+directories and CSVs with the "dirent" library. The hardest part for us was definitely
+summing the total number of processes. We were able to do this in the trivial case, where
+we waited in the parent for each child (within the loop) and used WEXITSTATUS. But since that
+defeats the purpose of multi-process programming and is cheating this project, we elected not
+to use this method. We waited for all of our processes outside of the loop, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
