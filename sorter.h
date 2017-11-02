@@ -199,7 +199,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			}
 
 		   //if the entry is another directory
-			if (entry->d_type == DT_DIR)
+if (entry->d_type == DT_DIR)
 			{
 				int len = strlen(path);				
 				fflush(stdout);
@@ -208,26 +208,18 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				//in the child process, process the directory 
 				if (pT == 0)
 				{
-                    //
-					processCounter += 1;
-                    //
+					processCounter++;
 					printf("%d, " , getpid());
 					processDirectory(dpath,inputCol,outpath);
-  //                  printf("\n%sprocess counter is %d",entry->d_name,processCounter);
-                    //
 					exit(processCounter);
-					//
+					
 				}
 				//If we are the parent process,
 				else if (pT > 0)
 				{
-                    //
-                    wait(&processCounter);
-                    printf("%d, " , getpid());
-                   processCounter += WEXITSTATUS(processCounter);
-                    //
-     //               printf("\n%d Directory WEXITSTATUS returning ",WEXITSTATUS(processCounter));
-                    
+					wait(&processCounter);
+					printf("\nWEXITSTATUS returns %d\n",WEXITSTATUS(processCounter));
+                    processCounter = WEXITSTATUS(processCounter);
 				}
 				else
 				{
@@ -273,31 +265,21 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 							int pT = fork();
 							//in the child process
 							
-                            //file child
 							if (pT == 0)
 							{
-                                //
-								processCounter += 1;
-                                printf("%d, ",getpid());
-                                //
+								processCounter++;
 								Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
 								sort(inputCol, numRecords,table);
-                                writeFile(table,fileName,numRecords,outpath,inputCol,header);
-								
-                                //
+								writeFile(table,fileName,numRecords,outpath,inputCol,header);
+								printf("%d, ",getpid());
 								exit(processCounter);
-								//
+								
 							}
-        
 							else if (pT > 0)
 							{
-                                //
-                                wait(&processCounter);
-                                printf("%d, " , getpid());
-                                processCounter += WEXITSTATUS(processCounter);
-    //                            printf("\n%d File WEXITSTATUS returning ",WEXITSTATUS(processCounter));
-                                exit(processCounter);
-                                //
+								wait(&processCounter);
+								processCounter = WEXITSTATUS(processCounter);
+
 							}
 								
 							else
