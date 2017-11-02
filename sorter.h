@@ -208,18 +208,23 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				//in the child process, process the directory 
 				if (pT == 0)
 				{
+                    //
 					processCounter += 1;
+                    //
 					printf("Dir pid: %d, " , getpid());
 					processDirectory(dpath,inputCol,outpath);
                     printf("\n%sprocess counter is %d",entry->d_name,processCounter);
+                    //
 					exit(processCounter);
-					
+					//
 				}
 				//If we are the parent process,
 				else if (pT > 0)
 				{
+                    //
                    processCounter += WEXITSTATUS(processCounter);
-                    printf("\n%sprocess counter is %d",entry->d_name,processCounter);
+                    //
+                    printf("\n%d Directory WEXITSTATUS returning ",WEXITSTATUS(processCounter));
 				}
 				else
 				{
@@ -268,22 +273,25 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                             //file child
 							if (pT == 0)
 							{
+                                //
 								processCounter += 1;
+                                //
 								Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
 								sort(inputCol, numRecords,table);
-								writeFile(table,fileName,numRecords,outpath,inputCol,header);
+                                writeFile(table,fileName,numRecords,outpath,inputCol,header);
 								printf("%d, ",getpid());
-                                 printf("\n%sprocess counter is %d",entry->d_name,processCounter);
+                                //
 								exit(processCounter);
-								
+								//
 							}
                             //file DADDY
 							else if (pT > 0)
 							{
+                                //
                                 processCounter += WEXITSTATUS(processCounter);
-                                 printf("\n%sprocess counter is %d\n",entry->d_name,processCounter);
+                                printf("\n%d File WEXITSTATUS returning ",WEXITSTATUS(processCounter));
                                 exit(processCounter);
-
+                                //
 							}
 								
 							else
