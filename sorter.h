@@ -50,7 +50,7 @@ static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
 static void printStructs(Record list[], int numStructs);
-static void processDirectory( char* path, char* inputCol, char* outpath);
+static int processDirectory( char* path, char* inputCol, char* outpath);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader, char* inpath);
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header);
 
@@ -148,8 +148,9 @@ inputCol is what we are sorting on, which is validated in this
     method
 
 */
-static void processDirectory(char* path, char* inputCol, char* outpath)
+static int processDirectory(char* path, char* inputCol, char* outpath)
 {
+   
     struct dirent* entry;
     char* csv = ".csv";
     int processCounter = 1;
@@ -164,6 +165,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
     {
 		if ((strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0 && (strcmp (entry->d_name,".git")) != 0)
 		{
+
 			struct stat buffer;
 			char dpath[255];
 			dpath[0] = '\0';
@@ -195,9 +197,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
 					strcat(dpath,"\0");
 				}
 			}
-			
-			
-			
+
 		   //if the entry is another directory
 			if (entry->d_type == DT_DIR)
 			{
@@ -209,7 +209,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
 				if (pT == 0)
 				{
 					processCounter += 1;
-					printf("%d, " , getpid());
+					printf("Dir pid: %d, " , getpid());
 					processDirectory(dpath,inputCol,outpath);
                     printf("\ndirectory baby process counter is %d",processCounter);
 					exit(processCounter);
@@ -272,7 +272,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
 								Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
 								sort(inputCol, numRecords,table);
 								writeFile(table,fileName,numRecords,outpath,inputCol,header);
-								printf("%d, ",getpid());
+								printf("%file pid: d, ",getpid());
                                 printf("\nfile childProcess Counter is %d\n",processCounter);
 								exit(1);
 								
@@ -307,7 +307,7 @@ static void processDirectory(char* path, char* inputCol, char* outpath)
         wait(&status);
         printf("\nStatus = %d\n",status);
     }
-    
+    return processCounter;
 }//End processDirectory function
 
 ///////////////////////////////////////READ & WRITE//////////////////////////////////////////
