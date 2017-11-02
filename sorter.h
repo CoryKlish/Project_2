@@ -274,7 +274,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 								writeFile(table,fileName,numRecords,outpath,inputCol,header);
 								printf("%file pid: d, ",getpid());
                                 printf("\nfile child Process Counter is %d\n",processCounter);
-								exit(processConter);
+								exit(processCounter);
 								
 							}
                             //file DADDY
