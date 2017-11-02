@@ -95,6 +95,9 @@ int main(int argc, char* argv[]) {
 		exit(0);
 	}
 	
+	VerifyDirectory(inDir);
+	VerifyDirectory(outDir);
+	
     	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
@@ -156,7 +159,7 @@ int main(int argc, char* argv[]) {
 		
 	}
 	
-	printf("\nTotal number of processes: %d\n\n", processCounter);
+	printf("\nTotal number of processes: %d", processCounter);
 	
 	
 	
@@ -227,3 +230,4 @@ char VerifyMode(char* mode)
     
     return vmode;               
 }//End VerifyMode function
+
