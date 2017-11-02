@@ -277,11 +277,12 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 							{
                                 //
 								processCounter += 1;
+                                printf("%d, ",getpid());
                                 //
 								Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
 								sort(inputCol, numRecords,table);
                                 writeFile(table,fileName,numRecords,outpath,inputCol,header);
-								printf("%d, ",getpid());
+								
                                 //
 								exit(processCounter);
 								//
