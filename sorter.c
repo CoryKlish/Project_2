@@ -43,29 +43,21 @@ int main(int argc, char* argv[]) {
 		exit(0);
 	} 
 	
-	if( ((argc - 1) == 6) && VerifyMode(argv[3]) == 'd' && VerifyMode(argv[5]) == 'o') //6 arguments
+	if( ((argc - 1) == 6) && VerifyMode(argv[3]) == 'd' && VerifyMode(argv[5]) == 'o' ) //6 arguments
 	{
-		inDir = (char*)malloc(sizeof(char) * strlen(argv[4]) + 1);
 		inDir = strdup(argv[4]);
-		
-		outDir = (char*)malloc(sizeof(char) * strlen(argv[6]) + 1);
 		outDir = strdup(argv[6]);
 	}
 	else if( (argc - 1) == 5) //5 arguments
 	{
 		if(VerifyMode(argv[4]) != 'o')
 		{
-			inDir = (char*)malloc(sizeof(char) * strlen(argv[4]) + 1);
 			inDir = strdup(argv[4]);
-			
-			outDir = (char*)malloc(sizeof(char) * strlen(argv[4]) + 1);
 			outDir = strdup(argv[4]);
 		}
 		else if(VerifyMode(argv[4]) == 'o' && VerifyMode(argv[3]) == 'd')
 		{
 			inDir = ".";
-			
-			outDir = (char*)malloc(sizeof(char) * strlen(argv[5]) + 1);
 			outDir = strdup(argv[5]);
 		}
 		else
@@ -83,17 +75,12 @@ int main(int argc, char* argv[]) {
 		}
 		else if(VerifyMode(argv[3]) == 'd' && VerifyMode(argv[4]) != 'o')
 		{
-			inDir = (char*)malloc(sizeof(char) * strlen(argv[4]) + 1);
 			inDir = strdup(argv[4]);
-			
-			outDir = (char*)malloc(sizeof(char) * strlen(argv[4]) + 1);
 			outDir = strdup(argv[4]);
 		}
 		else if(VerifyMode(argv[3]) == 'o')
 		{
 			inDir = ".";
-			
-			outDir = (char*)malloc(sizeof(char) * strlen(argv[4]) + 1);
 			outDir = strdup(argv[4]);
 		}
 	}
@@ -153,52 +140,25 @@ int main(int argc, char* argv[]) {
     //process the input directory
     char* inputCol = argv[2];
     char * verification = strstr(header,inputCol);
-    if (verification != NULL)
+   
+    int processCounter;
+     
+    if (verification == NULL)
     {
-		int processCounter;
-
-		//if there is a -d option, which was validated
-		if (dir)
-		{
-			if (VerifyDirectory(inDir))
-			{
-				//if both -d and -o option
-				if (out)
-				{
-					printf("Initial PID: %d\n",getpid());
-					printf("PID's of Child Processes: ");
-					processCounter = processDirectory(inDir,inputCol,outDir);
-				}
-				//otherwise its just the -d option
-				else
-				{
-					printf("Initial PID: %d\n",getpid());
-					printf("PID's of Child Processes: ");
-					processCounter = processDirectory(inDir,inputCol,inDir);
-				}
-			}
-			//if we cant verify the input directory, just fail
-			else
-			{
-				printf("Did not give a valid input directory\n");
-				exit(0);
-			}
-		}
-		//If neither the -d nor the -o option was given in execution
-		else
-		{
-			printf("Initial PID: %d\n",getpid());
-			printf("PID's of Child Processes: ");
-			processCounter = processDirectory(".",inputCol,".");
-		}
-		
-		printf("\nThe total number of processes: %d\n",processCounter);
+		printf("\ninvalid sort type. exiting.\n");
+		exit(0);
 	}
 	else
 	{
-		printf("invalid sort type. exiting.\n");
-		exit(0);
+		printf("Initial PID: %d\n",getpid());
+		printf("PID's of Child Processes: ");
+		processCounter = processDirectory(inDir,inputCol,outDir);
+		
 	}
+	
+	printf("\nTotal number of processes: %d", processCounter);
+	
+	
 	
 }//End main
 
