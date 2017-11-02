@@ -218,7 +218,6 @@ if (entry->d_type == DT_DIR)
 				else if (pT > 0)
 				{
 					wait(&processCounter);
-					printf("\nWEXITSTATUS returns %d\n",WEXITSTATUS(processCounter));
                     processCounter = WEXITSTATUS(processCounter);
 				}
 				else
