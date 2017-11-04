@@ -210,7 +210,7 @@ if (entry->d_type == DT_DIR)
 				{
 					printf("%d, " , getpid());
 					processCounter = processCounter + processDirectory(dpath,inputCol,outpath);
-					exit(processCount);
+					exit(processCounter);
 					
 				}
 				//If we are the parent process,
