@@ -41,9 +41,14 @@ directories, recognize new files, and open them), unistd.h & sys/wait.h (allowin
 fork() and wait() on our spawned processes. We used a recursive method to find and open all
 directories and CSVs with the "dirent" library. The hardest part for us was definitely
 summing the total number of processes. We were able to do this in the trivial case, where
-we waited in the parent for each child (within the loop) and used WEXITSTATUS. But since that
-defeats the purpose of multi-process programming and is cheating this project, we elected not
-to use this method. We waited for all of our processes outside of the loop, 
+we waited in the parent for each child (within the loop) and used WEXITSTATUS. 
+
+We intended to wait outside of the while loop, but we were unable to.
+It created errors in printing PIDS of individual processes (perhaps because it was overwriting data by other processes?)
+Instead, we waited for each child process in the parent processes
+Currently, it shows the total number of processes as the number of csv files and it does not factor in
+directories when it accumulates the total number of processes. 
+
 
 
 

@@ -208,17 +208,15 @@ if (entry->d_type == DT_DIR)
 				//in the child process, process the directory 
 				if (pT == 0)
 				{
-					processCounter++;
 					printf("%d, " , getpid());
 					processDirectory(dpath,inputCol,outpath);
-					exit(processCounter);
+					exit(1);
 					
 				}
 				//If we are the parent process,
 				else if (pT > 0)
 				{
-					wait(&processCounter);
-                    processCounter = WEXITSTATUS(processCounter);
+
 				}
 				else
 				{
@@ -271,13 +269,12 @@ if (entry->d_type == DT_DIR)
 								sort(inputCol, numRecords,table);
 								writeFile(table,fileName,numRecords,outpath,inputCol,header);
 								printf("%d, ",getpid());
-								exit(processCounter);
+								exit(1);
 								
 							}
 							else if (pT > 0)
 							{
-								wait(&processCounter);
-								processCounter = WEXITSTATUS(processCounter);
+								exit(1);
 
 							}
 								
@@ -297,6 +294,15 @@ if (entry->d_type == DT_DIR)
 			
         }//end if
     }//end whileloop for readdir
+    while (true)
+    {
+        wait(&status);
+        if (WIFEXITED(status)== 0)
+            break;
+        else
+            processCounter++;
+            
+    }
     /*
     int i;
     for (i = 0; i < processCounter; i++)
@@ -304,6 +310,7 @@ if (entry->d_type == DT_DIR)
         wait(&status);
     }
     */
+    exit(processCounter);
     return processCounter;
 }//End processDirectory function
 
