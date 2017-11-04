@@ -294,7 +294,7 @@ if (entry->d_type == DT_DIR)
 			
         }//end if
     }//end whileloop for readdir
-    while (true)
+    while (1)
     {
         wait(&status);
         if (WIFEXITED(status)== 0)
