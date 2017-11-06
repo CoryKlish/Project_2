@@ -95,9 +95,6 @@ int main(int argc, char* argv[]) {
 		exit(0);
 	}
 	
-	VerifyDirectory(inDir);
-	VerifyDirectory(outDir);
-	
     	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
@@ -107,10 +104,8 @@ int main(int argc, char* argv[]) {
     {
         //recordsize and line both for getline method
         size_t recordsize;
-
         char* line = NULL;
         size_t bytes = getline(&line, &recordsize, stdin);
-
         if (bytes == -1)
         {
             printf("\nEOF, ending program");
@@ -118,22 +113,17 @@ int main(int argc, char* argv[]) {
         }
         //create new str to hold getline input
         int len = strlen(line);
-
         //getSortType updates the number of fields, need a ptr to them
         int numFields = 0;
         int* numP = &numFields; 
-
         //Validate user input (inputcol) against columns in the given csv
         char* inputCol = argv[2];
         char* sortType = (char*)malloc(sizeof(char) * len);
         sortType = getSortType(line,inputCol,numP);
-
-
         int numRecords = 0;
         int* pNumRecords = &numRecords;
         Record* allrecords = createTable(pNumRecords,numFields, NULL); 
         sort(sortType,numRecords,allrecords);
-
         return 0;
     }
  
@@ -159,8 +149,8 @@ int main(int argc, char* argv[]) {
 		
 	}
 	
-	printf("\nTotal number of processes: %d", processCounter);
-	
+	printf("\nTotal number of processes: %d\n", processCounter);
+
 	
 	
 }//End main
@@ -230,4 +220,3 @@ char VerifyMode(char* mode)
     
     return vmode;               
 }//End VerifyMode function
-

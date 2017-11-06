@@ -146,7 +146,6 @@ PARAMS:
 path is a char* that will be opened using opendir
 inputCol is what we are sorting on, which is validated in this
     method
-
 */
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
@@ -155,7 +154,8 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     char* csv = ".csv";
     int processCounter = 1;
     int len = strlen(path);
-    int status;
+    int status = 0;
+    int totalCounter = 0;
     
     
     DIR* directory  = opendir(path);
@@ -199,7 +199,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			}
 
 		   //if the entry is another directory
-if (entry->d_type == DT_DIR)
+		if (entry->d_type == DT_DIR)
 			{
 				int len = strlen(path);				
 				fflush(stdout);
@@ -209,14 +209,13 @@ if (entry->d_type == DT_DIR)
 				if (pT == 0)
 				{
 					printf("%d, " , getpid());
-					processCounter = processCounter + processDirectory(dpath,inputCol,outpath);
-					exit(processCounter);
+					processDirectory(dpath,inputCol,outpath);
 					
 				}
 				//If we are the parent process,
 				else if (pT > 0)
 				{
-
+					continue;
 				}
 				else
 				{
@@ -264,18 +263,15 @@ if (entry->d_type == DT_DIR)
 							
 							if (pT == 0)
 							{
-								processCounter++;
 								Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
 								sort(inputCol, numRecords,table);
 								writeFile(table,fileName,numRecords,outpath,inputCol,header);
 								printf("%d, ",getpid());
-								exit(1);
 								
 							}
 							else if (pT > 0)
 							{
-								exit(1);
-
+								continue;
 							}
 								
 							else
@@ -294,24 +290,23 @@ if (entry->d_type == DT_DIR)
 			
         }//end if
     }//end whileloop for readdir
-    while (1)
-    {
-        wait(&status);
-        if (WIFEXITED(status)== 0)
-            break;
-        else
-            processCounter++;
-            
-    }
-    /*
-    int i;
-    for (i = 0; i < processCounter; i++)
-    {
-        wait(&status);
-    }
-    */
-    exit(processCounter);
-    return processCounter;
+	
+	while(1)
+	{		
+			if( (wait(&status)) > 0 )
+			{
+				processCounter++;
+			}
+			else
+			{
+				break;
+			}
+	}
+	
+	return processCounter;
+	
+	
+	
 }//End processDirectory function
 
 ///////////////////////////////////////READ & WRITE//////////////////////////////////////////
@@ -326,7 +321,6 @@ numFields is initially 0 as well and its value is given by the
 inputCol is the given type to sort by. getSortType checks if the input from the user is in the csv file that is currently being read. if it is and the csv also has 27 fields then it is legit and we create a method
 header is a null char* that is to be filled with the header of 
     a csv file. This is needed when we need to write the header at the top of -sorted csv- files.
-
 RETURNS: A Record* of the given csv file
 */
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol, char** pHeader, char* inpath){ 
