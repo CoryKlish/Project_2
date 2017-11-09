@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-
+static int processCounter = 1;
 typedef struct Record{
 	char color[30];
 	char director_name[50];
@@ -50,7 +50,8 @@ static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
 static void printStructs(Record list[], int numStructs);
-static int processDirectory( char* path, char* inputCol, char* outpath);
+static void processDirectory( char* path, char* inputCol, char* outpath,int flag);
+static int processFile(char* fileName,char* inputCol, char* path, char* outpath);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader, char* inpath);
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header);
 
@@ -147,12 +148,11 @@ path is a char* that will be opened using opendir
 inputCol is what we are sorting on, which is validated in this
     method
 */
-static int processDirectory(char* path, char* inputCol, char* outpath)
+static void processDirectory(char* path, char* inputCol, char* outpath, int flag)
 {
    
     struct dirent* entry;
     char* csv = ".csv";
-    int processCounter = 1;
     int len = strlen(path);
     int status = 0;
     int totalCounter = 0;
@@ -204,18 +204,20 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				int len = strlen(path);				
 				fflush(stdout);
 				int pT = fork();
-				
+				processCounter++;//the first one
 				//in the child process, process the directory 
 				if (pT == 0)
 				{
 					printf("%d, " , getpid());
-					processDirectory(dpath,inputCol,outpath);
+					processDirectory(dpath,inputCol,outpath,0);
 					
 				}
 				//If we are the parent process,
 				else if (pT > 0)
 				{
-					continue;
+                    
+
+                    //nothing goes on
 				}
 				else
 				{
@@ -238,15 +240,13 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 					{
 					  //  printf("\ncsv recognized: %s\n",fileName);
 						  /* fork() to process the file*/
-						//need the numrecords for the mergesort
+					
 						int numRecords = 0;
 						int* pNumRecords = &numRecords;
 					
-						//readfile validates the input column and creates a record array
-						char* header;
-						//char** pheader will change the value of 
-						//char* header from within readFile
-						char** pHeader = &header;
+						
+						
+						
 						char* sorted = strstr(fileName,"-sorted-");
 						if (sorted != NULL)
 						{
@@ -257,28 +257,9 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 						//If it is not already a sorted file
 						else
 						{
-							fflush(stdout);
-							int pT = fork();
-							//in the child process
+							processCounter += processFile(fileName,inputCol,path, outpath);
+								
 							
-							if (pT == 0)
-							{
-								Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
-								sort(inputCol, numRecords,table);
-								writeFile(table,fileName,numRecords,outpath,inputCol,header);
-								printf("%d, ",getpid());
-								
-							}
-							else if (pT > 0)
-							{
-								continue;
-							}
-								
-							else
-							{
-								printf("fork() failed. Ending process");
-								exit(0);
-							}
 		
 						}
 						
@@ -295,19 +276,61 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 	{		
 			if( (wait(&status)) > 0 )
 			{
-				processCounter++;
+				processCounter += 1;
 			}
 			else
 			{
 				break;
 			}
 	}
-	
-	return processCounter;
-	
+
+    if (flag == 0)
+        exit(processCounter);
 	
 	
 }//End processDirectory function
+
+static int processFile(char* fileName,char* inputCol, char* path, char* outpath)
+{
+    int status;
+    int processCounter = 0;
+    //need the numrecords for the mergesort
+    int numRecords = 0;
+    int* pNumRecords = &numRecords;
+    //readfile validates the input column and creates a record array
+    //char** pheader will change the value of 
+    //char* header from within readFile
+    char* header;
+    char** pHeader = &header;
+    fflush(stdout);
+    int pT = fork();
+    //in the child process
+
+    if (pT == 0)
+    {
+        Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
+        sort(inputCol, numRecords,table);
+        writeFile(table,fileName,numRecords,outpath,inputCol,header);
+        printf("%d, ",getpid());
+        exit(1);
+
+    }
+    else
+    {
+       while(1)
+	   {		
+			if( (wait(&status)) > 0 )
+			{
+				processCounter++;
+			}
+			else
+			{
+				break;
+			}
+	   }
+    }
+    return processCounter;
+}
 
 ///////////////////////////////////////READ & WRITE//////////////////////////////////////////
 //Large Helper function: readFile
