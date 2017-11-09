@@ -160,7 +160,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
     DIR* directory  = opendir(path);
     //read from directory until nothing left
     
-    while ((entry =  readdir(directory)) != NULL )
+    while ((entry = readdir(directory)) != NULL )
     {
 		if ((strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0 && (strcmp (entry->d_name,".git")) != 0)
 		{
@@ -208,13 +208,12 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 				if (pT == 0)
 				{
 					printf("%d, " , getpid());
-					processCounter += processDirectory(dpath,inputCol,outpath,0);
+					return processCounter + processDirectory(dpath,inputCol,outpath,0);
 				}
 				//If we are the parent process,
 				else if (pT > 0)
 				{
 					
-				
                     //nothing goes on
 				}
 				else
@@ -264,7 +263,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 			
         }//end if
     }//end whileloop for readdir
-   
 	
 	while(1)
 	{		
@@ -318,8 +316,7 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
 				break;
 			}
 		}
-        
-		exit(0);
+       exit(0); 
     }
    
 }
