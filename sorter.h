@@ -268,7 +268,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	//////////////////////////////////////////////////////////BASE CASE NEEDS WORK MAYBE?/////////////////////////////////////
 	if((entry = readdir(directory)) == NULL)
 	{
-		return 0;
+		exit(0);
 	}
 	
 	while(1)
