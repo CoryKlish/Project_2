@@ -268,11 +268,8 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	//////////////////////////////////////////////////////////BASE CASE NEEDS WORK MAYBE?/////////////////////////////////////
 	if((entry = readdir(directory)) == NULL)
 	{
-		exit(0);
-	}
-	
-	while(1)
-	{		
+		while(1)
+	   {		
 			if( (wait(&status)) > 0 )
 			{
 				
@@ -281,7 +278,10 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 			{
 				break;
 			}
+	   }
 	}
+	
+	
 
     if (flag == 0)
         exit(processCounter);
