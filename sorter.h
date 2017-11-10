@@ -203,17 +203,20 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 				int len = strlen(path);				
 				fflush(stdout);
 				int pT = fork();
-				processCounter++;
+				
 				//in the child process, process the directory 
 				if (pT == 0)
 				{
+                    //reset the process counter
+                    processCounter = 1;
+                    
 					printf("%d, " , getpid());
 					return processDirectory(dpath,inputCol,outpath,0);
 				}
 				//If we are the parent process,
 				else if (pT > 0)
 				{
-					
+					processCounter += WEXITSTATUS (processCounter);
                     //nothing goes on
 				}
 				else
