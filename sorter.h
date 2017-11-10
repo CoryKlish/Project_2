@@ -316,7 +316,7 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
         sort(inputCol, numRecords,table);
         writeFile(table,fileName,numRecords,outpath,inputCol,header);
         printf("%d, ",getpid());
-        processCounter++;
+        processCounter = 1;
 
         printf("\nI am a file exiting with %d\n",processCounter);
        exit(processCounter); 
