@@ -251,7 +251,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 						//If it is not already a sorted file
 						else
 						{
-							processCounter++;
 							processFile(fileName,inputCol,path, outpath);
 						}
 						
