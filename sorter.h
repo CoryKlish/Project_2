@@ -271,7 +271,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	{
 		while(1)
 	   {		
-			if( (wait(&processCounter)) > 0 )
+			if( (wait(&status)) > 0 )
 			{
                 
                 printf("\nThe exit status received from wait : %d\n",processCounter);
@@ -312,8 +312,6 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
 
     if (pT == 0)
     {
-        processCounter = 0;
-
         Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
         sort(inputCol, numRecords,table);
         writeFile(table,fileName,numRecords,outpath,inputCol,header);
