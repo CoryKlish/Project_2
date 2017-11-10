@@ -10,6 +10,7 @@
 #include <sys/types.h>
 
 static int processCounter = 1;
+static int initpid;
 
 typedef struct Record{
 	char color[30];
@@ -295,8 +296,9 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
          return processCounter;
 
     }
-    else
+    else if (getpid() == initpid)
     {
+        exit (processCounter);
         printf("\nAWWWWWWW");
     }
 

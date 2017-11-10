@@ -132,6 +132,7 @@ int main(int argc, char* argv[]) {
     //process the input directory
     char* inputCol = argv[2];
     char * verification = strstr(header,inputCol);
+    initpid = getpid();
    
      
     if (verification == NULL)
