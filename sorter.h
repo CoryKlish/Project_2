@@ -207,15 +207,16 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 				//in the child process, process the directory 
 				if (pT == 0)
 				{
-                    //reset the process counter
-                    processCounter = 1;
+                    processCounter = 0;
                     
 					printf("%d, " , getpid());
-                    processDirectory(dpath,inputCol,outpath,0);
+					return processDirectory(dpath,inputCol,outpath,0);
+                    exit(processCounter);
 				}
 				//If we are the parent process,
 				else if (pT > 0)
 				{
+					
                     //nothing goes on
 				}
 				else
@@ -272,9 +273,9 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	{
 		while(1)
 	   {		
-			if( (wait(&status)) > 0 )
+			if( (wait(&processCounter)) > 0 )
 			{
-                processCounter += WEXITSTATUS(processCounter);
+                processCounter+= WEXITSTATUS(processCounter);
 			}
 			else
 			{
