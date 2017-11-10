@@ -211,6 +211,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
                     
 					printf("%d, " , getpid());
 					return processDirectory(dpath,inputCol,outpath,0);
+                    printf("\nI am a directory exiting with %d\n",processCounter);
                     exit(processCounter);
 				}
 				//If we are the parent process,
@@ -274,6 +275,8 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	   {		
 			if( (wait(&processCounter)) > 0 )
 			{
+                
+                printf("\nThe exit status received from wait : %d\n",processCounter)
                 processCounter+= WEXITSTATUS(processCounter);
 			}
 			else
@@ -317,6 +320,7 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
         printf("%d, ",getpid());
         processCounter++;
 
+        printf("\nI am a file exiting with %d\n",processCounter);
        exit(processCounter); 
     }
    
