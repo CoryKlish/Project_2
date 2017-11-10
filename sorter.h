@@ -317,6 +317,9 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
        exit(0); 
     }
     else if (pT > 0)
+    {
+        
+    }
         
     else
     {
