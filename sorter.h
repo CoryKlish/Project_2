@@ -277,7 +277,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 			{
                 if (WIFEXITED(status))
                 {
-                    printf("\nThe exit status received from wait : %d\n",WEXITSTATUS(status));
+                    
                     processCounter+= WEXITSTATUS(status);
                 }
               
@@ -292,14 +292,12 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	
     if ((getpid() == initpid))
     {
-        printf("\nHEYOOOOOOOOO\n");
          return processCounter;
 
     }
     else
     {
         exit (processCounter);
-        printf("\nAWWWWWWW");
     }
 
 	
