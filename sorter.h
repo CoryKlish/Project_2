@@ -200,6 +200,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 		   //if the entry is another directory
 		if (entry->d_type == DT_DIR)
 			{
+                processCounter++;
 				int len = strlen(path);				
 				fflush(stdout);
 				int pT = fork();
