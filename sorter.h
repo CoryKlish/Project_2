@@ -203,6 +203,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 				int len = strlen(path);				
 				fflush(stdout);
 				int pT = fork();
+				processCounter++;
 				//in the child process, process the directory 
 				if (pT == 0)
 				{
