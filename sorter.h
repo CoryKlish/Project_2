@@ -289,7 +289,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	   }
 	}
 	
-	exit (processCounter);
+	
     if (flag == 1)
         return processCounter;
 
