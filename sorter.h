@@ -207,7 +207,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 				//in the child process, process the directory 
 				if (pT == 0)
 				{
-                    processCounter = 0;
+                    processCounter = 1;
                     
 					printf("%d, " , getpid());
 				    processDirectory(dpath,inputCol,outpath,0);
