@@ -216,7 +216,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 				//If we are the parent process,
 				else if (pT > 0)
 				{
-					processCounter += WEXITSTATUS (processCounter);
+					//processCounter += WEXITSTATUS (processCounter);
                     //nothing goes on
 				}
 				else
