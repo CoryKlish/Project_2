@@ -200,11 +200,10 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 		   //if the entry is another directory
 		if (entry->d_type == DT_DIR)
 			{
-                processCounter++;
 				int len = strlen(path);				
 				fflush(stdout);
 				int pT = fork();
-
+				processCounter++;
 				//in the child process, process the directory 
 				if (pT == 0)
 				{
@@ -214,7 +213,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 				//If we are the parent process,
 				else if (pT > 0)
 				{
-
+					
                     //nothing goes on
 				}
 				else
@@ -253,6 +252,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 						else
 						{
 							processFile(fileName,inputCol,path, outpath);
+                            processCounter++;
 						}
 						
 
@@ -272,7 +272,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	   {		
 			if( (wait(&status)) > 0 )
 			{
-
+                processCounter++;
 			}
 			else
 			{
@@ -311,7 +311,7 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
         sort(inputCol, numRecords,table);
         writeFile(table,fileName,numRecords,outpath,inputCol,header);
         printf("%d, ",getpid());
-        processCounter++;
+        
        exit(0); 
     }
    
