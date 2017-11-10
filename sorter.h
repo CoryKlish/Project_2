@@ -208,7 +208,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 				if (pT == 0)
 				{
 					printf("%d, " , getpid());
-					return processDirectory(dpath,inputCol,outpath,0);
+					return processDirectory(dpath,inputCol,outpath,1);
 				}
 				//If we are the parent process,
 				else if (pT > 0)
@@ -252,6 +252,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 						else
 						{
 							processFile(fileName,inputCol,path, outpath);
+                            processCounter++;
 						}
 						
 
@@ -271,6 +272,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	   {		
 			if( (wait(&status)) > 0 )
 			{
+                processCounter++;
 			}
 			else
 			{
@@ -283,6 +285,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 
     if (flag == 0)
         exit(processCounter);
+
 	
 	
 }//End processDirectory function
