@@ -252,7 +252,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 						else
 						{
 							processFile(fileName,inputCol,path, outpath);
-                            processCounter++;
 						}
 						
 
@@ -272,7 +271,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	   {		
 			if( (wait(&status)) > 0 )
 			{
-                processCounter++;
 			}
 			else
 			{
