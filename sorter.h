@@ -290,13 +290,13 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	}
 	
 	
-    if (flag == 1)
+    if ((getpid() == initpid))
     {
         printf("\nHEYOOOOOOOOO\n");
          return processCounter;
 
     }
-    else if (getpid() == initpid)
+    else
     {
         exit (processCounter);
         printf("\nAWWWWWWW");
