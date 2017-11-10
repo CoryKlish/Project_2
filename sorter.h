@@ -208,8 +208,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 				if (pT == 0)
 				{
 					printf("%d, " , getpid());
-					processDirectory(dpath,inputCol,outpath,0);
-                    exit(1);
+					return processCounter + processDirectory(dpath,inputCol,outpath,0);
 				}
 				//If we are the parent process,
 				else if (pT > 0)
@@ -252,7 +251,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 						//If it is not already a sorted file
 						else
 						{
-							
+							processCounter++;
 							processFile(fileName,inputCol,path, outpath);
 						}
 						
@@ -276,7 +275,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	{		
 			if( (wait(&status)) > 0 )
 			{
-				processCounter++;
+				
 			}
 			else
 			{
@@ -304,7 +303,6 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
     char** pHeader = &header;
     fflush(stdout);
     int pT = fork();
-    processCounter++;
     //in the child process
 
     if (pT == 0)
@@ -314,17 +312,18 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
         writeFile(table,fileName,numRecords,outpath,inputCol,header);
         printf("%d, ",getpid());
         
+        while(1)
+		{		
+			if( (wait(&status)) > 0 )
+			{
+				
+			}
+			else
+			{
+				break;
+			}
+		}
        exit(0); 
-    }
-    else if (pT > 0)
-    {
-        
-    }
-        
-    else
-    {
-        printf("There is an error in fork(), ending\n");
-        exit(0);
     }
    
 }
