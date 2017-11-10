@@ -272,7 +272,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	   {		
 			if( (wait(&status)) > 0 )
 			{
-				processCounter++;
+                
 			}
 			else
 			{
