@@ -291,7 +291,15 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	
 	
     if (flag == 1)
-        return processCounter;
+    {
+        printf("\nHEYOOOOOOOOO\n");
+         return processCounter;
+
+    }
+    else
+    {
+        printf("\nAWWWWWWW");
+    }
 
 	
 	
