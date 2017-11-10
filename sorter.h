@@ -264,6 +264,13 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
         }//end if
     }//end whileloop for readdir
 	
+	
+	//////////////////////////////////////////////////////////BASE CASE NEEDS WORK MAYBE?/////////////////////////////////////
+	if((entry = readdir(directory)) == NULL)
+	{
+		return 0;
+	}
+	
 	while(1)
 	{		
 			if( (wait(&status)) > 0 )
