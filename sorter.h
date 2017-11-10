@@ -317,7 +317,7 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
        exit(0); 
     }
     else if (pT > 0)
-        wait(status);
+        
     else
     {
         printf("There is an error in fork(), ending\n");
