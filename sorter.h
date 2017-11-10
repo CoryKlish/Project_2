@@ -327,7 +327,6 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
         printf("%d, ",getpid());
         processCounter = 1;
 
-        printf("\nI am a file exiting with %d\n",processCounter);
        exit(processCounter); 
     }
   
