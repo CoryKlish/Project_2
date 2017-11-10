@@ -320,7 +320,10 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
        exit(processCounter); 
     }
     else (pT > 0)
-       exit(processCounter); 
+    {
+               exit(processCounter); 
+
+    }
 
    
 }
