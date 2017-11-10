@@ -295,7 +295,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 static void processFile(char* fileName,char* inputCol, char* path, char* outpath)
 {
     int status;
-    int processCounter = 0;
     //need the numrecords for the mergesort
     int numRecords = 0;
     int* pNumRecords = &numRecords;
@@ -310,6 +309,8 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
 
     if (pT == 0)
     {
+        processCounter = 0;
+
         Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
         sort(inputCol, numRecords,table);
         writeFile(table,fileName,numRecords,outpath,inputCol,header);
