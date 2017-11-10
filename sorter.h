@@ -309,7 +309,7 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
         sort(inputCol, numRecords,table);
         writeFile(table,fileName,numRecords,outpath,inputCol,header);
         printf("%d, ",getpid());
-    
+        processCounter++;
        exit(0); 
     }
    
