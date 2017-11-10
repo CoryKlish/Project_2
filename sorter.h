@@ -255,7 +255,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 						else
 						{
 							processFile(fileName,inputCol,path, outpath);
-                            processCounter++;
 						}
 						
 
@@ -315,8 +314,9 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
         sort(inputCol, numRecords,table);
         writeFile(table,fileName,numRecords,outpath,inputCol,header);
         printf("%d, ",getpid());
-        
-       exit(0); 
+        processCounter++;
+
+       exit(processCounter); 
     }
    
 }
