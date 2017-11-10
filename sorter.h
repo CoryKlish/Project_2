@@ -211,7 +211,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
                     
 					printf("%d, " , getpid());
 				    processDirectory(dpath,inputCol,outpath,0);
-                    printf("\nI am a directory exiting with %d\n",processCounter);
 				}
 				//If we are the parent process,
 				else if (pT > 0)
@@ -289,6 +288,8 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 
     if (flag == 0)
         exit(processCounter);
+    if (flag == 1)
+        return;
 
 	
 	
