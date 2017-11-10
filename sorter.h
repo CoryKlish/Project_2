@@ -203,6 +203,8 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 				int len = strlen(path);				
 				fflush(stdout);
 				int pT = fork();
+                processCounter++;
+
 				//in the child process, process the directory 
 				if (pT == 0)
 				{
@@ -212,7 +214,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 				//If we are the parent process,
 				else if (pT > 0)
 				{
-                   processCounter++;
 
                     //nothing goes on
 				}
@@ -271,6 +272,8 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 	   {		
 			if( (wait(&status)) > 0 )
 			{
+                processCounter++;
+
 			}
 			else
 			{
