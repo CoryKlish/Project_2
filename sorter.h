@@ -319,6 +319,9 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
         printf("\nI am a file exiting with %d\n",processCounter);
        exit(processCounter); 
     }
+    else (pT > 0)
+       exit(processCounter); 
+
    
 }
 
