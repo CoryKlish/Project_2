@@ -274,7 +274,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
 			if( (wait(&status)) > 0 )
 			{
                 
-                printf("\nThe exit status received from wait : %d\n",processCounter);
+                printf("\nThe exit status received from wait : %d\n",WEXITSTATUS(processCounter));
                 processCounter+= WEXITSTATUS(processCounter);
 			}
 			else
