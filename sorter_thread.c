@@ -37,76 +37,15 @@ int main(int argc, char* argv[]) {
     char* outDir;
     char* inputCol;
     
-    inputCol = getArgs('c', numArgs, argv[]);
-    inDir = getArgs('d', numArgs, argv[]);
-    outDir = getArgs('o', numArgs, argv[]);
+    inputCol = getArgs('c', numArgs, argv);
+    inDir = getArgs('d', numArgs, argv);
+    outDir = getArgs('o', numArgs, argv);
    
     if(outDir == NULL)
     {
 		outDir = strdup(inDir);
 	}
-    
-    /*
-    if(VerifyMode(argv[1]) != 'c')
-    {
-		printf("First argument must be -c\n");
-		exit(0);
-	} 
-	
-	if( ((argc - 1) == 6) && VerifyMode(argv[3]) == 'd' && VerifyMode(argv[5]) == 'o' ) //6 arguments
-	{
-		inDir = strdup(argv[4]);
-		outDir = strdup(argv[6]);
-	}
-	else if( (argc - 1) == 5) //5 arguments
-	{
-		if(VerifyMode(argv[4]) != 'o')
-		{
-			inDir = strdup(argv[4]);
-			outDir = strdup(argv[4]);
-		}
-		else if(VerifyMode(argv[4]) == 'o' && VerifyMode(argv[3]) == 'd')
-		{
-			inDir = ".";
-			outDir = strdup(argv[5]);
-		}
-		else
-		{
-			printf("Invalid argument passing...Exiting\n");
-			exit(0);
-		}
-	}
-	else if( (argc - 1) == 4) //4 arguments
-	{
-		if(VerifyMode(argv[3]) == 'd' && VerifyMode(argv[4]) == 'o')
-		{
-			inDir = ".";
-			outDir = ".";
-		}
-		else if(VerifyMode(argv[3]) == 'd' && VerifyMode(argv[4]) != 'o')
-		{
-			inDir = strdup(argv[4]);
-			outDir = strdup(argv[4]);
-		}
-		else if(VerifyMode(argv[3]) == 'o')
-		{
-			inDir = ".";
-			outDir = strdup(argv[4]);
-		}
-	}
-	else if( (argc - 1) == 2 || (argc - 1) == 3 ) //2 or 3 arguments
-	{
-		inDir = ".";
-		outDir = ".";
-	}
-	else
-	{
-		printf("Incorrect formatting of arguments...Exiting\n");
-		exit(0);
-	}
-	*/
-	
-    	
+     	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
     /*
@@ -204,30 +143,7 @@ int VerifyDirectory(char* path)
     return flag;
 }
 
-/*
-char VerifyMode(char* mode)
-{
-    //list of possible modes in a char*
-    const char* modes = "cdo";
-    //by default, vmode is a non-valid mode
-    char vmode = 'x';
-    //for looping through the modes
-    int modeLen = strlen(modes);
-    
-	int i;
-    for (i = 0; i < modeLen; i++)
-    {
-        //if the mode in param == something in modes
-        if(*(mode+1) == *(modes + i))
-            vmode = (*(modes + i));
-    }
-    
-    return vmode;               
-}//End VerifyMode function
-*/
-
-
-char * getArgs(char flag, int numArgs, char* argArr[])
+char* getArgs(char flag, int numArgs, char* argArr[])
 {
 	int i = 1;
 	int found = 0;
@@ -324,8 +240,3 @@ char * getArgs(char flag, int numArgs, char* argArr[])
 	return argVal;
 	
 }
-
-
-
-
-

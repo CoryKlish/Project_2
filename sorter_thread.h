@@ -59,8 +59,7 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 
 //In SORTER.C
 int VerifyDirectory(char* path);
-char VerifyMode(char* mode);
-char * getArgs(char flag, int numArgs, char* argArr[])
+char* getArgs(char flag, int numArgs, char* argArr[]);
 
 //IN mergesort.c
 Record* createTable(int* pNumRecords,int numFields, FILE *fp);
