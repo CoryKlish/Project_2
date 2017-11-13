@@ -497,7 +497,7 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	}
 
 	fclose(fp);
-	free(fileWrite);
+	//free(fileWrite);
 }
 
 //Large helper function: allocateToken
