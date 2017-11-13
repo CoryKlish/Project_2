@@ -47,6 +47,11 @@ int main(int argc, char* argv[]) {
 		outDir = strdup(inDir);
 	}
      	
+     if(!VerifyDirectory(inDir) || !VerifyDirectory(outDir))
+     {
+		 printf("Not a valid directory\n");
+		 exit(0);
+	 }
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
 
     /*
@@ -160,7 +165,7 @@ char* getArgs(char flag, int numArgs, char* argArr[])
 				{
 					found = 1;
 					
-					if(strcmp(argArr[i+1], "-d") == 0 || strcmp(argArr[i+1], "-o") == 0)
+					if(strcmp(argArr[i+1], "-d") == 0 || strcmp(argArr[i+1], "-o") == 0 || strcmp(argArr[i+1], "-c") == 0)
 					{
 						printf("Error, sort type can not be a command\n");
 						exit(0);
