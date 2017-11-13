@@ -57,10 +57,10 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader, char* inpath);
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header);
 
-
 //In SORTER.C
 int VerifyDirectory(char* path);
 char VerifyMode(char* mode);
+char * getArgs(char flag, int numArgs, char* argArr[])
 
 //IN mergesort.c
 Record* createTable(int* pNumRecords,int numFields, FILE *fp);

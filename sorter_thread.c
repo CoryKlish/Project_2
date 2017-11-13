@@ -6,9 +6,9 @@
 #include <string.h>
 #include <dirent.h>
 #include <unistd.h>
-#include <sys/mman.h>
 #include <sys/wait.h>
-#include "sorter.h"
+#include "sorter_thread.h"
+
 char* header = "color,director_name,num_critic_for_reviews,duration,director_facebook_likes,actor_3_facebook_likes,actor_2_name,actor_1_facebook_likes,gross,genres,actor_1_name,\
 movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,\
 title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
@@ -31,12 +31,22 @@ int main(int argc, char* argv[]) {
     //Fifth argument is the -o symbo
     //Fifth Designates OUTPUT directory
    
-    char inputmode = VerifyMode(argv[1]);
     int dirlen, outlen;
     char dir = 0,out = 0;
     char* inDir;
     char* outDir;
+    char* inputCol;
     
+    inputCol = getArgs('c', numArgs, argv[]);
+    inDir = getArgs('d', numArgs, argv[]);
+    outDir = getArgs('o', numArgs, argv[]);
+   
+    if(outDir == NULL)
+    {
+		outDir = strdup(inDir);
+	}
+    
+    /*
     if(VerifyMode(argv[1]) != 'c')
     {
 		printf("First argument must be -c\n");
@@ -94,6 +104,7 @@ int main(int argc, char* argv[]) {
 		printf("Incorrect formatting of arguments...Exiting\n");
 		exit(0);
 	}
+	*/
 	
     	
 ////////////////////////Parsing first line for column types and testing user input///////////////////////////////////
@@ -131,7 +142,7 @@ int main(int argc, char* argv[]) {
     */
 ////////////////////////////////////////////.csv file sort///////////////////////////
     //process the input directory
-    char* inputCol = argv[2];
+   
     char * verification = strstr(header,inputCol);
     initpid = getpid();
    
@@ -193,6 +204,7 @@ int VerifyDirectory(char* path)
     return flag;
 }
 
+/*
 char VerifyMode(char* mode)
 {
     //list of possible modes in a char*
@@ -201,14 +213,6 @@ char VerifyMode(char* mode)
     char vmode = 'x';
     //for looping through the modes
     int modeLen = strlen(modes);
-    
-    /*
-    int len = strlen(mode);
-    if (len > 2 || *(mode) != '-')
-    {
-        printf("\n %s is not recognized, ending program\n",mode);
-    }
-    */
     
 	int i;
     for (i = 0; i < modeLen; i++)
@@ -220,4 +224,108 @@ char VerifyMode(char* mode)
     
     return vmode;               
 }//End VerifyMode function
+*/
+
+
+char * getArgs(char flag, int numArgs, char* argArr[])
+{
+	int i = 1;
+	int found = 0;
+	char * argVal = NULL;
+	
+	switch(flag)
+	{
+		case 'c':
+		{
+			while(i <= numArgs)
+			{
+				if(strcmp(argArr[i], "-c") == 0)
+				{
+					found = 1;
+					
+					if(strcmp(argArr[i+1], "-d") == 0 || strcmp(argArr[i+1], "-o") == 0)
+					{
+						printf("Error, sort type can not be a command\n");
+						exit(0);
+					}
+					
+					argVal = strdup(argArr[i+1]);
+					break;
+				}
+				
+				i++;
+			}
+			
+			if(found == 0)
+			{
+				printf("Error: No sort type found\n");
+				exit(0);
+			}
+			
+			break;
+		}
+		
+		case 'd':
+		{
+			while(i <= numArgs)
+			{
+				if(strcmp(argArr[i], "-d") == 0)
+				{
+					if(i == numArgs) // "-d" is last arg
+					{
+						argVal = strdup(".");
+					}
+					else if(strcmp(argArr[i+1], "-c") == 0 || strcmp(argArr[i+1], "-o") == 0)
+					{
+						argVal = strdup(".");
+					}
+					else
+					{
+						argVal = strdup(argArr[i+1]);
+					}
+				}
+				i++;
+			}
+			
+			if(argVal == NULL)
+			{
+				argVal = strdup(".");
+			}
+			
+			break;
+		}
+		
+		case 'o':
+		{
+			while(i <= numArgs)
+			{
+				if(strcmp(argArr[i], "-o") == 0)
+				{
+					if(i == numArgs) // "-o" is last arg
+					{
+						argVal = NULL;
+					}
+					else if(strcmp(argArr[i+1], "-c") == 0 || strcmp(argArr[i+1], "-d") == 0)
+					{
+						argVal = NULL;
+					}
+					else
+					{
+						argVal = strdup(argArr[i+1]);
+					}
+				}
+				i++;
+			}
+			
+			break;
+		}
+	}
+	
+	return argVal;
+	
+}
+
+
+
+
 

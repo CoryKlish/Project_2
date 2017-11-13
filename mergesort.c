@@ -3,15 +3,11 @@
 #include <string.h>
 #include <dirent.h>
 #include <sys/types.h>
-#include "sorter.h"
-#include <sys/mman.h>
+#include "sorter_thread.h"
 #include <fcntl.h>
 
 /////////////////////////////////////////////////////////////Processing Directory method/////////////////////////////////////////////
 
-
-    
-    
 /*
 Takes records from the csv one at a time from STDIN
 and places the fields under the correct header.
