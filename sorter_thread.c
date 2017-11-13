@@ -21,7 +21,8 @@ int main(int argc, char* argv[]) {
     // Don't accept less than 2 arguments and more than 6 arguments
 	if(numArgs < 2 || numArgs > 6)
 	{
-		printf("Wrong number of arguments passed.");
+		printf("Wrong number of arguments passed\n");
+		exit(0);
 	}
 	
 	//First argument should be -mode, indicating what to analyze
