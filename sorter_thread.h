@@ -9,8 +9,11 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-static int processCounter = 1;
+static int threadCounter = 1;
 static int inittid;
+pthread_t* threadArray;
+int numThreads;
+int pNumThreads;
 
 
 typedef struct Record{
@@ -203,12 +206,12 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			{
 				int len = strlen(path);				
 				fflush(stdout);
-				int pT = fork();
+				pthread_create()
 				
 				//in the child process, process the directory 
 				if (pT == 0)
 				{
-                    processCounter = 1;
+                    threadCounter = 1;
                     
 					printf("%d, " , getpid());
 				    processDirectory(dpath,inputCol,outpath,0);
@@ -271,28 +274,13 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 	//////////////////////////////////////////////////////////BASE CASE NEEDS WORK MAYBE?/////////////////////////////////////
 	if((entry = readdir(directory)) == NULL)
 	{
-		while(1)
-	   {		
-			if( (wait(&status)) > -1 )
-			{
-                if (WIFEXITED(status))
-                {
-                    
-                    processCounter+= WEXITSTATUS(status);
-                }
-              
-			}
-			else
-			{
-				break;
-			}
-	   }
+		
 	}
 	
 	
-    if ((getpid() == initpid))
+    if ((gettid() == inittid))
     {
-         return processCounter;
+         return threadCounter;
 
     }
     else
