@@ -105,7 +105,7 @@ int main(int argc, char* argv[]) {
 		
 	}
 	
-	printf("\nTotal number of processes: %d\n", processCounter);
+	printf("\nTotal number of threads: %d\n", threadCounter);
 
 	
 	

@@ -285,7 +285,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     }
     else
     {
-        exit (processCounter);
+        pthread_exit();
     }
 
 	
