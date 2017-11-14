@@ -10,7 +10,8 @@
 #include <sys/types.h>
 
 static int processCounter = 1;
-static int initpid;
+static int inittid;
+
 
 typedef struct Record{
 	char color[30];
@@ -52,7 +53,7 @@ static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
 static void printStructs(Record list[], int numStructs);
-static int processDirectory( char* path, char* inputCol, char* outpath,int flag);
+static int processDirectory( char* path, char* inputCol, char* outpath);
 static void processFile(char* fileName,char* inputCol, char* path, char* outpath);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader, char* inpath);
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header);
@@ -149,7 +150,7 @@ path is a char* that will be opened using opendir
 inputCol is what we are sorting on, which is validated in this
     method
 */
-static int processDirectory(char* path, char* inputCol, char* outpath, int flag)
+static int processDirectory(char* path, char* inputCol, char* outpath)
 {
    
     struct dirent* entry;
