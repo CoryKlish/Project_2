@@ -148,7 +148,6 @@ int VerifyDirectory(char* path)
     }
     return flag;
 }
-
 char* getArgs(char flag, int numArgs, char* argArr[])
 {
 	int i = 1;
@@ -163,11 +162,12 @@ char* getArgs(char flag, int numArgs, char* argArr[])
 			{
 				if(strcmp(argArr[i], "-c") == 0)
 				{
+					
 					found = 1;
 					
-					if(strcmp(argArr[i+1], "-d") == 0 || strcmp(argArr[i+1], "-o") == 0 || strcmp(argArr[i+1], "-c") == 0)
+					if(i == numArgs || strcmp(argArr[i+1], "-d") == 0 || strcmp(argArr[i+1], "-o") == 0 || strcmp(argArr[i+1], "-c") == 0)
 					{
-						printf("Error, sort type can not be a command\n");
+						printf("Error, '-c' must have an argument\n");
 						exit(0);
 					}
 					
@@ -196,6 +196,11 @@ char* getArgs(char flag, int numArgs, char* argArr[])
 					if(i == numArgs) // "-d" is last arg
 					{
 						argVal = strdup(".");
+					}
+					else if(strcmp(argArr[i+1], "-d") == 0)
+					{
+						printf("Error: '-d' is a command\n");
+						exit(0);
 					}
 					else if(strcmp(argArr[i+1], "-c") == 0 || strcmp(argArr[i+1], "-o") == 0)
 					{
@@ -227,13 +232,20 @@ char* getArgs(char flag, int numArgs, char* argArr[])
 					{
 						argVal = NULL;
 					}
+					else if(strcmp(argArr[i+1], "-o") == 0)
+					{
+						printf("Error: '-o' is a command\n");
+						exit(0);
+					}
 					else if(strcmp(argArr[i+1], "-c") == 0 || strcmp(argArr[i+1], "-d") == 0)
 					{
 						argVal = NULL;
+						break;
 					}
 					else
 					{
 						argVal = strdup(argArr[i+1]);
+						break;
 					}
 				}
 				i++;
@@ -242,7 +254,5 @@ char* getArgs(char flag, int numArgs, char* argArr[])
 			break;
 		}
 	}
-	
 	return argVal;
-	
 }
