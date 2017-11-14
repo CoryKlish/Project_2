@@ -52,6 +52,7 @@ typedef struct Record{
 
 
 //in sorter.h
+static int (*processDir)(char*, char*, char*);
 static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
@@ -90,6 +91,9 @@ At the end:
     If no matches with colName, return NULL
     otherwise, return colName
 */
+
+
+
 
 static char* getSortType(char* header, char* colName, int* numFields)
 {
@@ -291,6 +295,8 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 	
 	
 }//End processDirectory function
+
+processDir = &processDirectory;
 
 static void processFile(char* fileName,char* inputCol, char* path, char* outpath)
 {
