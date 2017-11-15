@@ -8,12 +8,12 @@
 
 #include <sys/stat.h>
 #include <sys/types.h>
-static pthread_mutex_t tArrayLock;
+static pthread_mutex_t tidArrayLock;
 static int threadCounter = 1;
 static int inittid;
 static int arrSize;
 //starts with 10 spaces for threads
-static pthread_t threadArray[10];
+static pthread_t* tidArray = malloc(sizeof(pthread_t) * 50);
 //total count of threads.
 int numThreads;
 int pNumThreads;
@@ -173,6 +173,8 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     
     while ((entry = readdir(directory)) != NULL )
     {
+        printf("%d, " , gettid());
+
 		if ((strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0 && (strcmp (entry->d_name,".git")) != 0)
 		{
 
@@ -213,10 +215,11 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			{
 				int len = strlen(path);				
 				fflush(stdout);
+                pthread_mutex_lock (&tidArrayLock);
 				pthread_create();
+                pthread_mutex_unlock(&tidArrayLock);
                     
-                printf("%d, " , gettid());
-                processDirectory(dpath,inputCol,outpath,0);
+            
 				
 				
 					
@@ -249,7 +252,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 						//If it is not already a sorted file
 						else
 						{
-							processFile(fileName,inputCol,path, outpath);
+							pthread_create()
                             
 						}
 						
@@ -288,6 +291,7 @@ processDir = &processDirectory;
 
 static void processFile(char* fileName,char* inputCol, char* path, char* outpath)
 {
+    printf("%d, " , gettid());
     int status;
     //need the numrecords for the mergesort
     int numRecords = 0;
