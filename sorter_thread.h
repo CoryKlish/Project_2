@@ -8,10 +8,12 @@
 
 #include <sys/stat.h>
 #include <sys/types.h>
-
+static pthread_mutex_t tArrayLock;
 static int threadCounter = 1;
 static int inittid;
-pthread_t* threadArray;
+static int arrSize;
+//starts with 10 spaces for threads
+static pthread_t threadArray[10];
 //total count of threads.
 int numThreads;
 int pNumThreads;
@@ -211,27 +213,12 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			{
 				int len = strlen(path);				
 				fflush(stdout);
-				pthread_create()
-				
-				//in the child process, process the directory 
-				if (pT == 0)
-				{
-                    threadCounter = 1;
+				pthread_create();
                     
-					printf("%d, " , getpid());
-				    processDirectory(dpath,inputCol,outpath,0);
-				}
-				//If we are the parent process,
-				else if (pT > 0)
-				{
-					
-                    //nothing goes on
-				}
-				else
-				{
-					printf("fork() failed.");
-					exit(0); 
-				}
+                printf("%d, " , gettid());
+                processDirectory(dpath,inputCol,outpath,0);
+				
+				
 					
 					
 			}//end if directory
@@ -311,19 +298,19 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
     char* header;
     char** pHeader = &header;
     fflush(stdout);
-    int pT = fork();
+    
     //in the child process
 
-    if (pT == 0)
-    {
-        Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
-        sort(inputCol, numRecords,table);
-        writeFile(table,fileName,numRecords,outpath,inputCol,header);
-        printf("%d, ",getpid());
-        processCounter = 1;
+ 
+    Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
+    sort(inputCol, numRecords,table);
+    writeFile(table,fileName,numRecords,outpath,inputCol,header);
+    printf("%d, ",gettid());
 
-       exit(processCounter); 
-    }
+    threadCounter += 1;
+
+    pthread_exit();
+
   
 
    
