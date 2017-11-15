@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
 	else
 	{
 		printf("Initial TID: %d\n",gettid());
-		printf("TID's of Child Processes: ");
+		printf("TIDs: ");
 		processDirectory(inDir,inputCol,outDir);
 		
 	}
