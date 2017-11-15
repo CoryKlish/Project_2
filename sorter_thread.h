@@ -252,7 +252,9 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 						//If it is not already a sorted file
 						else
 						{
-							pthread_create()
+                            pthread_mutex_lock (&tidArrayLock);
+                            pthread_create();
+                            pthread_mutex_unlock(&tidArrayLock);
                             
 						}
 						

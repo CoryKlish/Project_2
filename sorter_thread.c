@@ -104,7 +104,10 @@ int main(int argc, char* argv[]) {
 		processDirectory(inDir,inputCol,outDir);
 		
 	}
-	
+    
+	//
+    
+    
 	printf("\nTotal number of threads: %d\n", threadCounter);
 
 	
