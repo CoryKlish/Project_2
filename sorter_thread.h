@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 static pthread_mutex_t tidArrayLock;
+static pthread_mutex_t kahunaLock;
 static int threadCounter = 1;
 static int inittid;
 static int arrSize;
@@ -160,6 +161,7 @@ path is a char* that will be opened using opendir
 inputCol is what we are sorting on, which is validated in this
     method
 */
+processDir = &processDirectory;
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
    
@@ -215,6 +217,11 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			{
 				int len = strlen(path);				
 				fflush(stdout);
+            
+             /*
+                            CHECK HERE FOR SPACE IN THE 
+                            ARRAY
+            */  
                 pthread_mutex_lock (&tidArrayLock);
 				pthread_create();
                 pthread_mutex_unlock(&tidArrayLock);
@@ -252,8 +259,12 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 						//If it is not already a sorted file
 						else
 						{
+                            /*
+                            CHECK HERE FOR SPACE IN THE 
+                            ARRAY
+                            */
                             pthread_mutex_lock (&tidArrayLock);
-                            pthread_create();
+                            pthread_create(&tidArray);
                             pthread_mutex_unlock(&tidArrayLock);
                             
 						}
@@ -289,7 +300,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 	
 }//End processDirectory function
 
-processDir = &processDirectory;
 
 static void processFile(char* fileName,char* inputCol, char* path, char* outpath)
 {
@@ -305,11 +315,13 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
     char** pHeader = &header;
     fflush(stdout);
     
-    //in the child process
 
  
     Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
     sort(inputCol, numRecords,table);
+    /*
+    Write into bigkahuna
+    */
     writeFile(table,fileName,numRecords,outpath,inputCol,header);
     printf("%d, ",gettid());
 
