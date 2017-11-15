@@ -12,6 +12,7 @@
 static int threadCounter = 1;
 static int inittid;
 pthread_t* threadArray;
+//total count of threads.
 int numThreads;
 int pNumThreads;
 
@@ -397,7 +398,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
  
     if (*numP != 27)
     {
-        printf("not the correct number of files. exiting. \n");
+        printf("not the correct number of columns. exiting. \n");
         exit(0);
     }
     Record* newRecords = createTable(pNumRecords, numFields, fp);
