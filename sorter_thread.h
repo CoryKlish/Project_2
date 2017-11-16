@@ -311,6 +311,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 static int (*processDir)(void* params)
 {
     char** arguments = (char**) params;
+    processDirectory(arguments[0],arguments[1],arguments[2]);
     
 }
 
