@@ -13,8 +13,6 @@ static pthread_mutex_t kahunaLock;
 static int threadCounter = 1;
 static int inittid;
 static int arrSize = 50;
-//starts with 10 spaces for threads
-static pthread_t* tidArray; 
 //total count of threads.
 int numThreads;
 int pNumThreads;
