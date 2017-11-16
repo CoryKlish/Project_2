@@ -342,6 +342,13 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
    
 }
 
+static void (*getFile)(void* params)
+{
+    char** arguments = (char**) params;
+   
+    
+}
+
 ///////////////////////////////////////READ & WRITE//////////////////////////////////////////
 //Large Helper function: readFile
 /*
