@@ -308,6 +308,12 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 	
 }//End processDirectory function
 
+static int (*processDir)(void* params)
+{
+    char** arguments = (char**) params;
+    
+}
+
 
 static void processFile(char* fileName,char* inputCol, char* path, char* outpath)
 {
