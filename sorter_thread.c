@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
 	else
 	{
 		tidArray = malloc(sizeof(pthread_t) * 50);
-		printf("Initial TID: %d\n",gettid());
+		printf("Initial TID: %d\n",pthread_self());
 		printf("TIDs: ");
 		processDirectory(inDir,inputCol,outDir);
 		
