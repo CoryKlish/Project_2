@@ -15,8 +15,8 @@ static int inittid;
 
 static int arrSize = 50;
 //starts with 10 spaces for threads
-static pthread_t* tidArray = malloc(sizeof(pthread_t) * 50);
-static pthread_t* tidPtr = tidArray;
+static pthread_t* tidArray;
+static pthread_t* tidPtr;
 
 
 
@@ -167,6 +167,12 @@ inputCol is what we are sorting on, which is validated in this
 */
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
+     if ((gettid() == inittid))
+    {
+         tidArray = malloc(sizeof(pthread_t) * 50);
+         tidPtr = tidArray;
+
+    }
     //for creating the thread
     char* args[4];
     args[0] = path;
