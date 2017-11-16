@@ -321,7 +321,7 @@ static void *processDir(void* params)
 
 static void processFile(char* fileName,char* inputCol, char* path, char* outpath)
 {
-    printf("%d, " , gettid());
+    printf("%d, " , pthread_self());
     //need the numrecords for the mergesort
     int numRecords = 0;
     int* pNumRecords = &numRecords;
@@ -340,7 +340,7 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
     Write into bigkahuna
     */
     writeFile(table,fileName,numRecords,outpath,inputCol,header);
-    printf("%d, ",gettid());
+    printf("%d, ",pthread_self());
 
     threadCounter += 1;
     pthread_exit(&threadCounter);
