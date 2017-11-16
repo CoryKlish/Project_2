@@ -5,14 +5,7 @@
 *
 *
 ******/
-#include <unistd.h>
-#include <sys/syscall.h>
 
-#ifdef SYS_gettid
-pid_t tid = syscall(SYS_gettid);
-#else
-#error "SYS_gettid unavailable on this system"
-#endif
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -176,7 +169,7 @@ inputCol is what we are sorting on, which is validated in this
 */
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
-     if ((gettid() == inittid))
+     if ((pthread_self() == inittid))
     {
          tidArray = malloc(sizeof(pthread_t) * 50);
          tidPtr = tidArray;
@@ -198,7 +191,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     
     while ((entry = readdir(directory)) != NULL )
     {
-        printf("%d, " , gettid());
+        printf("%d, " , pthread_self());
 
 		if ((strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0 && (strcmp (entry->d_name,".git")) != 0)
 		{
@@ -304,7 +297,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     }//end whileloop for readdir
 	
 	
-    if ((gettid() == inittid))
+    if ((pthread_self() == inittid))
     {
          return threadCounter;
 

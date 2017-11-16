@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
     //process the input directory
    
     char * verification = strstr(header,inputCol);
-    inittid = gettid();
+    inittid = pthread_self();
    
      
     if (verification == NULL)
