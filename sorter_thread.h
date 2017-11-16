@@ -8,6 +8,7 @@
 
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <pthread.h>
 static pthread_mutex_t tidArrayLock;
 static pthread_mutex_t kahunaLock;
 static int threadCounter = 1;
