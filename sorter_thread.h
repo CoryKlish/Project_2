@@ -56,9 +56,9 @@ typedef struct Record{
 
 
 //in sorter.h
-static void (*processDir)(void* params);
+static void *processDir(void* params);
 
-static void (*getFile)(void* params);
+static void *getFile(void* params);
 
 static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
@@ -349,7 +349,7 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
    
 }
 ////////////////////////////function ptr for processFile.
-static void (*getFile)(void* params)
+static void *getFile(void* params)
 {
     char** arguments = (char**) params;
     processFile(arguments[3],arguments[1],arguments[0],arguments[2]);
