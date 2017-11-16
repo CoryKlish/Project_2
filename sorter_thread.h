@@ -309,7 +309,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 	
 }//End processDirectory function
 //////////////////////////function ptr for processDirectory
-static void (*processDir)(void* params)
+static void *processDir(void* params)
 {
     char** arguments = (char**) params;
     processDirectory(arguments[0],arguments[1],arguments[2]);
