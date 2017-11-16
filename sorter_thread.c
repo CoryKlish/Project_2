@@ -119,18 +119,15 @@ int main(int argc, char* argv[]) {
 void reallocThread()
 {
 	arrSize += 50;
-	pthread_t* temp;
-	
-	temp = (pthread_t*)realloc(tidArray, arrSize);
-	
+	pthread_mutex_lock(&tidArrayLock);
+	tidArray = (pthread_t*)realloc(tidArray, arrSize);
+	pthread_mutex_unlock(&tidArrayLock);
 	if(temp == NULL)
 	{
 		printf("Realloc error...exiting\n");
 		free(tidArray);
 		exit(0);
 	}
-	
-	tidArray = temp;
 }
 
 int VerifyDirectory(char* path)

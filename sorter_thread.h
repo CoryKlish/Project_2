@@ -287,13 +287,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     }//end whileloop for readdir
 	
 	
-	//////////////////////////////////////////////////////////BASE CASE NEEDS WORK MAYBE?/////////////////////////////////////
-	if((entry = readdir(directory)) == NULL)
-	{
-		
-	}
-	
-	
     if ((gettid() == inittid))
     {
          return threadCounter;
