@@ -14,7 +14,8 @@ static pthread_mutex_t tidArrayLock;
 static pthread_mutex_t kahunaLock;
 static int threadCounter = 1;
 static int inittid;
-
+static Record* kahunaptr;
+static Record* bigKahuna;
 static int arrSize = 50;
 //starts with 10 spaces for threads
 static pthread_t* tidArray;
@@ -58,7 +59,7 @@ typedef struct Record{
 static void *processDir(void* params);
 
 static void *getFile(void* params);
-
+static void kahunaWrite(Record table[],int numRecords, Record* kahunaptr);
 static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
