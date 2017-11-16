@@ -18,9 +18,6 @@ static int inittid;
 static int arrSize = 50;
 //starts with 10 spaces for threads
 static pthread_t* tidArray;
-static pthread_t* tidPtr;
-
-
 
 typedef struct Record{
 	char color[30];
@@ -226,7 +223,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 		   //if the entry is another directory
 		if (entry->d_type == DT_DIR)
 			{
-                threadCounter+= 1;
 				int len = strlen(path);				
 				fflush(stdout);
             
@@ -235,7 +231,14 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                             ARRAY
             */  
                 pthread_mutex_lock (&tidArrayLock);
-				pthread_create(tidPtr,NULL,processDir,args);
+					
+					if(threadCounter + 1 > arrSize)
+					{
+						reallocThread();
+					}
+					pthread_create(&tidArray[threadCounter-1],NULL,getFile,args);
+					threadCounter++;
+					
                 pthread_mutex_unlock(&tidArrayLock);
                     
             
@@ -275,9 +278,14 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                             ARRAY
                             */
                             pthread_mutex_lock (&tidArrayLock);
-                         
-                            pthread_create(tidPtr,NULL,getFile,args);
-                            tidPtr += 1;
+							
+								if(threadCounter + 1 > arrSize)
+								{
+									reallocThread();
+								}
+								pthread_create(&tidArray[threadCounter-1],NULL,getFile,args);
+								threadCounter++;
+								
                             pthread_mutex_unlock(&tidArrayLock);
                             
 						}
@@ -337,7 +345,6 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
     writeFile(table,fileName,numRecords,outpath,inputCol,header);
     printf("%d, ",pthread_self());
 
-    threadCounter += 1;
     pthread_exit(&threadCounter);
 
   
