@@ -226,6 +226,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 		   //if the entry is another directory
 		if (entry->d_type == DT_DIR)
 			{
+                threadCounter+= 1;
 				int len = strlen(path);				
 				fflush(stdout);
             
@@ -274,8 +275,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                             ARRAY
                             */
                             pthread_mutex_lock (&tidArrayLock);
-                            //NEED TO MAKE A FUNCTION POINTER
-                            //FOR PROCESSFILE TOO
+                         
                             pthread_create(tidPtr,NULL,getFile,args);
                             tidPtr += 1;
                             pthread_mutex_unlock(&tidArrayLock);
