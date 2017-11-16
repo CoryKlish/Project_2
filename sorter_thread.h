@@ -168,7 +168,6 @@ inputCol is what we are sorting on, which is validated in this
 */
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
-    int status = 1;
      if ((gettid() == inittid))
     {
          tidArray = malloc(sizeof(pthread_t) * 50);
@@ -322,7 +321,6 @@ static void *processDir(void* params)
 static void processFile(char* fileName,char* inputCol, char* path, char* outpath)
 {
     printf("%d, " , gettid());
-    int status;
     //need the numrecords for the mergesort
     int numRecords = 0;
     int* pNumRecords = &numRecords;
