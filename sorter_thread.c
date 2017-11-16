@@ -13,6 +13,7 @@ char* header = "color,director_name,num_critic_for_reviews,duration,director_fac
 movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,\
 title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
 
+int* threadArr;
 
 int main(int argc, char* argv[]) {
 
@@ -99,6 +100,7 @@ int main(int argc, char* argv[]) {
 	}
 	else
 	{
+		tidArray = malloc(sizeof(pthread_t) * 50);
 		printf("Initial TID: %d\n",gettid());
 		printf("TIDs: ");
 		processDirectory(inDir,inputCol,outDir);
@@ -113,6 +115,23 @@ int main(int argc, char* argv[]) {
 	
 	
 }//End main
+
+void reallocThread()
+{
+	arrSize += 50;
+	pthread_t* temp;
+	
+	temp = (pthread_t*)realloc(tidArray, arrSize);
+	
+	if(temp == NULL)
+	{
+		printf("Realloc error...exiting\n");
+		free(tidArray);
+		exit(0);
+	}
+	
+	tidArray = temp;
+}
 
 int VerifyDirectory(char* path)
 {

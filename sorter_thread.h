@@ -12,9 +12,9 @@ static pthread_mutex_t tidArrayLock;
 static pthread_mutex_t kahunaLock;
 static int threadCounter = 1;
 static int inittid;
-static int arrSize;
+static int arrSize = 50;
 //starts with 10 spaces for threads
-static pthread_t* tidArray = malloc(sizeof(pthread_t) * 50);
+static pthread_t* tidArray; 
 //total count of threads.
 int numThreads;
 int pNumThreads;
@@ -69,6 +69,7 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 //In SORTER.C
 int VerifyDirectory(char* path);
 char* getArgs(char flag, int numArgs, char* argArr[]);
+void reallocThread();
 
 //IN mergesort.c
 Record* createTable(int* pNumRecords,int numFields, FILE *fp);
