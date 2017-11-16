@@ -168,6 +168,7 @@ inputCol is what we are sorting on, which is validated in this
 */
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
+    int status = 1;
      if ((gettid() == inittid))
     {
          tidArray = malloc(sizeof(pthread_t) * 50);
@@ -303,7 +304,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     }
     else
     {
-        pthread_exit();
+        pthread_exit(&threadCounter);
     }
 
 	
@@ -343,7 +344,7 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
     printf("%d, ",gettid());
 
     threadCounter += 1;
-    pthread_exit();
+    pthread_exit(&threadCounter);
 
   
 
