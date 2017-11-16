@@ -12,10 +12,12 @@ static pthread_mutex_t tidArrayLock;
 static pthread_mutex_t kahunaLock;
 static int threadCounter = 1;
 static int inittid;
+
 static int arrSize = 50;
-//total count of threads.
-int numThreads;
-int pNumThreads;
+//starts with 10 spaces for threads
+static pthread_t* tidArray = malloc(sizeof(pthread_t) * 50);
+static pthread_t* tidPtr = tidarray;
+
 
 
 typedef struct Record{
@@ -54,7 +56,7 @@ typedef struct Record{
 
 
 //in sorter.h
-static int (*processDir)(char*, char*, char*);
+static int (*processDir)(void* params);
 static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
@@ -160,10 +162,14 @@ path is a char* that will be opened using opendir
 inputCol is what we are sorting on, which is validated in this
     method
 */
-processDir = &processDirectory;
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
-   
+    //for creating the thread
+    char* args[3];
+    args[0] = path;
+    args[1] = inputCol;
+    args[2] = outpath;
+    
     struct dirent* entry;
     char* csv = ".csv";
     int len = strlen(path);
@@ -222,7 +228,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                             ARRAY
             */  
                 pthread_mutex_lock (&tidArrayLock);
-				pthread_create();
+				pthread_create(tidPtr,NULL,processDir,args);
                 pthread_mutex_unlock(&tidArrayLock);
                     
             
@@ -263,7 +269,10 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                             ARRAY
                             */
                             pthread_mutex_lock (&tidArrayLock);
-                            pthread_create(&tidArray);
+                            //NEED TO MAKE A FUNCTION POINTER
+                            //FOR PROCESSFILE TOO
+                            pthread_create(tidPtr,NULL,  );
+                            tidPtr += 1;
                             pthread_mutex_unlock(&tidArrayLock);
                             
 						}
