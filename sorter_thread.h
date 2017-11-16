@@ -57,6 +57,9 @@ typedef struct Record{
 
 //in sorter.h
 static void (*processDir)(void* params);
+
+static void (*getFile)(void* params);
+
 static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
@@ -165,7 +168,7 @@ inputCol is what we are sorting on, which is validated in this
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
     //for creating the thread
-    char* args[3];
+    char* args[4];
     args[0] = path;
     args[1] = inputCol;
     args[2] = outpath;
@@ -243,13 +246,13 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			{
 				//pointer to the filename
 				char* fileName = (entry->d_name);
+                args[3] = fileName;
 	  
 					 //create index that points to the 
 					char* fileext = strstr(fileName, csv);
 					if (fileext != NULL)
 					{
-					  //  printf("\ncsv recognized: %s\n",fileName);
-						  /* fork() to process the file*/
+	
 					
 						int numRecords = 0;
 						int* pNumRecords = &numRecords;
@@ -257,7 +260,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 						char* sorted = strstr(fileName,"-sorted-");
 						if (sorted != NULL)
 						{
-						   // printf("ignored\n");
 						   continue;
 						}
 						
@@ -271,7 +273,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                             pthread_mutex_lock (&tidArrayLock);
                             //NEED TO MAKE A FUNCTION POINTER
                             //FOR PROCESSFILE TOO
-                            pthread_create(tidPtr,NULL,  );
+                            pthread_create(tidPtr,NULL,getFile,args);
                             tidPtr += 1;
                             pthread_mutex_unlock(&tidArrayLock);
                             
@@ -300,7 +302,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 	
 	
 }//End processDirectory function
-
+//////////////////////////function ptr for processDirectory
 static void (*processDir)(void* params)
 {
     char** arguments = (char**) params;
@@ -334,18 +336,17 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
     printf("%d, ",gettid());
 
     threadCounter += 1;
-
     pthread_exit();
 
   
 
    
 }
-
+////////////////////////////function ptr for processFile.
 static void (*getFile)(void* params)
 {
     char** arguments = (char**) params;
-   
+    processFile(arguments[3],arguments[1],arguments[0],arguments[2]);
     
 }
 
