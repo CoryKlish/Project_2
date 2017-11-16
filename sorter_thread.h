@@ -16,7 +16,7 @@ static int inittid;
 static int arrSize = 50;
 //starts with 10 spaces for threads
 static pthread_t* tidArray = malloc(sizeof(pthread_t) * 50);
-static pthread_t* tidPtr = tidarray;
+static pthread_t* tidPtr = tidArray;
 
 
 
