@@ -14,7 +14,7 @@ static pthread_mutex_t tidArrayLock;
 static pthread_mutex_t kahunaLock;
 static int threadCounter = 1;
 static int inittid;
-static Record* kahunaptr;
+static int kahunaIndexCount = 0;
 static Record* bigKahuna;
 static int arrSize = 50;
 //starts with 10 spaces for threads
@@ -59,7 +59,6 @@ typedef struct Record{
 static void *processDir(void* params);
 
 static void *getFile(void* params);
-static void kahunaWrite(Record table[],int numRecords, Record* kahunaptr);
 static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
@@ -68,6 +67,7 @@ static int processDirectory( char* path, char* inputCol, char* outpath);
 static void processFile(char* fileName,char* inputCol, char* path, char* outpath);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader, char* inpath);
 static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header);
+static void kahunaCopy(Record list[], int numRecords);
 
 //In SORTER.C
 int VerifyDirectory(char* path);
@@ -525,6 +525,19 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 
 	fclose(fp);
 	//free(fileWrite);
+}
+
+static void kahunaCopy(Record list[], int numRecords)
+{
+	int i = 0;
+	
+	while(i != numRecords-1)
+	{
+		bigKahuna[kahunaIndexCount] = list[i];
+		kahunaIndexCount++;
+		i++;
+	}
+	
 }
 
 //Large helper function: allocateToken

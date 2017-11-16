@@ -27,10 +27,8 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
     size_t recordsize;
     size_t bytes;
 
-	
 	//ptr for indexing struct
 	struct Record * ptrrecords = allrecords;
-
 
 	//jumpstart the loop
 	if(fp == NULL){
@@ -43,7 +41,6 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	
 	while (bytes != -1)
 	{
-		
 		//copy to row to free up the line var
 		char* row = malloc(sizeof(char) * strlen(line)); 
         row = strdup(line);
@@ -52,7 +49,6 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 
 		if (bytes != -1)
 		{
-
 			//increase count of records
 			*pNumRecords += 1;
 			//Add to total amount of bytes
