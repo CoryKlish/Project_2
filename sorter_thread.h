@@ -115,7 +115,7 @@ static char* getSortType(char* header, char* colName, int* numFields)
     char* sortType = NULL;
     int len;
     //put ptr on first char of line
-    char* field = strtok(header,",");
+    char* field = strsep(&header,",");
     
     if (field == NULL)
 	{
@@ -135,7 +135,7 @@ static char* getSortType(char* header, char* colName, int* numFields)
 	while (field != NULL)
 	{		
 		//Subsequent calls to strtok move the pointer and return the actual token
-		field = strtok(NULL, ",");
+		field = strsep(&header, ",");
 		//Then i can start counting tokens
 		if (field != NULL)
 		{
@@ -360,7 +360,12 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
     pthread_mutex_unlock(&kahunacountLock);
     sort(inputCol, numRecords,table);
     /*
-    Write into bigkahuna
+    should probably store the array in a global Record**
+    * then pthread_exit(), then malloc bigkahuna in the main
+    * then copy each Record* in the global Record** to bigkahuna
+    * 
+    * move the runningThreads-- below the sort
+    * 
     */
     pthread_mutex_lock (&kahunaLock);
 		kahunaCopy(table, numRecords);

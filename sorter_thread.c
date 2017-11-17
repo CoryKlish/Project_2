@@ -9,7 +9,7 @@
 #include <sys/wait.h>
 #include "sorter_thread.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char** argv) {
 
 	int numArgs = argc - 1;
 ////////////////////////////////////Verifying the input arguments////////////////////////////////////    
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 		outDir = strdup(inDir);
 	}
      	
-     if(!VerifyDirectory(inDir) || !VerifyDirectory(outDir))
+     if(VerifyDirectory(inDir) == 0 || CheckDirectory(outDir) == 0)
      {
 		 printf("Not a valid directory\n");
 		 exit(0);
@@ -88,10 +88,12 @@ int main(int argc, char* argv[]) {
 			continue;
 	}
 	
+	bigKahuna = (Record*)malloc(sizeof(Record) * kahunaSize);
+	
 	printf("\nTotal number of threads: %d\n", threadCounter);
 
-	//sort
-	//writeFile
+	sort(inputCol,kahunaSize,bigKahuna);
+	writeFile(bigKahuna, outDir, inputCol);
 	
 }//End main
 
@@ -112,7 +114,26 @@ void reallocThread()
 int VerifyDirectory(char* path)
 {
     int flag = 0;
-    if (path == NULL)
+	if (CheckDirectory(path))
+	{
+		struct stat buffer;
+		 //get infomation about the path, put into a buffer
+		if (stat(path,&buffer) != 0)
+			return flag;
+		if (S_ISDIR(buffer.st_mode))
+		{
+			//this is a directory
+		   flag = 1;
+		}
+		
+	}
+	return flag;
+     
+}
+int CheckDirectory(char* path)
+{
+	int flag = 0;
+	 if (path == NULL)
     {
         printf("\npath is null.");
         exit(0);
@@ -134,17 +155,9 @@ int VerifyDirectory(char* path)
 	free(rootaccess2);
 	rootaccess = NULL;
 	rootaccess2 = NULL;
-		
-     struct stat buffer;
-     //get infomation about the path, put into a buffer
-    if (stat(path,&buffer) != 0)
-        return flag;
-    if (S_ISDIR(buffer.st_mode))
-    {
-        //this is a directory
-       flag = 1;
-    }
-    return flag;
+	flag = 1;
+	return flag;
+	
 }
 char* getArgs(char flag, int numArgs, char* argArr[])
 {
