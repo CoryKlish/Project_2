@@ -44,10 +44,10 @@ typedef struct Record{
 	
 } Record;
 
-static pthread_mutex_t tidArrayLock;
-static pthread_mutex_t kahunaLock;
-static pthread_mutex_t kahunacountLock;
-static pthread_mutex_t runningThreadLock;
+static pthread_mutex_t tidArrayLock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t kahunaLock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t kahunacountLock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t runningThreadLock = PTHREAD_MUTEX_INITIALIZER;
 static int threadCounter = 1;
 static int runningThreads = 0;
 static int inittid;
