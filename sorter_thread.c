@@ -86,7 +86,7 @@ void reallocThread()
 {
 	arrSize += 50;
 	pthread_mutex_lock(&tidArrayLock);
-	tidArray = (pthread_t*)realloc(tidArray, arrSize);
+		tidArray = (pthread_t*)realloc(tidArray, arrSize);
 	pthread_mutex_unlock(&tidArrayLock);
 	if(tidArray == NULL)
 	{

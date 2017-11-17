@@ -10,17 +10,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <pthread.h>
-static pthread_mutex_t tidArrayLock;
-static pthread_mutex_t kahunaLock;
-static pthread_mutex_t kahunacountLock;
-static int threadCounter = 1;
-static int inittid;
-static int kahunaIndexCount = 0;
-static Record* bigKahuna;
-static int kahunaSize = 0;
-static int arrSize = 50;
-//starts with 10 spaces for threads
-static pthread_t* tidArray;
 
 typedef struct Record{
 	char color[30];
@@ -54,8 +43,20 @@ typedef struct Record{
 	
 	
 } Record;
-//Prototypes
 
+static pthread_mutex_t tidArrayLock;
+static pthread_mutex_t kahunaLock;
+static pthread_mutex_t kahunacountLock;
+static int threadCounter = 1;
+static int inittid;
+static int kahunaIndexCount = 0;
+static Record* bigKahuna;
+static int kahunaSize = 0;
+static int arrSize = 50;
+//starts with 10 spaces for threads
+static pthread_t* tidArray;
+
+//Prototypes
 
 //in sorter.h
 static void *processDir(void* params);
@@ -342,14 +343,14 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
  
     Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
     pthread_mutex_lock(&kahunacountLock);
-    kahunaSize += numRecords;
+		kahunaSize += numRecords;
     pthread_mutex_unlock(&kahunacountLock);
     sort(inputCol, numRecords,table);
     /*
     Write into bigkahuna
     */
     pthread_mutex_lock (&kahunaLock);
-    kahunaCopy(table, numRecords);
+		kahunaCopy(table, numRecords);
     pthread_mutex_unlock(&kahunaLock);
   
     pthread_exit(&threadCounter);
