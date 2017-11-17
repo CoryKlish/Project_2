@@ -343,12 +343,11 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
     /*
     Write into bigkahuna
     */
-    writeFile(table,fileName,numRecords,outpath,inputCol,header);
-    printf("%d, ",pthread_self());
-
-    pthread_exit(&threadCounter);
-
+    pthread_mutex_lock (&kahunaLock);
+    kahunaCopy(table, numRecords);
+    pthread_mutex_unlock(&kahunaLock);
   
+    pthread_exit(&threadCounter);
 
    
 }
