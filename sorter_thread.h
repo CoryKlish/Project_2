@@ -48,6 +48,9 @@ static pthread_mutex_t tidArrayLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t kahunaLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t kahunacountLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t runningThreadLock = PTHREAD_MUTEX_INITIALIZER;
+static char* header = "color,director_name,num_critic_for_reviews,duration,director_facebook_likes,actor_3_facebook_likes,actor_2_name,actor_1_facebook_likes,gross,genres,actor_1_name,\
+movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,\
+title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
 static int threadCounter = 1;
 static int runningThreads = 0;
 static int inittid;
@@ -71,7 +74,7 @@ static void printStructs(Record list[], int numStructs);
 static int processDirectory( char* path, char* inputCol, char* outpath);
 static void processFile(char* fileName,char* inputCol, char* path, char* outpath);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader, char* inpath);
-static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header);
+static void writeFile(Record list[], char *outDir, char* sortType);
 static void kahunaCopy(Record list[], int numRecords);
 
 //In SORTER.C
@@ -104,9 +107,6 @@ At the end:
     If no matches with colName, return NULL
     otherwise, return colName
 */
-
-
-
 
 static char* getSortType(char* header, char* colName, int* numFields)
 {
@@ -459,17 +459,16 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     return newRecords;
 }
 //takes in the record set as "list"
-static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDir,char* sortType,char* header){
+
+static void writeFile(Record list[], char *outDir, char* sortType){
+	
+	//AllFiles-sorted-<fieldname>.csv
 	
 	FILE *fp;
 	char *fileWrite;
-    int len = strlen(fileName);
-    char* newFileName = (char*)calloc(len,sizeof(char));
-    newFileName = strncpy(newFileName,fileName,len-4);
     
-	fileWrite = (char *)malloc(strlen(newFileName) + strlen(sortType)+ 9);
-	//+9 for "-sorted-" (8) and null terminating 0 (1)
-	
+	fileWrite = (char *)malloc(strlen(sortType) + 21);
+		
 	if(fileWrite == NULL){
 		printf("Not enough memory...exiting\n");
 		exit(0);
@@ -477,16 +476,15 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	/// Section where the sorted file name is created
 	fileWrite[0] = '\0';
 	
-	strcat(fileWrite, newFileName);//Append new fileName to empty string
-	strcat(fileWrite, "-sorted-");//Append "-sorted-" to end
-	strcat(fileWrite, sortType);//Append the  variable "sortType"
+	strcat(fileWrite, "AllFiles-sorted-");
+	strcat(fileWrite, sortType);
     strcat(fileWrite,".csv");
 	/// end section
-    
+   
     ///Section where the space for the filename and output 
     ///directory is allocated
         //string that will hold the directory + filename
-        char *placeToWrite = (char*)malloc(strlen(fileWrite)+strlen(outDir)+2);
+        char *placeToWrite = (char*)malloc(strlen(fileWrite) + strlen(outDir) + 2);
         placeToWrite[0] = '\0';
     ///End section
     
@@ -530,7 +528,7 @@ static void writeFile(Record list[] ,char *fileName, int numRecords, char *outDi
 	}
     
     int i;
-	for(i = 0; i < numRecords; i++){
+	for(i = 0; i < (kahunaIndexCount + 1); i++){
        if (i == 0)
            fprintf(fp,"%s\n",header);
 		fprintf(fp, "%s,%s,%f,%f,%f,%f,%s,%f,%f,%s,%s,%s,%f,%f,%s,%f,%s,%s,%f,%s,%s,%s,%f,%f,%f,%f,%f,%f\n", 
