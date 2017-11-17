@@ -47,7 +47,9 @@ typedef struct Record{
 static pthread_mutex_t tidArrayLock;
 static pthread_mutex_t kahunaLock;
 static pthread_mutex_t kahunacountLock;
+static pthread_mutex_t runningThreadLock;
 static int threadCounter = 1;
+static int runningThreads = 0;
 static int inittid;
 static int kahunaIndexCount = 0;
 static Record* bigKahuna;
@@ -245,6 +247,10 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 					
                 pthread_mutex_unlock(&tidArrayLock);
                     
+                
+                pthread_mutex_lock (&runningThreadLock);
+					runningThreads++;
+				pthread_mutex_unlock (&runningThreadLock);
             
 				
 				
@@ -292,6 +298,9 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 								
                             pthread_mutex_unlock(&tidArrayLock);
                             
+                            pthread_mutex_lock (&runningThreadLock);
+								runningThreads++;
+							pthread_mutex_unlock (&runningThreadLock);
 						}
 						
 
@@ -311,6 +320,10 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     }
     else
     {
+		pthread_mutex_lock (&runningThreadLock);
+					runningThreads--;
+		pthread_mutex_unlock (&runningThreadLock);
+        
         pthread_exit(&threadCounter);
     }
 
@@ -353,6 +366,10 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
 		kahunaCopy(table, numRecords);
     pthread_mutex_unlock(&kahunaLock);
   
+	pthread_mutex_lock (&runningThreadLock);
+		runningThreads--;
+	pthread_mutex_unlock (&runningThreadLock);
+    
     pthread_exit(&threadCounter);
 
    
