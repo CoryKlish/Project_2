@@ -188,9 +188,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
  
     //for creating the thread
     char* args[4];
-    args[0] = path;
-    args[1] = inputCol;
-    args[2] = outpath;
+    
     
     struct dirent* entry;
     char* csv = ".csv";
@@ -239,6 +237,9 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 					strcat(dpath,"\0");
 				}
 			}
+		args[0] = path;
+		args[1] = inputCol;
+		args[2] = outpath;
 
 		   //if the entry is another directory
 		if (entry->d_type == DT_DIR)
