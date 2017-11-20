@@ -48,6 +48,7 @@ static pthread_mutex_t tidArrayLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t kahunaLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t kahunacountLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t runningThreadLock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t kahunaCompLock = PTHREAD_MUTEX_INITIALIZER;
 static char* header = "color,director_name,num_critic_for_reviews,duration,director_facebook_likes,actor_3_facebook_likes,actor_2_name,actor_1_facebook_likes,gross,genres,actor_1_name,\
 movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,\
 title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
@@ -56,6 +57,17 @@ static int runningThreads = 0;
 static int inittid;
 static int kahunaIndexCount = 0;
 static Record* bigKahuna;
+static Record** kahunaComp;
+static Record** kahunaCompPtr;
+static int* tableSizes;
+
+static int kahunaCompIndex = 0;
+static int kahunaArrCounter = 0;
+
+//for realloc
+static int kahunaCompSize = 1024;
+static int tableSizesLength = 1024;
+static int tableSizeIndex = 0;
 static int kahunaSize = 0;
 static int arrSize = 50;
 //starts with 10 spaces for threads
@@ -154,12 +166,13 @@ static char* getSortType(char* header, char* colName, int* numFields)
 		}
 			
 	}//End while counting loop
-    
+    /*
     if (*numFields != 27)
     {
         printf("\nWrong number of columns in csv.\n");
         exit(0);
     }
+    */
 
     return sortType;
 
@@ -188,8 +201,9 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     //read from directory until nothing left
     
     while ((entry = readdir(directory)) != NULL )
-    {
-        printf("%d, " , pthread_self());
+    { 
+		printf("%d ",pthread_self());
+       
 
 		if ((strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0 && (strcmp (entry->d_name,".git")) != 0)
 		{
@@ -230,7 +244,6 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 		if (entry->d_type == DT_DIR)
 			{
 				int len = strlen(path);				
-				fflush(stdout);
             
              /*
                             CHECK HERE FOR SPACE IN THE 
@@ -242,7 +255,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 					{
 						reallocThread();
 					}
-					pthread_create(&tidArray[threadCounter-1],NULL,getFile,args);
+					pthread_create(&tidArray[threadCounter-1],NULL,processDir,args);
 					threadCounter++;
 					
                 pthread_mutex_unlock(&tidArrayLock);
@@ -350,31 +363,71 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
     //char* header from within readFile
     char* header;
     char** pHeader = &header;
-    fflush(stdout);
+  
     
 
- 
+	//This calls createtable
     Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
-    pthread_mutex_lock(&kahunacountLock);
-		kahunaSize += numRecords;
-    pthread_mutex_unlock(&kahunacountLock);
-    sort(inputCol, numRecords,table);
-    /*
-    should probably store the array in a global Record**
-    * then pthread_exit(), then malloc bigkahuna in the main
-    * then copy each Record* in the global Record** to bigkahuna
-    * 
-    * move the runningThreads-- below the sort
-    * 
-    */
-    pthread_mutex_lock (&kahunaLock);
-		kahunaCopy(table, numRecords);
-    pthread_mutex_unlock(&kahunaLock);
-  
+    
+    pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
+		if (tableSizeIndex + 1 >= tableSizesLength)
+		{
+			tableSizesLength += 256;
+			tableSizes = (int*)realloc(tableSizes,tableSizesLength);
+			if (tableSizes == NULL)
+			{
+				printf("Realloc error, cannot create more space for table lengths\n\n");
+				exit(0);
+				
+			}
+			
+			tableSizeIndex += 1;
+			tableSizes[tableSizeIndex] = numRecords;
+			tableSizeIndex += 1;
+			kahunaSize += numRecords;
+			
+		}
+		else
+		{
+			tableSizes[tableSizeIndex] = numRecords;
+			kahunaSize += numRecords;			
+		}
+ 
+		//if kahunacomp goes over, we need to realloc
+		if (kahunaCompIndex + 1 >= kahunaCompSize)
+		{
+			kahunaCompSize += 256;
+			kahunaComp = (Record**)realloc(kahunaComp,kahunaCompSize);
+			if (kahunaComp == NULL)
+			{
+				printf("Realloc error, cannot create more space for tables\n");
+				exit(0);
+			}
+			//point kahunaCompPtr to the next position in the array
+			kahunaCompPtr = kahunaComp;
+			//goes to the next position where it would have went if no realloc happened
+			kahunaCompPtr += kahunaCompIndex + 1;
+			*kahunaCompPtr = table;
+			kahunaCompPtr += 1;
+			
+		}//END reallocation
+		else
+		{
+			*kahunaCompPtr = table;
+			kahunaCompPtr += 1;
+		}
+		
+	pthread_mutex_unlock(&kahunacountLock);//UNLOCK LOCK
+	
+	//SORT
+	sort(inputCol, numRecords,table);
+
+
 	pthread_mutex_lock (&runningThreadLock);
 		runningThreads--;
 	pthread_mutex_unlock (&runningThreadLock);
     
+    //this works. thread is already in array
     pthread_exit(&threadCounter);
 
    
@@ -454,11 +507,14 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     //getSortType also gets the number of fields
     sortType = getSortType(line,inputCol,numP);
  
+	/*
     if (*numP != 27)
     {
         printf("not the correct number of columns. exiting. \n");
         exit(0);
     }
+    * */
+    
     Record* newRecords = createTable(pNumRecords, numFields, fp);
 	fclose(fp);
     return newRecords;

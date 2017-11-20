@@ -60,8 +60,14 @@ int main(int argc, char** argv) {
 		printf("\ninvalid sort type. exiting.\n");
 		exit(0);
 	}
+	//initialize kahunaComp with 1024 spaces for array
+	
+	
 	else
 	{
+		kahunaComp = (Record**)malloc(sizeof(Record*) * kahunaCompSize);
+		tableSizes = (int*) malloc(sizeof(int) * tableSizesLength);
+		kahunaCompPtr = kahunaComp;
 		tidArray = malloc(sizeof(pthread_t) * 50);
 		printf("Initial TID: %d\n",pthread_self());
 		printf("TIDs: ");
@@ -69,8 +75,8 @@ int main(int argc, char** argv) {
 		
 	}
     
-	//
-    
+	//The joining loop
+ 
     while(1)
     {
 		if(runningThreads == 0)
@@ -90,8 +96,19 @@ int main(int argc, char** argv) {
 	
 	bigKahuna = (Record*)malloc(sizeof(Record) * kahunaSize);
 	
+	//Must loop on kahunaComp and tableSizes
+	//up to their respective indices
+	int i = 0;
+	while (i <= kahunaCompIndex || i <= tableSizeIndex)
+	{
+		kahunaCopy(kahunaComp[i],tableSizes[i]);
+		i++;
+		
+	}
+		
 	printf("\nTotal number of threads: %d\n", threadCounter);
-
+	   printf("\n");
+	
 	sort(inputCol,kahunaSize,bigKahuna);
 	writeFile(bigKahuna, outDir, inputCol);
 	
