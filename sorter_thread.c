@@ -68,6 +68,7 @@ int main(int argc, char** argv) {
 		kahunaComp = (Record**)malloc(sizeof(Record*) * kahunaCompSize);
 		tableSizes = (int*) malloc(sizeof(int) * tableSizesLength);
 		kahunaCompPtr = kahunaComp;
+		
 		tidArray = malloc(sizeof(pthread_t) * 50);
 		printf("Initial TID: %d\n",pthread_self());
 		printf("TIDs: ");

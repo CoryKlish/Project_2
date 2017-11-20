@@ -203,7 +203,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 		printf("%d ",pthread_self());
        
 
-		if ((strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0 && (strcmp (entry->d_name,".git")) != 0)
+		if ( (strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0 && (strcmp (entry->d_name,".git")) != 0)
 		{
 
 			struct stat buffer;
@@ -237,19 +237,15 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 					strcat(dpath,"\0");
 				}
 			}
-		args[0] = path;
-		args[1] = inputCol;
-		args[2] = outpath;
+		args[0] = strdup(path);
+		args[1] = strdup(inputCol);
+		args[2] = strdup(outpath);
 
 		   //if the entry is another directory
 		if (entry->d_type == DT_DIR)
 			{
 				int len = strlen(path);				
             
-             /*
-                            CHECK HERE FOR SPACE IN THE 
-                            ARRAY
-            */  
                 pthread_mutex_lock (&tidArrayLock);
 					
 					if(threadCounter + 1 > arrSize)
@@ -262,9 +258,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                 pthread_mutex_unlock(&tidArrayLock);
                     
                 
-                pthread_mutex_lock (&runningThreadLock);
-					runningThreads++;
-				pthread_mutex_unlock (&runningThreadLock);
+                
             
 				
 				
@@ -312,9 +306,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 								
                             pthread_mutex_unlock(&tidArrayLock);
                             
-                            pthread_mutex_lock (&runningThreadLock);
-								runningThreads++;
-							pthread_mutex_unlock (&runningThreadLock);
+                            
 						}
 						
 
@@ -347,8 +339,16 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 //////////////////////////function ptr for processDirectory
 static void *processDir(void* params)
 {
+	pthread_mutex_lock (&runningThreadLock);
+					runningThreads++;
+	pthread_mutex_unlock (&runningThreadLock);
+	
     char** arguments = (char**) params;
     processDirectory(arguments[0],arguments[1],arguments[2]);
+    
+    pthread_mutex_lock (&runningThreadLock);
+		runningThreads--;
+	pthread_mutex_unlock (&runningThreadLock);
     
 }
 
@@ -422,11 +422,6 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
 	
 	//SORT
 	sort(inputCol, numRecords,table);
-
-
-	pthread_mutex_lock (&runningThreadLock);
-		runningThreads--;
-	pthread_mutex_unlock (&runningThreadLock);
     
     //this works. thread is already in array
     pthread_exit(&threadCounter);
@@ -436,8 +431,15 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
 ////////////////////////////function ptr for processFile.
 static void *getFile(void* params)
 {
+	pthread_mutex_lock (&runningThreadLock);
+								runningThreads++;
+	pthread_mutex_unlock (&runningThreadLock);
     char** arguments = (char**) params;
     processFile(arguments[3],arguments[1],arguments[0],arguments[2]);
+    
+    pthread_mutex_lock (&runningThreadLock);
+		runningThreads--;
+	pthread_mutex_unlock (&runningThreadLock);
     
 }
 
