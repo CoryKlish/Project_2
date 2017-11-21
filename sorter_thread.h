@@ -200,7 +200,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     
     while ((entry = readdir(directory)) != NULL )
     { 
-		printf("%d ",pthread_self());
+		printf("%u ",pthread_self());
        
 
 		if ( (strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0 && (strcmp (entry->d_name,".git")) != 0)
@@ -347,15 +347,16 @@ static void *processDir(void* params)
     processDirectory(arguments[0],arguments[1],arguments[2]);
     
     pthread_mutex_lock (&runningThreadLock);
-		runningThreads--;
+					runningThreads--;
 	pthread_mutex_unlock (&runningThreadLock);
+	pthread_exit(&threadCounter);
     
 }
 
 
 static void processFile(char* fileName,char* inputCol, char* path, char* outpath)
 {
-    printf("%d, " , pthread_self());
+    printf("%u, " , pthread_self());
     //need the numrecords for the mergesort
     int numRecords = 0;
     int* pNumRecords = &numRecords;
@@ -371,6 +372,8 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
     Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
     
     pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
+    
+    
 		if (tableSizeIndex + 1 >= tableSizesLength)
 		{
 			tableSizesLength += 256;
@@ -412,6 +415,7 @@ static void processFile(char* fileName,char* inputCol, char* path, char* outpath
 			kahunaCompPtr += 1;
 			
 		}//END reallocation
+		
 		else
 		{
 			*kahunaCompPtr = table;
@@ -440,6 +444,7 @@ static void *getFile(void* params)
     pthread_mutex_lock (&runningThreadLock);
 		runningThreads--;
 	pthread_mutex_unlock (&runningThreadLock);
+	pthread_exit(&threadCounter);
     
 }
 
@@ -457,7 +462,8 @@ header is a null char* that is to be filled with the header of
     a csv file. This is needed when we need to write the header at the top of -sorted csv- files.
 RETURNS: A Record* of the given csv file
 */
-static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol, char** pHeader, char* inpath){ 
+static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol, char** pHeader, char* inpath)
+{ 
 
     //open the file for reading
 	FILE *fp;
