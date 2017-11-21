@@ -238,13 +238,14 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				}
 			}
 			printf("");
-		args[0] = strdup(dpath);
+		
 		args[1] = strdup(inputCol);
 		args[2] = strdup(outpath);
 
 		   //if the entry is another directory
 		if (entry->d_type == DT_DIR)
 			{
+                args[0] = strdup(dpath);
 				int len = strlen(path);				
             
                 pthread_mutex_lock (&tidArrayLock);
@@ -271,6 +272,8 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			if (entry->d_type == DT_REG)//if entry = regular file
 			{
 				//pointer to the filename
+                args[0] = strdup(path);
+
 				char* fileName = (entry->d_name);
                 args[3] = fileName;
 	  
