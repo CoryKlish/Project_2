@@ -200,7 +200,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     
     while ((entry = readdir(directory)) != NULL )
     { 
-		printf("%u ",pthread_self());
+		printf("%d ",pthread_self());
        
 
 		if ( (strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0 && (strcmp (entry->d_name,".git")) != 0)
@@ -237,7 +237,8 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 					strcat(dpath,"\0");
 				}
 			}
-		args[0] = strdup(path);
+			printf("");
+		args[0] = strdup(dpath);
 		args[1] = strdup(inputCol);
 		args[2] = strdup(outpath);
 
@@ -356,7 +357,7 @@ static void *processDir(void* params)
 
 static void processFile(char* fileName,char* inputCol, char* path, char* outpath)
 {
-    printf("%u, " , pthread_self());
+    printf("%d, " , pthread_self());
     //need the numrecords for the mergesort
     int numRecords = 0;
     int* pNumRecords = &numRecords;
