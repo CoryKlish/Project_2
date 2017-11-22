@@ -348,7 +348,7 @@ static void *processDir(void* params)
 
     char** arguments = (char**) params;
     int dummy = processDirectory(arguments[0],arguments[1],arguments[2]);
-    printf("\nHey i got the dummy\n")
+    printf("\nHey i got the dummy\n");
     
     pthread_mutex_lock (&runningThreadLock);
 					runningThreads--;
