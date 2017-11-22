@@ -92,7 +92,7 @@ static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
 static void printStructs(Record list[], int numStructs);
 static int processDirectory( char* path, char* inputCol, char* outpath);
-static void processFile(char* fileName,char* path, char* inputCol, char* outpath);
+static int processFile(char* fileName,char* path, char* inputCol, char* outpath);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader, char* inpath);
 static void writeFile(Record list[], char *outDir, char* sortType);
 static void kahunaCopy(Record list[], int numRecords);
@@ -356,7 +356,7 @@ static void *processDir(void* params)
 }
 
 
-static void processFile(char* fileName,char* path, char* inputCol, char* outpath)
+static int processFile(char* fileName,char* path, char* inputCol, char* outpath)
 {
     printf("%d, " , pthread_self());
     //need the numrecords for the mergesort
@@ -430,18 +430,18 @@ static void processFile(char* fileName,char* path, char* inputCol, char* outpath
 	sort(inputCol, numRecords,table);
     
     //this works. thread is already in array
-    pthread_exit(&threadCounter);
-
+    
+    return 1;
    
 }
 ////////////////////////////function ptr for processFile.
 static void *getFile(void* params)
 {
 	pthread_mutex_lock (&runningThreadLock);
-								runningThreads++;
+                        runningThreads++;
 	pthread_mutex_unlock (&runningThreadLock);
     struct ReadParams *arguments = params;
-    processFile(arguments->filename,arguments->path,arguments->inputCol,arguments->outpath);
+    int dummy = processFile(arguments->filename,arguments->path,arguments->inputCol,arguments->outpath);
     
     pthread_mutex_lock (&runningThreadLock);
 		runningThreads--;
