@@ -200,6 +200,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     
     while ((entry = readdir(directory)) != NULL )
     { 
+        fflush(stdout);
 		printf("%d ",pthread_self());
        
 
@@ -336,12 +337,13 @@ static void *processDir(void* params)
     //taking the arguments out of the params box
     char** arguments = (char**) params;
     int dummy = processDirectory(arguments[0],arguments[1],arguments[2]);
+    fflush(stdout);
     printf("\nI MADE IT BACK BOIS\n");
     
     pthread_mutex_lock (&runningThreadLock);
 					runningThreads--;
     pthread_mutex_unlock (&runningThreadLock);  
-    
+    fflush(stdout);
     printf("\nI am now exiting thread %d\n",pthread_self());
     pthread_exit(&threadCounter);
 
