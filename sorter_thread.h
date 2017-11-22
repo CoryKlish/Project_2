@@ -193,10 +193,37 @@ inputCol is what we are sorting on, which is validated in this
 */
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
+    struct ReadParams *rp = malloc(sizeof *rp);
+    rp->path = path;
+    rp->inputCol = inputCol;
+    rp->outpath = outpath;
+    
+    pthread_create(&tidArray[threadCounter-1],NULL,processDir, (void*)rp);
+	
+}//End processDirectory function
+//////////////////////////function ptr for processDirectory
+static void *processDir(void* params)
+{
+    printf("\nAt least i made it to processDir\n");
+	pthread_mutex_lock (&runningThreadLock);
+					runningThreads++;
+	pthread_mutex_unlock (&runningThreadLock);
+   
+    char* path;
+    char* inputCol;
+    char* outpath;
     struct dirent* entry;
     char* csv = ".csv";
     int len = strlen(path);
     int status = 0;
+    
+    struct ReadParams *arguments = (struct ReadParams *)params;
+    
+    path = arguments->path;
+    inputCol = arguments->inputCol;
+    outpath = arguments->outpath;
+    
+    printf("Path: %s , inputCol: %s, outPath: %s\n", path, inputCol, outpath);
     
     DIR* directory  = opendir(path);
     //read from directory until nothing left
@@ -243,10 +270,10 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			}
 			printf("\ndpath= %s\n",dpath);
             //creation of a struct to hold our arguments.
-            struct ReadParams rp;
-            rp.path = dpath;
-            rp.inputCol = inputCol;
-            rp.outpath = outpath;
+            struct ReadParams *rp = malloc(sizeof *rp);
+            rp->path = dpath;
+            rp->inputCol = inputCol;
+            rp->outpath = outpath;
 		   //if the entry is another directory
 		if (entry->d_type == DT_DIR)
 			{
@@ -258,18 +285,11 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 					{
 						reallocThread();
 					}
-					pthread_create(&tidArray[threadCounter-1],NULL,processDir, &rp);
+					pthread_create(&tidArray[threadCounter-1],NULL,processDir, (void*)rp);
 					threadCounter++;
 					
                 pthread_mutex_unlock(&tidArrayLock);
-                    
-                
-                
-            
-				
-				
-					
-					
+                		
 			}//end if directory
 
 
@@ -278,7 +298,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				//pointer to the filename
 
 				char* filename = (entry->d_name);
-                rp.filename = filename;
+                rp->filename = filename;
 	  
 					 //create index that points to the 
 					char* fileext = strstr(filename, csv);
@@ -308,7 +328,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 								{
 									reallocThread();
 								}
-								pthread_create(&tidArray[threadCounter-1],NULL,getFile,&rp);
+								pthread_create(&tidArray[threadCounter-1],NULL,getFile,(void*)rp);
 								threadCounter++;
 								
                             pthread_mutex_unlock(&tidArrayLock);
@@ -324,30 +344,11 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			
         }//end if
     }//end whileloop for readdir
-	
-	
-   return 1;
-
-	
-	
-}//End processDirectory function
-//////////////////////////function ptr for processDirectory
-static void *processDir(void* params)
-{
-    printf("\nAt least i made it to processDir\n");
-	pthread_mutex_lock (&runningThreadLock);
-					runningThreads++;
-	pthread_mutex_unlock (&runningThreadLock);
-    
-    //taking the arguments out of the params box
-    struct ReadParams *arguments = params;
-    int dummy = processDirectory(arguments->path,arguments->inputCol,arguments->outpath);
-    fflush(stdout);
-    printf("\nI MADE IT BACK BOIS\n");
     
     pthread_mutex_lock (&runningThreadLock);
 					runningThreads--;
     pthread_mutex_unlock (&runningThreadLock);  
+   
     fflush(stdout);
     printf("\nI am now exiting thread %d\n",pthread_self());
     pthread_exit(&threadCounter);
