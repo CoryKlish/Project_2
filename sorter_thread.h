@@ -330,6 +330,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 //////////////////////////function ptr for processDirectory
 static void *processDir(void* params)
 {
+    printf("\nAt least i made it to processDir\n");
 	pthread_mutex_lock (&runningThreadLock);
 					runningThreads++;
 	pthread_mutex_unlock (&runningThreadLock);
