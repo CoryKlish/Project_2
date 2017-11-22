@@ -237,7 +237,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 					strcat(dpath,"\0");
 				}
 			}
-			printf("");
+			printf("\ndpath= %s\n",dpath);
         args[0] = strdup(dpath);
 		args[1] = strdup(inputCol);
 		args[2] = strdup(outpath);
