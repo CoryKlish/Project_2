@@ -352,8 +352,11 @@ static void *processDir(void* params)
     
     pthread_mutex_lock (&runningThreadLock);
 					runningThreads--;
-	pthread_mutex_unlock (&runningThreadLock);
-	pthread_exit(&threadCounter);
+    pthread_mutex_unlock (&runningThreadLock);  
+    
+    printf("\nI am now exiting thread %d\n",pthread_self());
+    pthread_exit(&threadCounter);
+
     
 }
 
