@@ -281,7 +281,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
                 rp.filename = filename;
 	  
 					 //create index that points to the 
-					char* fileext = strstr(fileName, csv);
+					char* fileext = strstr(filename, csv);
 					if (fileext != NULL)
 					{
 	
