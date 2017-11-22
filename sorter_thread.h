@@ -440,7 +440,7 @@ static void *getFile(void* params)
 	pthread_mutex_lock (&runningThreadLock);
 								runningThreads++;
 	pthread_mutex_unlock (&runningThreadLock);
-    struct *ReadParams arguments = params;
+    struct ReadParams *arguments = params;
     processFile(&arguments.filename,&arguments.path,&arguments.inputCol,&arguments.outpath);
     
     pthread_mutex_lock (&runningThreadLock);
