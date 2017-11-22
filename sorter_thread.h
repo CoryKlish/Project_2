@@ -340,8 +340,8 @@ static void *processDir(void* params)
 	pthread_mutex_unlock (&runningThreadLock);
     
     //taking the arguments out of the params box
-    struct *ReadParams arguments = params;
-    int dummy = processDirectory(&arguments.path,&arguments.inputCol,&arguments.outpath);
+    struct ReadParams *arguments = params;
+    int dummy = processDirectory(&arguments->path,&arguments->inputCol,&arguments->outpath);
     fflush(stdout);
     printf("\nI MADE IT BACK BOIS\n");
     
