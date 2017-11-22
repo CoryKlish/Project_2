@@ -344,9 +344,11 @@ static void *processDir(void* params)
 	pthread_mutex_lock (&runningThreadLock);
 					runningThreads++;
 	pthread_mutex_unlock (&runningThreadLock);
-	
+    
+
     char** arguments = (char**) params;
-    processDirectory(arguments[0],arguments[1],arguments[2]);
+    int dummy = processDirectory(arguments[0],arguments[1],arguments[2]);
+    printf("\nHey i got the dummy\n")
     
     pthread_mutex_lock (&runningThreadLock);
 					runningThreads--;
