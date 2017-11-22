@@ -321,19 +321,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     }//end whileloop for readdir
 	
 	
-    if ((pthread_self() == inittid))
-    {
-         return threadCounter;
-
-    }
-    else
-    {
-		pthread_mutex_lock (&runningThreadLock);
-					runningThreads--;
-		pthread_mutex_unlock (&runningThreadLock);
-        
-        pthread_exit(&threadCounter);
-    }
+   return 1;
 
 	
 	
@@ -345,10 +333,10 @@ static void *processDir(void* params)
 					runningThreads++;
 	pthread_mutex_unlock (&runningThreadLock);
     
-
+    //taking the arguments out of the params box
     char** arguments = (char**) params;
     int dummy = processDirectory(arguments[0],arguments[1],arguments[2]);
-    printf("\nHey i got the dummy\n");
+    printf("\nI MADE IT BACK BOIS\n")
     
     pthread_mutex_lock (&runningThreadLock);
 					runningThreads--;
