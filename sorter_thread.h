@@ -205,6 +205,9 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 		exit(EXIT_FAILURE);
 		
 	}
+	pthread_mutex_lock (&runningThreadLock);
+							runningThreads++;
+	pthread_mutex_unlock (&runningThreadLock);
 	printf(" returning to the main thread\n");
     return 1;
 	
@@ -237,8 +240,13 @@ static void *processDir(void* params)
     DIR* directory  = opendir(path);
     if (directory == NULL)
     {
-		printf("ERROR on the given path: %s, exiting\n",path);
-		exit(EXIT_FAILURE);
+		pthread_mutex_lock (&runningThreadLock);
+					runningThreads--;
+		pthread_mutex_unlock (&runningThreadLock);  
+	   
+		fflush(stdout);
+		printf("\nI am now exiting thread %d\n",pthread_self());
+		pthread_exit(&threadCounter);
 	}
     //read from directory until nothing left
     
@@ -342,9 +350,7 @@ static void *processDir(void* params)
 						{
                        
                             pthread_mutex_lock (&tidArrayLock);
-								pthread_mutex_lock (&runningThreadLock);
-										runningThreads++;
-								pthread_mutex_unlock (&runningThreadLock);
+								
 							
 								if(threadCounter + 1 > arrSize)
 								{
@@ -359,6 +365,9 @@ static void *processDir(void* params)
 									
 								}
 								threadCounter++;
+								pthread_mutex_lock (&runningThreadLock);
+										runningThreads++;
+								pthread_mutex_unlock (&runningThreadLock);
 								
                             pthread_mutex_unlock(&tidArrayLock);
                             
@@ -474,6 +483,8 @@ static void *getFile(void* params)
     pthread_mutex_lock (&runningThreadLock);
 		runningThreads--;
 	pthread_mutex_unlock (&runningThreadLock);
+	
+	printf("Exiting with thread ID %d\n",pthread_self());
 	pthread_exit(&threadCounter);
     
 }
@@ -498,7 +509,11 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     //open the file for reading
 	FILE *fp;
     if (strcmp(inpath,".") == 0 || (strcmp(inpath,"./") == 0))
+    {
         fp = fopen(fileName, "r");
+		printf("I am attempting to open the file: %s\n",fileName);
+
+	}   
     else
     { 
 		/*
@@ -517,14 +532,17 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         
     }
     
+    printf("I am attempting to open the file: %s\n",inpath);
+    
     
 
     //validation if real
 	if(fp == NULL)
     {
-		printf("Error: Input directory does not exist\n");
+		printf("The file read of path %s with filename %s was a failure", inpath, fileName);
 		exit(0);
 	}
+	printf("The file read of path %s with filename %s was a success\n",inpath,fileName);
     //taking the header
     size_t recordsize;
     char* line = NULL;
