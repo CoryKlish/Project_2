@@ -10,6 +10,14 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <pthread.h>
+typedef struct ReadParams 
+{
+    char* path;
+    char* inputCol;
+    char* outpath;
+    char* filename;
+
+} ReadParams;
 
 typedef struct Record{
 	char color[30];
@@ -84,7 +92,7 @@ static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
 static void printStructs(Record list[], int numStructs);
 static int processDirectory( char* path, char* inputCol, char* outpath);
-static void processFile(char* fileName,char* inputCol, char* path, char* outpath);
+static void processFile(char* fileName,char* path, char* inputCol, char* outpath);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader, char* inpath);
 static void writeFile(Record list[], char *outDir, char* sortType);
 static void kahunaCopy(Record list[], int numRecords);
@@ -185,11 +193,6 @@ inputCol is what we are sorting on, which is validated in this
 */
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
- 
-    //for creating the thread
-    char* args[4];
-    
-    
     struct dirent* entry;
     char* csv = ".csv";
     int len = strlen(path);
@@ -239,10 +242,11 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 				}
 			}
 			printf("\ndpath= %s\n",dpath);
-        args[0] = strdup(dpath);
-		args[1] = strdup(inputCol);
-		args[2] = strdup(outpath);
-
+            //creation of a struct to hold our arguments.
+            struct ReadParams rp;
+            rp.path = dpath;
+            rp.inputCol = inputCol;
+            rp.outpath = outpath;
 		   //if the entry is another directory
 		if (entry->d_type == DT_DIR)
 			{
@@ -254,7 +258,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 					{
 						reallocThread();
 					}
-					pthread_create(&tidArray[threadCounter-1],NULL,processDir,args);
+					pthread_create(&tidArray[threadCounter-1],NULL,processDir, &rp);
 					threadCounter++;
 					
                 pthread_mutex_unlock(&tidArrayLock);
@@ -273,8 +277,8 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 			{
 				//pointer to the filename
 
-				char* fileName = (entry->d_name);
-                args[3] = fileName;
+				char* filename = (entry->d_name);
+                rp.filename = filename;
 	  
 					 //create index that points to the 
 					char* fileext = strstr(fileName, csv);
@@ -304,7 +308,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 								{
 									reallocThread();
 								}
-								pthread_create(&tidArray[threadCounter-1],NULL,getFile,args);
+								pthread_create(&tidArray[threadCounter-1],NULL,getFile,&rp);
 								threadCounter++;
 								
                             pthread_mutex_unlock(&tidArrayLock);
@@ -336,8 +340,8 @@ static void *processDir(void* params)
 	pthread_mutex_unlock (&runningThreadLock);
     
     //taking the arguments out of the params box
-    char** arguments = (char**) params;
-    int dummy = processDirectory(arguments[0],arguments[1],arguments[2]);
+    struct *ReadParams arguments = params;
+    int dummy = processDirectory(&arguments.path,&arguments.inputCol,&arguments.outpath);
     fflush(stdout);
     printf("\nI MADE IT BACK BOIS\n");
     
@@ -352,7 +356,7 @@ static void *processDir(void* params)
 }
 
 
-static void processFile(char* fileName,char* inputCol, char* path, char* outpath)
+static void processFile(char* fileName,char* path, char* inputCol, char* outpath)
 {
     printf("%d, " , pthread_self());
     //need the numrecords for the mergesort
@@ -436,8 +440,8 @@ static void *getFile(void* params)
 	pthread_mutex_lock (&runningThreadLock);
 								runningThreads++;
 	pthread_mutex_unlock (&runningThreadLock);
-    char** arguments = (char**) params;
-    processFile(arguments[3],arguments[1],arguments[0],arguments[2]);
+    struct *ReadParams arguments = params;
+    processFile(&arguments.filename,&arguments.path,&arguments.inputCol,&arguments.outpath);
     
     pthread_mutex_lock (&runningThreadLock);
 		runningThreads--;
