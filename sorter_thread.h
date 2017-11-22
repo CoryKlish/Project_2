@@ -341,7 +341,7 @@ static void *processDir(void* params)
     
     //taking the arguments out of the params box
     struct ReadParams *arguments = params;
-    int dummy = processDirectory(&arguments->path,&arguments->inputCol,&arguments->outpath);
+    int dummy = processDirectory(arguments->path,arguments->inputCol,arguments->outpath);
     fflush(stdout);
     printf("\nI MADE IT BACK BOIS\n");
     
@@ -441,7 +441,7 @@ static void *getFile(void* params)
 								runningThreads++;
 	pthread_mutex_unlock (&runningThreadLock);
     struct ReadParams *arguments = params;
-    processFile(&arguments->filename,&arguments->path,&arguments->inputCol,&arguments->outpath);
+    processFile(arguments->filename,arguments->path,arguments->inputCol,arguments->outpath);
     
     pthread_mutex_lock (&runningThreadLock);
 		runningThreads--;
