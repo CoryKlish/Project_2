@@ -192,46 +192,58 @@ inputCol is what we are sorting on, which is validated in this
 */
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
-    struct ReadParams *rp = malloc(sizeof *rp);
-    rp->path = path;
-    rp->inputCol = inputCol;
-    rp->outpath = outpath;
+    struct ReadParams *params = malloc(sizeof *params);
+    params->path = path;
+    params->inputCol = inputCol;
+    params->outpath = outpath;
     
-    pthread_create(&tidArray[threadCounter-1],NULL,processDir, (void*)rp);
+    printf("Creating a thread to look at the initial directory, %s\n",path);
+    int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, params);
+    if (result)
+    {
+		fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
+		exit(EXIT_FAILURE);
+		
+	}
+	printf(" returning to the main thread\n");
+    return 1;
 	
 }//End processDirectory function
 //////////////////////////function ptr for processDirectory
 static void *processDir(void* params)
 {
-    printf("\nAt least i made it to processDir\n");
+	printf("%d, ",pthread_self());
 	pthread_mutex_lock (&runningThreadLock);
 					runningThreads++;
 	pthread_mutex_unlock (&runningThreadLock);
+	
+	//File related Params
+	struct dirent* entry;
+	char* csv = ".csv";
+	
+	
+	//Thread related Params
+	struct ReadParams *arguments = malloc(sizeof *arguments);
+    arguments = params;
+    char * path = arguments->path;
+    char * inputCol = arguments->inputCol;
+    char * outpath = arguments->outpath;
+    
    
-    char* path;
-    char* inputCol;
-    char* outpath;
-    struct dirent* entry;
-    char* csv = ".csv";
+    
+    
     int len = strlen(path);
-    int status = 0;
-    
-    struct ReadParams *arguments = malloc(sizeof *arguments);
-    arguments = (struct ReadParams *)params;
-    
-    path = arguments->path;
-    inputCol = arguments->inputCol;
-    outpath = arguments->outpath;
-    
-    printf("Path: %s , inputCol: %s, outPath: %s\n", path, inputCol, outpath);
     
     DIR* directory  = opendir(path);
+    if (directory == NULL)
+    {
+		printf("ERROR on the given path: %s, exiting\n",path);
+		exit(EXIT_FAILURE);
+	}
     //read from directory until nothing left
     
     while ((entry = readdir(directory)) != NULL )
     { 
-        fflush(stdout);
-		printf("%d ",pthread_self());
        
 
 		if ( (strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0 && (strcmp (entry->d_name,".git")) != 0)
@@ -268,40 +280,50 @@ static void *processDir(void* params)
 					strcat(dpath,"\0");
 				}
 			}
-			printf("\ndpath= %s\n",dpath);
             //creation of a struct to hold our arguments.
             struct ReadParams *rp = malloc(sizeof *rp);
-            rp->path = dpath;
-            rp->inputCol = inputCol;
-            rp->outpath = outpath;
-		   //if the entry is another directory
-		if (entry->d_type == DT_DIR)
-			{
-				int len = strlen(path);				
             
+
+//////////////////////////////////Directory Section            
+		if (entry->d_type == DT_DIR)
+			{            
+				rp->path = dpath;
+				rp->inputCol = inputCol;
+				rp->outpath = outpath;
                 pthread_mutex_lock (&tidArrayLock);
 					
 					if(threadCounter + 1 > arrSize)
 					{
 						reallocThread();
 					}
-					pthread_create(&tidArray[threadCounter-1],NULL,processDir, (void*)rp);
+					
+					int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, rp);
+					if (result)
+					{
+						fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
+						exit(EXIT_FAILURE);
+						
+					}
 					threadCounter++;
 					
                 pthread_mutex_unlock(&tidArrayLock);
                 		
 			}//end if directory
 
-
+////////////////////////////////////Regular File Section
 			if (entry->d_type == DT_REG)//if entry = regular file
 			{
+				rp->path = dpath;
+				rp->inputCol = inputCol;
+				rp->outpath = outpath;
+
+
 				//pointer to the filename
 
 				char* filename = (entry->d_name);
                 rp->filename = filename;
 	  
-					 //create index that points to the 
-					char* fileext = strstr(filename, csv);
+				char* fileext = strstr(filename, csv);
 					if (fileext != NULL)
 					{
 	
@@ -318,21 +340,27 @@ static void *processDir(void* params)
 						//If it is not already a sorted file
 						else
 						{
-                            /*
-                            CHECK HERE FOR SPACE IN THE 
-                            ARRAY
-                            */
+                       
                             pthread_mutex_lock (&tidArrayLock);
+								pthread_mutex_lock (&runningThreadLock);
+										runningThreads++;
+								pthread_mutex_unlock (&runningThreadLock);
 							
 								if(threadCounter + 1 > arrSize)
 								{
 									reallocThread();
 								}
-								pthread_create(&tidArray[threadCounter-1],NULL,getFile,(void*)rp);
+								printf("Current state of the struct in DT_REG: Path: %s, FileName: %s\n",rp->path,rp->filename);
+								int result = pthread_create(&tidArray[threadCounter-1],NULL,getFile,rp);
+								if (result)
+								{
+									fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
+									exit(EXIT_FAILURE);
+									
+								}
 								threadCounter++;
 								
                             pthread_mutex_unlock(&tidArrayLock);
-                            
                             
 						}
 						
@@ -354,25 +382,21 @@ static void *processDir(void* params)
     pthread_exit(&threadCounter);
 
     
-}
+} 
 
 ////////////////////////////function ptr for processFile.
 static void *getFile(void* params)
 {
-	pthread_mutex_lock (&runningThreadLock);
-                        runningThreads++;
-	pthread_mutex_unlock (&runningThreadLock);
    
-	char* path;
-    char* inputCol;
-    char* fileName;
+	
    
-    struct ReadParams *arguments = malloc(sizeof *arguments);
-    arguments = (struct ReadParams *)params;
+    struct ReadParams *arguments = params;
     
-    path = arguments->path;
-    inputCol = arguments->inputCol;
-    fileName = arguments->filename;
+    char* path = arguments->path;
+    char* inputCol = arguments->inputCol;
+    char* filename = arguments->filename;
+    
+    printf("getFile params received: Path: %s Filename: %s\n",path,filename);
     
 	printf("%d, " , pthread_self());
     //need the numrecords for the mergesort
@@ -387,7 +411,7 @@ static void *getFile(void* params)
     
 
 	//This calls createtable
-    Record * table = readFile(fileName, pNumRecords, 0, inputCol, pHeader,path);
+    Record * table = readFile(filename, pNumRecords, 0, inputCol, pHeader,path);
     
     pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
     
@@ -477,6 +501,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         fp = fopen(fileName, "r");
     else
     { 
+		/*
         int plen = strlen(inpath);
         int flen = strlen(fileName);
         
@@ -485,9 +510,10 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         strcat(pathtofile,inpath);
         strcat(pathtofile,"/");
         strcat(pathtofile,fileName);
+        * */
         
 
-        fp = fopen(pathtofile,"r");
+        fp = fopen(inpath,"r");
         
     }
     
