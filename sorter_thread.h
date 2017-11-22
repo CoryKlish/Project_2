@@ -289,7 +289,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 						int numRecords = 0;
 						int* pNumRecords = &numRecords;
 						
-						char* sorted = strstr(fileName,"-sorted-");
+						char* sorted = strstr(filename,"-sorted-");
 						if (sorted != NULL)
 						{
 						   continue;
