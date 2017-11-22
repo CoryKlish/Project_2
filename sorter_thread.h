@@ -336,7 +336,7 @@ static void *processDir(void* params)
     //taking the arguments out of the params box
     char** arguments = (char**) params;
     int dummy = processDirectory(arguments[0],arguments[1],arguments[2]);
-    printf("\nI MADE IT BACK BOIS\n")
+    printf("\nI MADE IT BACK BOIS\n");
     
     pthread_mutex_lock (&runningThreadLock);
 					runningThreads--;
