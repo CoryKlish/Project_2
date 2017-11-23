@@ -537,7 +537,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     //validation if real
 	if(fp == NULL)
     {
-		printf("The file read of path %s with filename %s was a failure", inpath, fileName);
+		printf("The file read of path %s with filename %s was a failure\n", inpath, fileName);
 		exit(0);
 	}
 	printf("The file read of path %s with filename %s was a success\n",inpath,fileName);
