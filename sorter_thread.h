@@ -215,6 +215,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 //////////////////////////function ptr for processDirectory
 static void *processDir(void* params)
 {
+    
 	printf("%d, ",pthread_self());
 	pthread_mutex_lock (&runningThreadLock);
 					runningThreads++;
@@ -231,7 +232,7 @@ static void *processDir(void* params)
     char * path = arguments->path;
     char * inputCol = arguments->inputCol;
     char * outpath = arguments->outpath;
-    
+    printf("State of the struct: Path: %s \n",path);
    
     
     
