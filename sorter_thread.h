@@ -195,6 +195,8 @@ inputCol is what we are sorting on, which is validated in this
 */
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
+    //INITIALIZE LE RPARRAY
+    rparray = malloc(sizeof(*rparray) * 50);
     struct ReadParams *params = malloc(sizeof *params);
     params->path = path;
     params->inputCol = inputCol;
