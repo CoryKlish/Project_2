@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
 		processDirectory(inDir,inputCol,outDir);
 		
 	}
-    
+    sleep(1);
 	//The joining loop
  
     while(1)

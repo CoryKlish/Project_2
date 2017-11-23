@@ -66,7 +66,7 @@ title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
 static pthread_t* tidArray;
 static int arrSize = 50;
 static int threadCounter = 1;
-static int runningThreads = 1;
+static int runningThreads = 0;
 static int inittid;
 
 //Where the arrays/tales will be stored
@@ -340,8 +340,9 @@ static void *processDir(void* params)
                 }
                 rpindex++;
                 entryindex = rpindex;
-                rparray[rpindex] = malloc(sizeof (rparray*));
             pthread_mutex_unlock(&rpLock);
+            rparray[entryindex] = malloc(sizeof (rparray*));
+
             
 
         //============Directory Section======================            
@@ -456,6 +457,7 @@ static void *getFile(void* params)
         rpindex++;
         localindex = rpindex;
     pthread_mutex_lock(&rpLock);
+    
     rparray[localindex] = params;
     
     
