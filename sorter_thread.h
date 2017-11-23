@@ -213,7 +213,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 
     }   
     
-    rparray[rpindex] = malloc(sizeof(rparray*));
+    rparray[rpindex] = malloc(sizeof(*rparray));
     rparray[rpindex]->path = path;
     rparray[rpindex]->inputCol = inputCol;
     rparray[rpindex]->outpath = outpath;
@@ -263,10 +263,10 @@ static void *processDir(void* params)
         }
         rpindex++;
         localindex = rpindex;
-    pthread_mutex_lock(&rplock);
+    pthread_mutex_lock(&rpLock);
     
     //=======Struct initialization=============
-	rparray[localindex]= malloc(sizeof(rparray*));
+	rparray[localindex]= malloc(sizeof(*rparray));
     rparray[localindex] = params;
     
     //======Assigning values from the copied struct to local vars=======
@@ -341,7 +341,7 @@ static void *processDir(void* params)
                 rpindex++;
                 entryindex = rpindex;
             pthread_mutex_unlock(&rpLock);
-            rparray[entryindex] = malloc(sizeof (rparray*));
+            rparray[entryindex] = malloc(sizeof (*rparray));
 
             
 
@@ -358,7 +358,7 @@ static void *processDir(void* params)
 						reallocThread();
 					}
 					
-					int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, rp);
+					int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, rparray[entryindex]);
 					if (result)
 					{
 						fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
