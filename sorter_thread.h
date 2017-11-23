@@ -61,28 +61,39 @@ static pthread_mutex_t structLock = PTHREAD_MUTEX_INITIALIZER;
 static char* header = "color,director_name,num_critic_for_reviews,duration,director_facebook_likes,actor_3_facebook_likes,actor_2_name,actor_1_facebook_likes,gross,genres,actor_1_name,\
 movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,\
 title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
+
+//Where the thread ids go
+static pthread_t* tidArray;
+static int arrSize = 50;
 static int threadCounter = 1;
 static int runningThreads = 0;
 static int inittid;
-static int kahunaIndexCount = 0;
-static Record* bigKahuna;
-static Record** kahunaComp;
-static Record** kahunaCompPtr;
-static int* tableSizes;
 
+//Where the arrays/tales will be stored
+static Record* bigKahuna;
+static int kahunaIndexCount = 0;
+static int kahunaSize = 0;
+
+
+//Kahunacomp is an array of every csv/table
+static Record** kahunaComp;
+//we need both of these???????
+static Record** kahunaCompPtr;
 static int kahunaCompIndex = 0;
+static int kahunaCompSize = 1024;
 static int kahunaArrCounter = 0;
 
-//for realloc
-static int kahunaCompSize = 1024;
+//numrecords for each array
+static int* tableSizes;
 static int tableSizesLength = 1024;
 static int tableSizeIndex = 0;
-static int kahunaSize = 0;
-static int arrSize = 50;
-//starts with 10 spaces for threads
-static pthread_t* tidArray;
-//holds the struct for each thread.
+
+
+
+//For the structs that each thread uses
 static ReadParams** rparray;
+static rpindex = 0;
+static int rpsize = 50;
 
 //Prototypes
 
