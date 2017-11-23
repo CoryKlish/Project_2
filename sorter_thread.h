@@ -226,7 +226,7 @@ static void *processDir(void* params)
 	
 	
 	//Thread related Params
-	struct ReadParams *arguments = malloc(sizeof *arguments);
+	struct ReadParams *arguments = (ReadParams *)malloc(sizeof *arguments);
     arguments = params;
     char * path = arguments->path;
     char * inputCol = arguments->inputCol;
@@ -289,7 +289,7 @@ static void *processDir(void* params)
 				}
 			}
             //creation of a struct to hold our arguments.
-            struct ReadParams *rp = malloc(sizeof *rp);
+            struct ReadParams *rp = (ReadParams *)malloc(sizeof *rp);
             
 
 //////////////////////////////////Directory Section            
@@ -324,12 +324,9 @@ static void *processDir(void* params)
 				rp->path = dpath;
 				rp->inputCol = inputCol;
 				rp->outpath = outpath;
-
-
-				//pointer to the filename
-
 				char* filename = (entry->d_name);
                 rp->filename = filename;
+                
 	  
 				char* fileext = strstr(filename, csv);
 					if (fileext != NULL)
