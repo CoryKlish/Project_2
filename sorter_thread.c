@@ -116,7 +116,15 @@ int main(int argc, char** argv) {
 }//End main
 void reallocRps()
 {
-
+    rpsize += 256;
+    pthread_mutex_lock(&rpLock);
+        rparray = (ReadParams**)realloc(rparray,rpsize);
+    pthread_mutex_lock(&rpLock);
+    if (rparray == NULL)
+    {
+        printf("Realloc error with structs...exiting\n");
+        exit(EXIT_FAILURE);
+    }
 
 }
 void reallocThread()

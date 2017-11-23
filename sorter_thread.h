@@ -92,7 +92,7 @@ static int tableSizeIndex = 0;
 
 static ReadParams** rparray;
 static rpindex = 0;
-static int rpsize = 50;
+static int rpsize = 256;
 
 //Prototypes
 
@@ -257,6 +257,10 @@ static void *processDir(void* params)
     */
     //======Attaining a new index for this thread=======
     pthread_mutex_lock(&rpLock);
+        if (rpindex + 1 > rpsize)
+        {
+            reallocRps();
+        }
         rpindex++;
         localindex = rpindex;
     pthread_mutex_lock(&rplock);
@@ -330,6 +334,10 @@ static void *processDir(void* params)
 			}
         //================Creation of another struct to handle the directory element===============
             pthread_mutex_lock(&rpLock);
+            if (rpindex + 1 > rpsize)
+                {
+                    reallocRps();
+                }
                 rpindex++;
                 entryindex = rpindex;
                 rparray[rpindex] = malloc(sizeof (rparray*));
@@ -339,9 +347,9 @@ static void *processDir(void* params)
         //============Directory Section======================            
 		if (entry->d_type == DT_DIR)
 			{            
-				rp->path = dpath;
-				rp->inputCol = inputCol;
-				rp->outpath = outpath;
+				rparray[entryindex]->path = dpath;
+				rparray[entryindex]->inputCol = inputCol;
+				rparray[entryindex]->outpath = outpath;
                 pthread_mutex_lock (&tidArrayLock);
 					
 					if(threadCounter + 1 > arrSize)
@@ -365,18 +373,16 @@ static void *processDir(void* params)
             //============Regular File Section======================
 			if (entry->d_type == DT_REG)//if entry = regular file
 			{
-				rp->path = dpath;
-				rp->inputCol = inputCol;
-				rp->outpath = outpath;
+				rparray[entryindex]->path = dpath;
+				rparray[entryindex]->inputCol = inputCol;
+				rparray[entryindex]->outpath = outpath;
 				char* filename = (entry->d_name);
-                rp->filename = filename;
+                rparray[entryindex]->filename = filename;
                 
 	  
 				char* fileext = strstr(filename, csv);
 					if (fileext != NULL)
 					{
-	
-					
 						int numRecords = 0;
 						int* pNumRecords = &numRecords;
 						
@@ -398,7 +404,7 @@ static void *processDir(void* params)
 									reallocThread();
 								}
 								printf("Current state of the struct in DT_REG: Path: %s, FileName: %s\n",rp->path,rp->filename);
-								int result = pthread_create(&tidArray[threadCounter-1],NULL,getFile,rp);
+								int result = pthread_create(&tidArray[threadCounter-1],NULL,getFile,rparray[entryindex]);
 								if (result)
 								{
 									fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
@@ -442,8 +448,12 @@ static void *getFile(void* params)
 {
    
 	
-   
-    struct ReadParams *arguments = params;
+   pthread_mutex_lock(&rpLock);
+        if (rpindex + 1 > rpsize)
+        {
+            reallocRps();
+        }
+   rparray[rpindex] = params;
     
     char* path = arguments->path;
     char* inputCol = arguments->inputCol;
