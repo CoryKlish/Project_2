@@ -446,18 +446,22 @@ static void *processDir(void* params)
 ////////////////////////////function ptr for processFile.
 static void *getFile(void* params)
 {
-   
+   int localindex;
 	
    pthread_mutex_lock(&rpLock);
         if (rpindex + 1 > rpsize)
         {
             reallocRps();
         }
-   rparray[rpindex] = params;
+        rpindex++;
+        localindex = rpindex;
+    pthread_mutex_lock(&rpLock);
+    rparray[localindex] = params;
     
-    char* path = arguments->path;
-    char* inputCol = arguments->inputCol;
-    char* filename = arguments->filename;
+    
+    char* path = rparray[localindex]->path;
+    char* inputCol = rparray[localindex]->inputCol;
+    char* filename = rparray[localindex]->filename;
     
     printf("getFile params received: Path: %s Filename: %s\n",path,filename);
     
