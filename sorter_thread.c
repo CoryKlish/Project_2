@@ -114,7 +114,11 @@ int main(int argc, char** argv) {
 	writeFile(bigKahuna, outDir, inputCol);
 	
 }//End main
+void reallocRps()
+{
 
+
+}
 void reallocThread()
 {
 	arrSize += 50;

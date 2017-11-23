@@ -57,7 +57,7 @@ static pthread_mutex_t kahunaLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t kahunacountLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t runningThreadLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t kahunaCompLock = PTHREAD_MUTEX_INITIALIZER;
-static pthread_mutex_t structLock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t rpLock = PTHREAD_MUTEX_INITIALIZER;
 static char* header = "color,director_name,num_critic_for_reviews,duration,director_facebook_likes,actor_3_facebook_likes,actor_2_name,actor_1_facebook_likes,gross,genres,actor_1_name,\
 movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,\
 title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
@@ -66,7 +66,7 @@ title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
 static pthread_t* tidArray;
 static int arrSize = 50;
 static int threadCounter = 1;
-static int runningThreads = 0;
+static int runningThreads = 1;
 static int inittid;
 
 //Where the arrays/tales will be stored
@@ -87,8 +87,6 @@ static int kahunaArrCounter = 0;
 static int* tableSizes;
 static int tableSizesLength = 1024;
 static int tableSizeIndex = 0;
-
-
 
 //For the structs that each thread uses
 
@@ -115,6 +113,7 @@ static void kahunaCopy(Record list[], int numRecords);
 int VerifyDirectory(char* path);
 char* getArgs(char flag, int numArgs, char* argArr[]);
 void reallocThread();
+void reallocRps();
 
 //IN mergesort.c
 Record* createTable(int* pNumRecords,int numFields, FILE *fp);
@@ -208,23 +207,27 @@ inputCol is what we are sorting on, which is validated in this
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
     //INITIALIZE LE RPARRAY
-    rparray = malloc(sizeof(*rparray) * 50);
-    struct ReadParams *params = malloc(sizeof *params);
-    params->path = path;
-    params->inputCol = inputCol;
-    params->outpath = outpath;
+    if (inittid == pthread_self())
+    {
+            rparray = malloc(sizeof(ReadParams*) * 50);
+
+    }   
+    
+    rparray[rpindex] = malloc(sizeof(rparray*));
+    rparray[rpindex]->path = path;
+    rparray[rpindex]->inputCol = inputCol;
+    rparray[rpindex]->outpath = outpath;
+        
     
     printf("Creating a thread to look at the initial directory, %s\n",path);
-    int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, params);
+    int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, rparray[rpindex]);
     if (result)
     {
 		fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
 		exit(EXIT_FAILURE);
 		
 	}
-	pthread_mutex_lock (&runningThreadLock);
-							runningThreads++;
-	pthread_mutex_unlock (&runningThreadLock);
+
 	printf(" returning to the main thread\n");
     return 1;
 	
@@ -232,7 +235,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 //////////////////////////function ptr for processDirectory
 static void *processDir(void* params)
 {
-    
+    //========Thread Things========
 	printf("%d, ",pthread_self());
 	pthread_mutex_lock (&runningThreadLock);
 					runningThreads++;
@@ -241,20 +244,36 @@ static void *processDir(void* params)
 	//File related Params
 	struct dirent* entry;
 	char* csv = ".csv";
+    //Thread Related Param
+    int localindex;
 	
 	
-	//Thread related Params
-	struct ReadParams *arguments = (ReadParams *)malloc(sizeof *arguments);
-    arguments = params;
-    char * path = arguments->path;
-    char * inputCol = arguments->inputCol;
-    char * outpath = arguments->outpath;
+
+    /*
+    Basically locking the struct array, increasing the index,
+    and assigning a localindex for each thread
+    In this way, everyone has a different index and therefore
+    a different struct* to work with
+    */
+    //======Attaining a new index for this thread=======
+    pthread_mutex_lock(&rpLock);
+        rpindex++;
+        localindex = rpindex;
+    pthread_mutex_lock(&rplock);
+    
+    //=======Struct initialization=============
+	rparray[localindex]= malloc(sizeof(rparray*));
+    rparray[localindex] = params;
+    
+    //======Assigning values from the copied struct to local vars=======
+    char * path = rparray[localindex]->path;
+    char * inputCol = rparray[localindex]->inputCol;
+    char * outpath = rparray[localindex]->outpath;
    
-    
-    
-    int len = strlen(path);
-    
+    //=======Opening the directory that was specified by "path", received by params======
     DIR* directory  = opendir(path);
+    
+    //========Error checking the opendir=============
     if (directory == NULL)
     {
 		pthread_mutex_lock (&runningThreadLock);
@@ -265,18 +284,22 @@ static void *processDir(void* params)
 		printf("\nI am now exiting thread %d\n",pthread_self());
 		pthread_exit(&threadCounter);
 	}
-    //read from directory until nothing left
+    
+    //=========Loop where the directory is read=========================================
     
     while ((entry = readdir(directory)) != NULL )
     { 
+        //===Entryindex records the rpindex for the specific directory entry(element)===
+        int entryindex;
        
-
+        //===============Taking out unnecessary directories====================
 		if ( (strcmp (entry->d_name,"."))!= 0 && (strcmp (entry->d_name,"..")) != 0 && (strcmp (entry->d_name,".git")) != 0)
 		{
-
+            int len = strlen(path);
 			struct stat buffer;
 			char dpath[255];
 			dpath[0] = '\0';
+            //===================If the directory entry is a "." or a "./"=======
 			if (strcmp(path,"./") == 0)
 			{
 				strcat(dpath,entry->d_name);
@@ -287,10 +310,10 @@ static void *processDir(void* params)
 				strcat(dpath,entry->d_name);
 				strcat(dpath,"\0");
 			}
-			//if the path is not a "." or "./"
+			//=============If the path is not "." or "./"==================
 			else
 			{
-				//Original path either ends with "/" or not
+				//=========Either the directory path ends w/ "/" or not========
 				if (*(path + len - 1) == '/')
 				{
 					strcpy(dpath,path);
@@ -305,11 +328,15 @@ static void *processDir(void* params)
 					strcat(dpath,"\0");
 				}
 			}
-            //creation of a struct to hold our arguments.
-            struct ReadParams *rp = (ReadParams *)malloc(sizeof *rp);
+        //================Creation of another struct to handle the directory element===============
+            pthread_mutex_lock(&rpLock);
+                rpindex++;
+                entryindex = rpindex;
+                rparray[rpindex] = malloc(sizeof (rparray*));
+            pthread_mutex_unlock(&rpLock);
             
 
-//////////////////////////////////Directory Section            
+        //============Directory Section======================            
 		if (entry->d_type == DT_DIR)
 			{            
 				rp->path = dpath;
@@ -333,9 +360,9 @@ static void *processDir(void* params)
 					
                 pthread_mutex_unlock(&tidArrayLock);
                 		
-			}//end if directory
+			}
 
-////////////////////////////////////Regular File Section
+            //============Regular File Section======================
 			if (entry->d_type == DT_REG)//if entry = regular file
 			{
 				rp->path = dpath;
@@ -395,7 +422,9 @@ static void *processDir(void* params)
 			
         }//end if
     }//end whileloop for readdir
+    //====================Ending the readdir directory loop=======================
     
+    //=====================Thread Things=========================
     pthread_mutex_lock (&runningThreadLock);
 					runningThreads--;
     pthread_mutex_unlock (&runningThreadLock);  
@@ -403,6 +432,7 @@ static void *processDir(void* params)
     fflush(stdout);
     printf("\nI am now exiting thread %d\n",pthread_self());
     pthread_exit(&threadCounter);
+    
 
     
 } 
