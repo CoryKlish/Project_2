@@ -404,7 +404,7 @@ static void *processDir(void* params)
 								{
 									reallocThread();
 								}
-								printf("Current state of the struct in DT_REG: Path: %s, FileName: %s\n",rp->path,rp->filename);
+								printf("Current state of the struct in DT_REG: Path: %s, FileName: %s\n",rparray[entryindex]->path,rparray[entryindex]->filename);
 								int result = pthread_create(&tidArray[threadCounter-1],NULL,getFile,rparray[entryindex]);
 								if (result)
 								{
