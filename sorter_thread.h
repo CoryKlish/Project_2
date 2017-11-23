@@ -91,6 +91,7 @@ static int tableSizeIndex = 0;
 
 
 //For the structs that each thread uses
+
 static ReadParams** rparray;
 static rpindex = 0;
 static int rpsize = 50;
