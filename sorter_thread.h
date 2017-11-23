@@ -57,6 +57,7 @@ static pthread_mutex_t kahunaLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t kahunacountLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t runningThreadLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t kahunaCompLock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t structLock = PTHREAD_MUTEX_INITIALIZER;
 static char* header = "color,director_name,num_critic_for_reviews,duration,director_facebook_likes,actor_3_facebook_likes,actor_2_name,actor_1_facebook_likes,gross,genres,actor_1_name,\
 movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,\
 title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
@@ -80,6 +81,8 @@ static int kahunaSize = 0;
 static int arrSize = 50;
 //starts with 10 spaces for threads
 static pthread_t* tidArray;
+//holds the struct for each thread.
+static ReadParams** rparray;
 
 //Prototypes
 
@@ -232,7 +235,6 @@ static void *processDir(void* params)
     char * path = arguments->path;
     char * inputCol = arguments->inputCol;
     char * outpath = arguments->outpath;
-    printf("State of the struct: Path: %s \n",path);
    
     
     
