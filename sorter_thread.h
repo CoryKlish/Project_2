@@ -357,6 +357,7 @@ static void *processDir(void* params)
 					{
 						reallocThread();
 					}
+                    printf("My thread ID is %d, and my directory path is %s", pthread_self(),dpath);
 					
 					int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, rparray[entryindex]);
 					if (result)
@@ -380,7 +381,7 @@ static void *processDir(void* params)
 				char* filename = (entry->d_name);
                 rparray[entryindex]->filename = strdup(filename);
                 
-	  
+	           printf("My thread ID is %d, and my directory path is %s", pthread_self(),dpath);
 				char* fileext = strstr(filename, csv);
 					if (fileext != NULL)
 					{
@@ -432,7 +433,7 @@ static void *processDir(void* params)
     pthread_mutex_unlock (&runningThreadLock);  
    
     fflush(stdout);
-    printf("\nI am now exiting thread %d\n",pthread_self());
+    //printf("\nI am now exiting thread %d\n",pthread_self());
     pthread_exit(&threadCounter);
     
 
@@ -546,7 +547,7 @@ static void *getFile(void* params)
 		runningThreads--;
 	pthread_mutex_unlock (&runningThreadLock);
 	
-	printf("Exiting with thread ID %d\n",pthread_self());
+	//printf("Exiting with thread ID %d\n",pthread_self());
 	pthread_exit(&threadCounter);
     
 }
