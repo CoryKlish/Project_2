@@ -284,7 +284,7 @@ static void *processDir(void* params)
 		pthread_mutex_unlock (&runningThreadLock);  
 	   
 		fflush(stdout);
-		printf("\nDirectory can't be opened, I am now exiting thread %d\n",pthread_self());
+		printf("\nDirectory path %s cant be opened\n",path;
 		pthread_exit(&threadCounter);
 	}
     
