@@ -87,7 +87,9 @@ int main(int argc, char** argv) {
 			for(i = 0; i < threadCounter; i++)
 			{
             //this is SEGFAULTING idk
+                
 				pthread_join(tidArray[i], NULL);
+                printf("\njoining on thread %d\n",tidArray[i]);
 			}
 			
 			break;
