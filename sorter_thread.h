@@ -212,9 +212,9 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 
     //======Packing the params passed from main into a struct=====
     rparray[rpindex] = malloc(sizeof(ReadParams));
-    rparray[rpindex]->path = path;
-    rparray[rpindex]->inputCol = inputCol;
-    rparray[rpindex]->outpath = outpath;
+    rparray[rpindex]->path = strdup(path);
+    rparray[rpindex]->inputCol = strdup(inputCol);
+    rparray[rpindex]->outpath = strdup(outpath);
         
     
     printf("Creating a thread to look at the initial directory, %s\n",path);
@@ -269,9 +269,9 @@ static void *processDir(void* params)
     rparray[localindex] = params;
     
     //======Assigning values from the copied struct to local vars=======
-    char * path = rparray[localindex]->path;
-    char * inputCol = rparray[localindex]->inputCol;
-    char * outpath = rparray[localindex]->outpath;
+    char * path = strdup(rparray[localindex]->path);
+    char * inputCol = strdup(rparray[localindex]->inputCol);
+    char * outpath = strdup(rparray[localindex]->outpath);
    
     //=======Opening the directory that was specified by "path", received by params======
     DIR* directory  = opendir(path);
@@ -347,9 +347,9 @@ static void *processDir(void* params)
         //============Directory Section======================            
 		if (entry->d_type == DT_DIR)
 			{            
-				rparray[entryindex]->path = dpath;
-				rparray[entryindex]->inputCol = inputCol;
-				rparray[entryindex]->outpath = outpath;
+				rparray[entryindex]->path = strdup(dpath);
+				rparray[entryindex]->inputCol = strdup(inputCol);
+				rparray[entryindex]->outpath = strdup(outpath);
                 pthread_mutex_lock (&tidArrayLock);
             printf("state of struct in DT_DIR: Path: %s\n",dpath);
 					
@@ -374,11 +374,11 @@ static void *processDir(void* params)
             //============Regular File Section======================
 			if (entry->d_type == DT_REG)//if entry = regular file
 			{
-				rparray[entryindex]->path = dpath;
-				rparray[entryindex]->inputCol = inputCol;
-				rparray[entryindex]->outpath = outpath;
+				rparray[entryindex]->path = strdup(dpath);
+				rparray[entryindex]->inputCol = strdup(inputCol);
+				rparray[entryindex]->outpath = strdup(outpath);
 				char* filename = (entry->d_name);
-                rparray[entryindex]->filename = filename;
+                rparray[entryindex]->filename = strdup(filename);
                 
 	  
 				char* fileext = strstr(filename, csv);
