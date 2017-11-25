@@ -441,12 +441,14 @@ static void *processDir(void* params)
 ////////////////////////////function ptr for processFile.
 static void *getFile(void* params)
 {
+    //=======Increase number of threads, and running threads
     threadCounter++;
     pthread_mutex_lock (&runningThreadLock);
             runningThreads++;
     pthread_mutex_unlock (&runningThreadLock);
+    
+    //===========Attaining a new struct to unpack params arguments=======
    int localindex;
-	
    pthread_mutex_lock(&rpLock);
         if (rpindex + 1 > rpsize)
         {
@@ -456,15 +458,16 @@ static void *getFile(void* params)
         localindex = rpindex;
     pthread_mutex_unlock(&rpLock);
     
+    rparray[localindex]= malloc(sizeof(ReadParams));
     rparray[localindex] = params;
     
-    
+    //============Assigning local variables components of the struct========
     char* path = rparray[localindex]->path;
     char* inputCol = rparray[localindex]->inputCol;
     char* filename = rparray[localindex]->filename;
     
-    printf("getFile params received: Path: %s Filename: %s\n",path,filename);
     
+    printf("getFile params received: Path: %s\n",rparray[localindex] -> path);
 	printf("%d, " , pthread_self());
     //need the numrecords for the mergesort
     int numRecords = 0;
