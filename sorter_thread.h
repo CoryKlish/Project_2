@@ -282,7 +282,7 @@ static void *processDir(void* params)
     if (directory == NULL)
     {
 		pthread_mutex_lock (&runningThreadLock);
-					runningThreads--;
+                    runningThreads--;
 		pthread_mutex_unlock (&runningThreadLock);  
 	   
 		fflush(stdout);
@@ -413,11 +413,6 @@ static void *processDir(void* params)
 									exit(EXIT_FAILURE);
 									
 								}
-								threadCounter++;
-								pthread_mutex_lock (&runningThreadLock);
-										runningThreads++;
-								pthread_mutex_unlock (&runningThreadLock);
-								
                             pthread_mutex_unlock(&tidArrayLock);
                             
 						}
@@ -448,6 +443,10 @@ static void *processDir(void* params)
 ////////////////////////////function ptr for processFile.
 static void *getFile(void* params)
 {
+    threadCounter++;
+    pthread_mutex_lock (&runningThreadLock);
+            runningThreads++;
+    pthread_mutex_unlock (&runningThreadLock);
    int localindex;
 	
    pthread_mutex_lock(&rpLock);
@@ -457,7 +456,7 @@ static void *getFile(void* params)
         }
         rpindex++;
         localindex = rpindex;
-    pthread_mutex_lock(&rpLock);
+    pthread_mutex_unlock(&rpLock);
     
     rparray[localindex] = params;
     
