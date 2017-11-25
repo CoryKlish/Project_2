@@ -588,12 +588,12 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         strcat(pathtofile,fileName);
         * */
         
+        printf("I am attempting to open the file: %s\n",inpath);
 
         fp = fopen(inpath,"r");
         
     }
     
-    printf("I am attempting to open the file: %s\n",inpath);
     
     
 
