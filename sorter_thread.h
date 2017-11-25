@@ -217,7 +217,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     rparray[rpindex]->outpath = strdup(outpath);
         
     
-    printf("Creating a thread to look at the initial directory, %s\n",path);
+    //printf("Creating a thread to look at the initial directory, %s\n",path);
     int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, rparray[rpindex]);
     if (result)
     {
@@ -226,7 +226,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
 		
 	}
 
-	printf(" returning to the main thread\n");
+	//printf(" returning to the main thread\n");
     return 1;
 	
 }//End processDirectory function
@@ -351,7 +351,7 @@ static void *processDir(void* params)
 				rparray[entryindex]->inputCol = strdup(inputCol);
 				rparray[entryindex]->outpath = strdup(outpath);
                 pthread_mutex_lock (&tidArrayLock);
-            printf("state of struct in DT_DIR: Path: %s\n",dpath);
+            //printf("state of struct in DT_DIR: Path: %s\n",dpath);
 					
 					if(threadCounter + 1 > arrSize)
 					{
@@ -404,7 +404,7 @@ static void *processDir(void* params)
 								{
 									reallocThread();
 								}
-								printf("Current state of the struct in DT_REG: Path: %s, FileName: %s\n",rparray[entryindex]->path,rparray[entryindex]->filename);
+								//printf("Current state of the struct in DT_REG: Path: %s, FileName: %s\n",rparray[entryindex]->path,rparray[entryindex]->filename);
 								int result = pthread_create(&tidArray[threadCounter-1],NULL,getFile,rparray[entryindex]);
 								if (result)
 								{
@@ -468,7 +468,7 @@ static void *getFile(void* params)
     char* filename = rparray[localindex]->filename;
     
     
-    printf("getFile params received: Path: %s\n",rparray[localindex] -> path);
+   // printf("getFile params received: Path: %s\n",rparray[localindex] -> path);
 	printf("%d, " , pthread_self());
     //need the numrecords for the mergesort
     int numRecords = 0;
