@@ -254,6 +254,9 @@ static void *processDir(void* params)
     a different struct* to work with
     */
     //======Attaining a new index for this thread=======
+    /*
+        STUCK IN THIS LOCK FOREVER IDK WHY WHATS HAPPENNG
+    */
     pthread_mutex_lock(&rpLock);
         if (rpindex + 1 > rpsize)
         {
