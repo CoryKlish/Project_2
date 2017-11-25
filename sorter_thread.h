@@ -351,6 +351,7 @@ static void *processDir(void* params)
 				rparray[entryindex]->inputCol = inputCol;
 				rparray[entryindex]->outpath = outpath;
                 pthread_mutex_lock (&tidArrayLock);
+            printf("state of struct in DT_DIR: Path: %s\n",dpath);
 					
 					if(threadCounter + 1 > arrSize)
 					{
