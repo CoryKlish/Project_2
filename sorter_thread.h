@@ -65,7 +65,7 @@ title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
 //Where the thread ids go
 static pthread_t* tidArray;
 static int arrSize = 50;
-static int threadCounter = 1;
+static int threadCounter = 0;
 static int runningThreads = 0;
 static int inittid;
 
@@ -206,11 +206,11 @@ inputCol is what we are sorting on, which is validated in this
 */
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
-    //INITIALIZE LE RPARRAY
+    //======INITIALIZE LE RPARRAY=============
 
     rparray = malloc(sizeof(ReadParams*) * 50);
 
-    
+    //======Packing the params passed from main into a struct=====
     rparray[rpindex] = malloc(sizeof(ReadParams));
     rparray[rpindex]->path = path;
     rparray[rpindex]->inputCol = inputCol;
@@ -253,10 +253,8 @@ static void *processDir(void* params)
     In this way, everyone has a different index and therefore
     a different struct* to work with
     */
+    
     //======Attaining a new index for this thread=======
-    /*
-        STUCK IN THIS LOCK FOREVER IDK WHY WHATS HAPPENNG
-    */
     pthread_mutex_lock(&rpLock);
         if (rpindex + 1 > rpsize)
         {
