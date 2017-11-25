@@ -218,7 +218,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
         
     
     printf("Creating a thread to look at the initial directory, %s\n",path);
-    int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, &rparray[rpindex]);
+    int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, rparray[rpindex]);
     if (result)
     {
 		fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
@@ -358,7 +358,7 @@ static void *processDir(void* params)
 						reallocThread();
 					}
 					
-					int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, &rparray[entryindex]);
+					int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, rparray[entryindex]);
 					if (result)
 					{
 						fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
