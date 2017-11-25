@@ -284,7 +284,7 @@ static void *processDir(void* params)
 		pthread_mutex_unlock (&runningThreadLock);  
 	   
 		fflush(stdout);
-		printf("\nDirectory path %s cant be opened\n",path);
+		printf("\nDirectory path %s cant be opened\n",rparray[localindex]->path);
 		pthread_exit(&threadCounter);
 	}
     
