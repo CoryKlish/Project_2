@@ -207,11 +207,9 @@ inputCol is what we are sorting on, which is validated in this
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
     //INITIALIZE LE RPARRAY
-    if (inittid == pthread_self())
-    {
-            rparray = malloc(sizeof(ReadParams*) * 50);
 
-    }   
+    rparray = malloc(sizeof(ReadParams*) * 50);
+
     
     rparray[rpindex] = malloc(sizeof(ReadParams));
     rparray[rpindex]->path = path;
