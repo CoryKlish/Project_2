@@ -261,7 +261,7 @@ static void *processDir(void* params)
         }
         rpindex++;
         localindex = rpindex;
-    pthread_mutex_lock(&rpLock);
+    pthread_mutex_unlock(&rpLock);
     
     //=======Struct initialization=============
 	rparray[localindex]= malloc(sizeof(ReadParams));
