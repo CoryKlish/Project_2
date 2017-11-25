@@ -381,7 +381,7 @@ static void *processDir(void* params)
 				char* filename = (entry->d_name);
                 rparray[entryindex]->filename = strdup(filename);
                 
-	           printf("My thread ID is %d, and my directory path is %s", pthread_self(),dpath);
+	           printf("My thread ID is %d, and my directory path is %s\n", pthread_self(),dpath);
 				char* fileext = strstr(filename, csv);
 					if (fileext != NULL)
 					{
