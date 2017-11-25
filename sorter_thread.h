@@ -357,7 +357,7 @@ static void *processDir(void* params)
 					{
 						reallocThread();
 					}
-                    printf("My thread ID is %d, and my directory path is %s", pthread_self(),dpath);
+                    printf("My thread ID is %d, and my directory path is %s\n", pthread_self(),dpath);
 					
 					int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, rparray[entryindex]);
 					if (result)
