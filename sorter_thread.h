@@ -66,6 +66,7 @@ title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
 static pthread_t* tidArray;
 static int arrSize = 50;
 static int threadCounter = 0;
+static int threadIndex = 0;
 static int runningThreads = 0;
 static int inittid;
 
@@ -218,13 +219,14 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
         
     
     //printf("Creating a thread to look at the initial directory, %s\n",path);
-    int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, rparray[rpindex]);
+    int result = pthread_create(&tidArray[threadIndex],NULL,processDir, rparray[rpindex]);
     if (result)
     {
 		fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
 		exit(EXIT_FAILURE);
 		
 	}
+    threadIndex++;
 
 	//printf(" returning to the main thread\n");
     return 1;
@@ -350,6 +352,7 @@ static void *processDir(void* params)
 				rparray[entryindex]->path = strdup(dpath);
 				rparray[entryindex]->inputCol = strdup(inputCol);
 				rparray[entryindex]->outpath = strdup(outpath);
+            
                 pthread_mutex_lock (&tidArrayLock);
             //printf("state of struct in DT_DIR: Path: %s\n",dpath);
 					
@@ -357,15 +360,16 @@ static void *processDir(void* params)
 					{
 						reallocThread();
 					}
-                    printf("My thread ID is %d, and my directory path is %s\n", pthread_self(),dpath);
+                    
 					
-					int result = pthread_create(&tidArray[threadCounter-1],NULL,processDir, rparray[entryindex]);
+					int result = pthread_create(&tidArray[threadIndex],NULL,processDir, rparray[entryindex]);
 					if (result)
 					{
 						fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
 						exit(EXIT_FAILURE);
 						
 					}
+                    threadIndex++;
 					threadCounter++;
 					
                 pthread_mutex_unlock(&tidArrayLock);
@@ -381,7 +385,7 @@ static void *processDir(void* params)
 				char* filename = (entry->d_name);
                 rparray[entryindex]->filename = strdup(filename);
                 
-	           printf("My thread ID is %d, and my directory path is %s\n", pthread_self(),dpath);
+	          
 				char* fileext = strstr(filename, csv);
 					if (fileext != NULL)
 					{
@@ -413,6 +417,7 @@ static void *processDir(void* params)
 									exit(EXIT_FAILURE);
 									
 								}
+                                threadIndex++;
                             pthread_mutex_unlock(&tidArrayLock);
                             
 						}
