@@ -410,7 +410,7 @@ static void *processDir(void* params)
 									reallocThread();
 								}
 								//printf("Current state of the struct in DT_REG: Path: %s, FileName: %s\n",rparray[entryindex]->path,rparray[entryindex]->filename);
-								int result = pthread_create(&tidArray[threadCounter-1],NULL,getFile,rparray[entryindex]);
+								int result = pthread_create(&tidArray[threadIndex],NULL,getFile,rparray[entryindex]);
 								if (result)
 								{
 									fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
