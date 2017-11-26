@@ -62,7 +62,7 @@ static char* header = "color,director_name,num_critic_for_reviews,duration,direc
 movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,\
 title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
 
-//Where the thread ids go
+//=========Thread Id Section=========
 static pthread_t* tidArray;
 static int arrSize = 50;
 static int threadCounter = 0;
@@ -70,13 +70,13 @@ static int threadIndex = 0;
 static int runningThreads = 0;
 static int inittid;
 
-//Where the arrays/tales will be stored
+//==========Table/Arrays are accumulated here=========
 static Record* bigKahuna;
 static int kahunaIndexCount = 0;
 static int kahunaSize = 0;
 
 
-//Kahunacomp is an array of every csv/table
+//===========List of tables/arrays that go inside bigkahuna=====
 static Record** kahunaComp;
 //we need both of these???????
 static Record** kahunaCompPtr;
@@ -84,22 +84,21 @@ static int kahunaCompIndex = 0;
 static int kahunaCompSize = 1024;
 static int kahunaArrCounter = 0;
 
-//numrecords for each array
+//========Stores the number of records in each array in Kahunacomp=====
 static int* tableSizes;
 static int tableSizesLength = 1024;
 static int tableSizeIndex = 0;
 
-//For the structs that each thread uses
 
+//==========Array of structs: Each struct goes to a thread/call to processdir or getfile=======
 static ReadParams** rparray;
 static rpindex = 0;
 static int rpsize = 256;
 
-//Prototypes
+//===============Prototypes===============
 
-//in sorter.h
+//===================SORTER.H=================
 static void *processDir(void* params);
-
 static void *getFile(void* params);
 static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
@@ -110,13 +109,13 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
 static void writeFile(Record list[], char *outDir, char* sortType);
 static void kahunaCopy(Record list[], int numRecords);
 
-//In SORTER.C
+//=============In SORTER.C=====================
 int VerifyDirectory(char* path);
 char* getArgs(char flag, int numArgs, char* argArr[]);
 void reallocThread();
 void reallocRps();
 
-//IN mergesort.c
+//=================MERGESORT.C==================
 Record* createTable(int* pNumRecords,int numFields, FILE *fp);
 void mergeNum(Record list[], int left, int mid, int right,char* sortType);
 void sortNum(Record list[], int left, int right,char* sortType);
@@ -241,10 +240,10 @@ static void *processDir(void* params)
 					runningThreads++;
 	pthread_mutex_unlock (&runningThreadLock);
 	
-	//File related Params
+	//================File related Params=============
 	struct dirent* entry;
 	char* csv = ".csv";
-    //Thread Related Param
+    //========Thread Related Param====================
     int localindex;
 	
 	
@@ -476,7 +475,8 @@ static void *getFile(void* params)
     
    // printf("getFile params received: Path: %s\n",rparray[localindex] -> path);
 	printf("%d, " , pthread_self());
-    //need the numrecords for the mergesort
+
+    //=============Components for creating a table==============
     int numRecords = 0;
     int* pNumRecords = &numRecords;
     //readfile validates the input column and creates a record array
@@ -516,7 +516,7 @@ static void *getFile(void* params)
 			kahunaSize += numRecords;			
 		}
  
-		//if kahunacomp goes over, we need to realloc
+		//======================KahunaComp Realloc=====================
 		if (kahunaCompIndex + 1 >= kahunaCompSize)
 		{
 			kahunaCompSize += 256;
@@ -533,8 +533,10 @@ static void *getFile(void* params)
 			*kahunaCompPtr = table;
 			kahunaCompPtr += 1;
 			
-		}//END reallocation
+		}
+        //=====================End KahunaComp Realloc=================
 		
+        //=====================KahunaComp Allocation==================
 		else
 		{
 			*kahunaCompPtr = table;
