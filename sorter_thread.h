@@ -618,7 +618,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     char* line = NULL;
     //get a line from the file
     size_t bytes = getline(&line, &recordsize, fp);
-    printf("%s\n",line);
+    printf("I got a line and the line is :%s\n",line);
     if (bytes == -1)
     {
         printf("\nEOF reached\n");
