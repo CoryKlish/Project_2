@@ -92,7 +92,7 @@ static int tableSizeIndex = 0;
 
 //==========Array of structs: Each struct goes to a thread/call to processdir or getfile=======
 static ReadParams** rparray;
-static rpindex = 0;
+static int rpindex = 0;
 static int rpsize = 256;
 
 //===============Prototypes===============
@@ -111,6 +111,7 @@ static void kahunaCopy(Record list[], int numRecords);
 
 //=============In SORTER.C=====================
 int VerifyDirectory(char* path);
+int CheckDirectory(char* path);
 char* getArgs(char flag, int numArgs, char* argArr[]);
 void reallocThread();
 void reallocRps();
@@ -231,7 +232,7 @@ static int processDirectory(char* path, char* inputCol, char* outpath)
     return 1;
 	
 }//End processDirectory function
-//////////////////////////function ptr for processDirectory
+//==========Function ptr for processDirectory=========
 static void *processDir(void* params)
 {
     //========Thread Things========
@@ -618,7 +619,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     char* line = NULL;
     //get a line from the file
     size_t bytes = getline(&line, &recordsize, fp);
-    printf("I got a line and the line is :%s\n",line);
+
     if (bytes == -1)
     {
         printf("\nEOF reached\n");

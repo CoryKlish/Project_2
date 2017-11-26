@@ -145,7 +145,7 @@ void reallocThread()
 	if(tidArray == NULL)
 	{
 		printf("Realloc error...exiting\n");
-		free(tidArray);
+
 		exit(0);
 	}
 }
@@ -190,10 +190,11 @@ int CheckDirectory(char* path)
 		exit(0);
 	}
 		
-	free(rootaccess);
-	free(rootaccess2);
+	
 	rootaccess = NULL;
 	rootaccess2 = NULL;
+	free(rootaccess);	
+	free(rootaccess2);
 	flag = 1;
 	return flag;
 	
