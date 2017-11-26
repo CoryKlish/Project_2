@@ -82,7 +82,6 @@ int main(int argc, char** argv) {
     {
 		if(runningThreads == 0)
 		{
-            printf("Total number of threads = %d\n",threadCounter);
             printf("Thread IDs in tidarray: ");
 			int i;
             for(i = 0; i < threadCounter; i++)
@@ -117,10 +116,11 @@ int main(int argc, char** argv) {
 	}
 		
 	printf("\nTotal number of threads: %d\n", threadCounter);
-	   printf("\n");
 	
 	sort(inputCol,kahunaSize,bigKahuna);
 	writeFile(bigKahuna, outDir, inputCol);
+    printf("Done writing, program over.\n");
+
 	
 }//End main
 void reallocRps()

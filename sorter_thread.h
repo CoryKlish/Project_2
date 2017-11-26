@@ -488,13 +488,12 @@ static void *getFile(void* params)
   
     
 
-	//This calls createtable
+    //=================Creates table, fills numrecords, and fills header (deprecated at this point?)=========
     Record * table = readFile(filename, pNumRecords, 0, inputCol, pHeader,path);
-    printStructs(table, numRecords);
     
     pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
     
-    
+    //==================Tablesize Realloc================================
 		if (tableSizeIndex + 1 >= tableSizesLength)
 		{
 			tableSizesLength += 256;
@@ -512,9 +511,13 @@ static void *getFile(void* params)
 			kahunaSize += numRecords;
 			
 		}
+    //==================End Tablesize Realloc=============================
+    
+    //==================If no realloc, do regular stuff===================
 		else
 		{
 			tableSizes[tableSizeIndex] = numRecords;
+            tableSizeIndex += 1;
 			kahunaSize += numRecords;			
 		}
  
@@ -541,7 +544,9 @@ static void *getFile(void* params)
         //=====================KahunaComp Allocation==================
 		else
 		{
+            
 			*kahunaCompPtr = table;
+            kahunaCompIndex += 1;
 			kahunaCompPtr += 1;
 		}
 		
