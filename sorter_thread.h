@@ -490,6 +490,7 @@ static void *getFile(void* params)
 
 	//This calls createtable
     Record * table = readFile(filename, pNumRecords, 0, inputCol, pHeader,path);
+    printStructs(table, numRecords);
     
     pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
     
