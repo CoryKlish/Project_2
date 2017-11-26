@@ -469,9 +469,9 @@ static void *getFile(void* params)
     rparray[localindex] = params;
     
     //============Assigning local variables components of the struct========
-    char* path = rparray[localindex]->path;
-    char* inputCol = rparray[localindex]->inputCol;
-    char* filename = rparray[localindex]->filename;
+    char* path  = strdup(rparray[localindex]->path);
+    char* inputCol = strdup(rparray[localindex]->inputCol);
+    char* filename = strdup(rparray[localindex]->filename);
     
     
    // printf("getFile params received: Path: %s\n",rparray[localindex] -> path);
