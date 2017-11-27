@@ -517,12 +517,7 @@ static void *getFile(void* params)
             //================Add to accumulating kahunaSize====================================
 			kahunaSize += numRecords;
 			
-		}
-    //==================End Tablesize Realloc=======================================================\\
-    
-    //==================If no realloc, do regular stuff===================
-    else
-		{
+		}else{
             //===========Assign value to index in tablesizes============
 			tableSizes[tableSizeIndex] = numRecords;
             tableSizeIndex += 1;
