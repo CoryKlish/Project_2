@@ -108,7 +108,7 @@ int main(int argc, char** argv) {
 	//Must loop on kahunaComp and tableSizes
 	//up to their respective indices
 	int i = 0;
-	while (i <= kahunaCompIndex || i <= tableSizeIndex)
+	while (i <= kahunaCompIndex && i <= tableSizeIndex)
 	{
 		kahunaCopy(kahunaComp[i],tableSizes[i]);
 		i++;

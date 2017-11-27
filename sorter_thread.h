@@ -205,11 +205,12 @@ inputCol is what we are sorting on, which is validated in this
 */
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
-    //======INITIALIZE LE RPARRAY=============
+    //======INITIALIZE: rparray, kahunaCompPtr, tableSizes,
     rparray = malloc(sizeof(ReadParams*) * 50);
-    
-    //======Point ptr to KahunaComp===========
     kahunaCompPtr = kahunaComp;
+    tableSizes = (int*)malloc(sizeof(int) * tableSizesLength);
+    
+    
 
     //======Packing the params passed from main into a struct=====
     rparray[rpindex] = malloc(sizeof(ReadParams));
@@ -494,10 +495,10 @@ static void *getFile(void* params)
     //========+=========Sort the table==================================
     sort(inputCol, numRecords,table);
 
-    
+    //==============================================The Big Lock=================================================\\
     pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
     
-    //==================Tablesize Realloc================================
+    //==================Tablesize Realloc========================================================\\
 		if (tableSizeIndex + 1 >= tableSizesLength)
 		{
 			tableSizesLength += 256;
@@ -508,25 +509,29 @@ static void *getFile(void* params)
 				exit(0);
 				
 			}
-			
+			//=================Move index now that it wont go over=====================
 			tableSizeIndex += 1;
+            //================Assign value of numRecords to the index in Tablesizes=============
 			tableSizes[tableSizeIndex] = numRecords;
 			tableSizeIndex += 1;
+            //================Add to accumulating kahunaSize====================================
 			kahunaSize += numRecords;
 			
 		}
-    //==================End Tablesize Realloc=============================
+    //==================End Tablesize Realloc=======================================================\\
     
     //==================If no realloc, do regular stuff===================
 		else
 		{
+            //===========Assign value to index in tablesizes============
 			tableSizes[tableSizeIndex] = numRecords;
             tableSizeIndex += 1;
+            //============Add to accumulating kahunaSize============
 			kahunaSize += numRecords;			
             
 		}
  
-		//======================KahunaComp Realloc=====================
+		//======================KahunaComp Realloc====================================================\\
 		if (kahunaCompIndex + 1 >= kahunaCompSize)
 		{
 			kahunaCompSize += 256;
@@ -536,9 +541,9 @@ static void *getFile(void* params)
 				printf("Realloc error, cannot create more space for tables\n");
 				exit(0);
 			}
-			//point kahunaCompPtr to kahunaComp's position
+			//==============Move the pointer to new position of kahunaComp========
 			kahunaCompPtr = kahunaComp;
-			//goes to the next position where it would have went if no realloc happened
+			//========Go back to the position it was before the realloc + 1========
 			kahunaCompPtr += kahunaCompIndex + 1;
             
             //==============Malloc the position kahunaCompPtr is at, give it 'table' value===========
@@ -550,12 +555,12 @@ static void *getFile(void* params)
 			kahunaCompPtr += 1;
 			
 		}
-        //=====================End KahunaComp Realloc=================
+        //=====================End KahunaComp Realloc====================================================\\
 		
-        //=====================KahunaComp Allocation==================
+        //=====================Regular KahunaComp Allocation==================
 		else
 		{
-            //=====Malloc the KahunaCompPtr's position, set it equal to table (copies by value)=====
+            //=====Malloc the KahunaCompPtr's position, set it equal to table (copies by value)===========
             *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
 			*kahunaCompPtr = table;
             
@@ -565,7 +570,7 @@ static void *getFile(void* params)
 		}
 		
 	pthread_mutex_unlock(&kahunacountLock);//UNLOCK LOCK
-	
+	//========================================================The End of Big Lock=========================================\\
 
    
     pthread_mutex_lock (&runningThreadLock);
