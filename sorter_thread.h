@@ -103,7 +103,6 @@ static void allocateToken(Record*, char*, int);
 static  char* getSortType(char* header,char* colName, int* numFields);
 static void sort (char* sortType, int numStructs, Record*);
 static void printStructs(Record list[], int numStructs);
-static int processDirectory( char* path, char* inputCol, char* outpath);
 static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* inputCol,char** pHeader, char* inpath);
 static void writeFile(Record list[], char *outDir, char* sortType);
 static void kahunaCopy(Record list[], int numRecords);
@@ -205,36 +204,7 @@ path is a char* that will be opened using opendir
 inputCol is what we are sorting on, which is validated in this
     method
 */
-static int processDirectory(char* path, char* inputCol, char* outpath)
-{
-    //======INITIALIZE: rparray, kahunaCompPtr,
-    rparray = malloc(sizeof(ReadParams*) * 50);
-  
 
-    
-    
-
-    //======Packing the params passed from main into a struct=====
-    rparray[rpindex] = malloc(sizeof(ReadParams));
-    rparray[rpindex]->path = strdup(path);
-    rparray[rpindex]->inputCol = strdup(inputCol);
-    rparray[rpindex]->outpath = strdup(outpath);
-        
-    
-    //printf("Creating a thread to look at the initial directory, %s\n",path);
-    int result = pthread_create(&tidArray[threadIndex],NULL,processDir, rparray[rpindex]);
-    if (result)
-    {
-		fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
-		exit(EXIT_FAILURE);
-		
-	}
-    threadIndex++;
-
-	//printf(" returning to the main thread\n");
-    return 1;
-	
-}//End processDirectory function
 //==========Function ptr for processDirectory=========
 static void *processDir(void* params)
 {
@@ -351,7 +321,8 @@ static void *processDir(void* params)
 
         //============Directory Section======================            
 		if (entry->d_type == DT_DIR)
-			{            
+			{
+				printf("Why am i here\n");            
 				rparray[entryindex]->path = strdup(dpath);
 				rparray[entryindex]->inputCol = strdup(inputCol);
 				rparray[entryindex]->outpath = strdup(outpath);
@@ -496,7 +467,7 @@ static void *getFile(void* params)
     
     //========+=========Sort the table==================================
     sort(inputCol, numRecords,table);
-    printf("numRecords is %d\n",numRecords);
+    //printf("numRecords is %d\n",numRecords);
 
     //==============================================The Big Lock=================================================
     pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
@@ -519,7 +490,7 @@ static void *getFile(void* params)
         tableSizeIndex += 1;
         //================Add to accumulating kahunaSize====================================
         kahunaSize += *pNumRecords;
-        printf("Kahuna SIeze %d\n",kahunaSize);
+        //printf("Kahuna SIeze %d\n",kahunaSize);
     }
     
    
@@ -534,7 +505,7 @@ static void *getFile(void* params)
         tablesizeptr += 1;
         //============Add to accumulating kahunaSize============
         kahunaSize += numRecords;			
-        printf("Proper KahunaSize is %d",kahunaSize);
+        //printf("Proper KahunaSize is %d",kahunaSize);
     }
 
     //======================KahunaComp Realloc====================================================
@@ -608,7 +579,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     if (strcmp(inpath,".") == 0 || (strcmp(inpath,"./") == 0))
     {
         fp = fopen(fileName, "r");
-		printf("I am attempting to open the file: %s\n",fileName);
+		//printf("I am attempting to open the file: %s\n",fileName);
 
 	}   
     else
@@ -624,7 +595,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         strcat(pathtofile,fileName);
         * */
         
-        printf("I am attempting to open the file: %s\n",inpath);
+        //printf("I am attempting to open the file: %s\n",inpath);
 
         fp = fopen(inpath,"r");
         
@@ -639,7 +610,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
 		printf("The file read of path %s with filename %s was a failure\n", inpath, fileName);
 		exit(0);
 	}
-	printf("The file read of path %s with filename %s was a success\n",inpath,fileName);
+	//printf("The file read of path %s with filename %s was a success\n",inpath,fileName);
     //taking the header
     size_t recordsize;
     char* line = NULL;
@@ -746,7 +717,7 @@ static void writeFile(Record list[], char *outDir, char* sortType){
 	}
     
     int i;
-	for(i = 0; i < (kahunaIndexCount + 1); i++){
+	for(i = 0; i < (kahunaIndexCount); i++){
        if (i == 0)
            fprintf(fp,"%s\n",header);
 		fprintf(fp, "%s,%s,%f,%f,%f,%f,%s,%f,%f,%s,%s,%s,%f,%f,%s,%f,%s,%s,%f,%s,%s,%s,%f,%f,%f,%f,%f,%f\n", 
@@ -769,9 +740,10 @@ static void kahunaCopy(Record list[], int numRecords)
 {
 	int i = 0;
 	
-	while(i != numRecords-1)
+	while(i != numRecords)
 	{
-		bigKahuna[kahunaIndexCount] = list[i];
+		//bigKahuna[kahunaIndexCount] = list[i];
+		memcpy(&bigKahuna[kahunaIndexCount], &list[i], sizeof(list[i]));
 		kahunaIndexCount++;
 		i++;
 	}

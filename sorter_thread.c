@@ -77,29 +77,49 @@ int main(int argc, char** argv) {
         //====Output=====
 		printf("Initial TID: %d\n",pthread_self());
 		printf("TIDs: ");
-		processDirectory(inDir,inputCol,outDir);
 		
-	}
-    sleep(2);
+		 //======INITIALIZE: rparray
+		rparray = malloc(sizeof(ReadParams*) * 50);
+		//======Packing the params passed from main into a struct=====
+		rparray[rpindex] = malloc(sizeof(ReadParams));
+		rparray[rpindex]->path = strdup(inDir);
+		rparray[rpindex]->inputCol = strdup(inputCol);
+		rparray[rpindex]->outpath = strdup(outDir);
+			
+		
+		//printf("Creating a thread to look at the initial directory, %s\n",path);
+		int result = pthread_create(&tidArray[threadIndex],NULL,processDir, rparray[rpindex]);
+		if (result)
+		{
+			fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
+			exit(EXIT_FAILURE);
+			
+		}
+		
+		threadIndex++;
+			
+		}
+    sleep(1.5);
 	//The joining loop
  
     while(1)
     {
 		if(runningThreads == 0)
 		{
+			/*
             printf("Thread IDs in tidarray: ");
 			int i;
             for(i = 0; i < threadCounter; i++)
 			{
                 printf("%d, ",tidArray[i]);
 			}
+			*/
+			int i;
 			
 			for(i = 0; i < threadCounter; i++)
-			{
-            //this is SEGFAULTING idk
-                
+			{   
 				pthread_join(tidArray[i], NULL);
-                printf("\njoining on thread %d\n",tidArray[i]);
+                //printf("\njoining on thread %d\n",tidArray[i]);
 			}
 			
 			break;
@@ -107,25 +127,25 @@ int main(int argc, char** argv) {
 		else
 			continue;
 	}
-	printf("Khuna size%d\n",kahunaSize);
+	//printf("Khuna size %d\n", kahunaSize);
     
 	bigKahuna = (Record*)malloc(sizeof(Record) * kahunaSize);
 	
 	//Must loop on kahunaComp and tableSizes
 	//up to their respective indices
 	int i = 0;
-	while (i <= kahunaCompIndex)
+	while (i < kahunaCompIndex)
 	{
 		kahunaCopy(kahunaComp[i],tableSizes[i]);
 		i++;
 		
 	}
 		
-	printf("\nTotal number of threads: %d\n", threadCounter);
+	printf("\nTotal number of threads: %d\n", threadCounter + 1); //+1 for initial thread
 	
 	sort(inputCol,kahunaSize,bigKahuna);
 	writeFile(bigKahuna, outDir, inputCol);
-    printf("Done writing, program over.\n");
+    //printf("Done writing, program over.\n");
 
 	
 }//End main
