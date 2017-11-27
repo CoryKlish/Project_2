@@ -12,6 +12,7 @@
 int main(int argc, char** argv) {
 
 	int numArgs = argc - 1;
+	int retval;
 ////////////////////////////////////Verifying the input arguments////////////////////////////////////    
     // Don't accept less than 2 arguments and more than 6 arguments
 	if(numArgs < 2 || numArgs > 6)
@@ -52,7 +53,6 @@ int main(int argc, char** argv) {
     //process the input directory
    
     char * verification = strstr(header,inputCol);
-    inittid = pthread_self();
    
      
     if (verification == NULL)
@@ -66,8 +66,12 @@ int main(int argc, char** argv) {
 	else
 	{
         //====Init=====
+        
 		kahunaComp = (Record**)malloc(sizeof(Record*) * kahunaCompSize);
         kahunaCompPtr = kahunaComp;
+        retval = pthread_cond_init(&cv, NULL);
+        
+        
 
 		tableSizes = (int*) malloc(sizeof(int) * tableSizesLength);
         tablesizeptr = tableSizes;
@@ -75,32 +79,14 @@ int main(int argc, char** argv) {
 		tidArray = malloc(sizeof(pthread_t) * 50);
         
         //====Output=====
-		printf("Initial TID: %d\n",pthread_self());
+        initTID = pthread_self();
+		printf("Initial TID: %d\n", initTID);
 		printf("TIDs: ");
+		processDirectory(inDir,inputCol,outDir);
 		
-		 //======INITIALIZE: rparray
-		rparray = malloc(sizeof(ReadParams*) * 50);
-		//======Packing the params passed from main into a struct=====
-		rparray[rpindex] = malloc(sizeof(ReadParams));
-		rparray[rpindex]->path = strdup(inDir);
-		rparray[rpindex]->inputCol = strdup(inputCol);
-		rparray[rpindex]->outpath = strdup(outDir);
-			
-		
-		//printf("Creating a thread to look at the initial directory, %s\n",path);
-		int result = pthread_create(&tidArray[threadIndex],NULL,processDir, rparray[rpindex]);
-		if (result)
-		{
-			fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
-			exit(EXIT_FAILURE);
-			
 		}
-		
-		threadIndex++;
-			
-		}
-    sleep(1.5);
-	//The joining loop
+		retval = pthread_cond_wait(&cv, &cvlock);
+   
  
     while(1)
     {
@@ -134,6 +120,7 @@ int main(int argc, char** argv) {
 	//Must loop on kahunaComp and tableSizes
 	//up to their respective indices
 	int i = 0;
+	
 	while (i < kahunaCompIndex)
 	{
 		kahunaCopy(kahunaComp[i],tableSizes[i]);
@@ -141,7 +128,7 @@ int main(int argc, char** argv) {
 		
 	}
 		
-	printf("\nTotal number of threads: %d\n", threadCounter + 1); //+1 for initial thread
+	printf("\nTotal number of threads created: %d\n", threadCounter + 1); //+1 for initial thread
 	
 	sort(inputCol,kahunaSize,bigKahuna);
 	writeFile(bigKahuna, outDir, inputCol);

@@ -58,6 +58,7 @@ static pthread_mutex_t kahunacountLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t runningThreadLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t kahunaCompLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t rpLock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t cvlock = PTHREAD_MUTEX_INITIALIZER;
 static char* header = "color,director_name,num_critic_for_reviews,duration,director_facebook_likes,actor_3_facebook_likes,actor_2_name,actor_1_facebook_likes,gross,genres,actor_1_name,\
 movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,\
 title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
@@ -68,7 +69,9 @@ static int arrSize = 50;
 static int threadCounter = 0;
 static int threadIndex = 0;
 static int runningThreads = 0;
-static int inittid;
+static int initTID;
+static int flag;
+static pthread_cond_t cv;
 
 //==========Table/Arrays are accumulated here=========
 static Record* bigKahuna;
@@ -97,6 +100,7 @@ static int rpsize = 256;
 //===============Prototypes===============
 
 //===================SORTER.H=================
+static int processDirectory(char* path, char* inputCol, char* outpath);
 static void *processDir(void* params);
 static void *getFile(void* params);
 static void allocateToken(Record*, char*, int);
@@ -205,13 +209,49 @@ inputCol is what we are sorting on, which is validated in this
     method
 */
 
+static int processDirectory(char* path, char* inputCol, char* outpath)
+{
+    //======INITIALIZE: rparray, kahunaCompPtr,
+    rparray = malloc(sizeof(ReadParams*) * 50);
+ 
+    //======Packing the params passed from main into a struct=====
+    rparray[rpindex] = malloc(sizeof(ReadParams));
+    rparray[rpindex]->path = strdup(path);
+    rparray[rpindex]->inputCol = strdup(inputCol);
+    rparray[rpindex]->outpath = strdup(outpath);
+        
+    
+    //printf("Creating a thread to look at the initial directory, %s\n",path);
+    int result = pthread_create(&tidArray[threadIndex],NULL,processDir, rparray[rpindex]);
+    flag = 1;
+    if (result)
+    {
+		fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
+		exit(EXIT_FAILURE);
+		
+	}
+    threadIndex++;
+
+	//printf(" returning to the main thread\n");
+    return 1;
+	
+}
+
 //==========Function ptr for processDirectory=========
 static void *processDir(void* params)
 {
+	int retval;
     //========Thread Things========
-	printf("%d, ",pthread_self());
+    //if(flag == 0)
+    //{
+		printf("%d, ",pthread_self());
+	//}
+	
+	//flag = 0;
+	
 	pthread_mutex_lock (&runningThreadLock);
 					runningThreads++;
+					retval = pthread_cond_signal(&cv);
 	pthread_mutex_unlock (&runningThreadLock);
 	
 	//================File related Params=============
@@ -322,7 +362,7 @@ static void *processDir(void* params)
         //============Directory Section======================            
 		if (entry->d_type == DT_DIR)
 			{
-				printf("Why am i here\n");            
+			          
 				rparray[entryindex]->path = strdup(dpath);
 				rparray[entryindex]->inputCol = strdup(inputCol);
 				rparray[entryindex]->outpath = strdup(outpath);
@@ -337,6 +377,7 @@ static void *processDir(void* params)
                     
 					
 					int result = pthread_create(&tidArray[threadIndex],NULL,processDir, rparray[entryindex]);
+					
 					if (result)
 					{
 						fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
@@ -385,6 +426,7 @@ static void *processDir(void* params)
 								}
 								//printf("Current state of the struct in DT_REG: Path: %s, FileName: %s\n",rparray[entryindex]->path,rparray[entryindex]->filename);
 								int result = pthread_create(&tidArray[threadIndex],NULL,getFile,rparray[entryindex]);
+								
 								if (result)
 								{
 									fprintf(stderr,"Error - pthread_create() return code: %d\n",result);
@@ -414,8 +456,8 @@ static void *processDir(void* params)
     fflush(stdout);
     //printf("\nI am now exiting thread %d\n",pthread_self());
     pthread_exit(&threadCounter);
-    
-
+     
+	return 0;
     
 } 
 
