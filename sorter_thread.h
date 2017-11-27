@@ -117,7 +117,7 @@ void reallocRps();
 
 //=================MERGESORT.C==================
 Record* createTable(int* pNumRecords,int numFields, FILE *fp);
-Record* copyTable(Record* dest, Record* src)
+Record* copyTable(Record* dest, Record* src);
 void mergeNum(Record list[], int left, int mid, int right,char* sortType);
 void sortNum(Record list[], int left, int right,char* sortType);
 void sortString(Record strArr[], int lo, int hi,char* sortType);
