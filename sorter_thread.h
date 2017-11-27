@@ -538,7 +538,7 @@ static void *getFile(void* params)
         if (kahunaComp == NULL)
         {
             printf("Realloc error, cannot create more space for tables\n");
-            exit(0);
+            exit(EXIT_FAILURE);
         }
         //==============Move the pointer to new position of kahunaComp========
         kahunaCompPtr = kahunaComp;
@@ -552,7 +552,8 @@ static void *getFile(void* params)
         //==============Move the index and the pointer over one =======================
         kahunaCompIndex += 1;
         kahunaCompPtr += 1;
-    }else 
+    }
+    if(kahunaCompIndex < kahunaCompSize)
     {
         //=====Malloc the KahunaCompPtr's position, set it equal to table (copies by value)===========
         *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
