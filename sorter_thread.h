@@ -521,7 +521,7 @@ static void *getFile(void* params)
     //==================End Tablesize Realloc=======================================================\\
     
     //==================If no realloc, do regular stuff===================
-		else
+    else
 		{
             //===========Assign value to index in tablesizes============
 			tableSizes[tableSizeIndex] = numRecords;
