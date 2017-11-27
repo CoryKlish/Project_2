@@ -494,6 +494,7 @@ static void *getFile(void* params)
     
     //========+=========Sort the table==================================
     sort(inputCol, numRecords,table);
+    printf("numRecords is %d\n",numRecords);
 
     //==============================================The Big Lock=================================================\\
     pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
@@ -515,7 +516,7 @@ static void *getFile(void* params)
         tableSizes[tableSizeIndex] = numRecords;
         tableSizeIndex += 1;
         //================Add to accumulating kahunaSize====================================
-        kahunaSize += numRecords;
+        kahunaSize += *pNumRecords;
         printf("Kahuna SIeze %d\n",kahunaSize);
     }
 //==================End Tablesize Realloc=======================================================\\
