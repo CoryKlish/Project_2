@@ -498,7 +498,7 @@ static void *getFile(void* params)
 
     //==============================================The Big Lock=================================================\\
     pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
-    if (tableSizeIndex + 1 > tableSizesLength)
+    if (1)
     {
          //==================Tablesize Realloc========================================================\\
         tableSizesLength += 256;
