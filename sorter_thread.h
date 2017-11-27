@@ -521,7 +521,7 @@ static void *getFile(void* params)
 //==================End Tablesize Realloc=======================================================\\
 
 //==================If no realloc, do regular stuff===================
-    else
+    if (tableSizeIndex < tableSizesLength)
     {
         //===========Assign value to index in tablesizes============
         tableSizes[tableSizeIndex] = numRecords;
@@ -558,7 +558,7 @@ static void *getFile(void* params)
     //=====================End KahunaComp Realloc====================================================\\
 
     //=====================Regular KahunaComp Allocation==================
-else
+    if(kahunaCompIndex < kahunaCompSize)
     {
         //=====Malloc the KahunaCompPtr's position, set it equal to table (copies by value)===========
         *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
