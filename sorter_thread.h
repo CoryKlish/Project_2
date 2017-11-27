@@ -496,11 +496,11 @@ static void *getFile(void* params)
     sort(inputCol, numRecords,table);
     printf("numRecords is %d\n",numRecords);
 
-    //==============================================The Big Lock=================================================\\
+    //==============================================The Big Lock=================================================
     pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
     if (tableSizeIndex + 1 > tableSizesLength)
     {
-         //==================Tablesize Realloc========================================================\\
+         //==================Tablesize Realloc========================================================
         tableSizesLength += 256;
         tableSizes = (int*)realloc(tableSizes,tableSizesLength);
         if (tableSizes == NULL)
@@ -520,10 +520,10 @@ static void *getFile(void* params)
     }
     
    
-//==================End Tablesize Realloc=======================================================\\
+//==================End Tablesize Realloc=======================================================
 
 //==================If no realloc, do regular stuff===================
-    else (tableSizeIndex + 1 < tableSizesLength)
+    if (tableSizeIndex + 1 < tableSizesLength)
     {
         //===========Assign value to index in tablesizes============
         tableSizes[tableSizeIndex] = numRecords;
@@ -533,7 +533,7 @@ static void *getFile(void* params)
         printf("Proper KahunaSize is %d",kahunaSize);
     }
 
-    //======================KahunaComp Realloc====================================================\\
+    //======================KahunaComp Realloc====================================================
     if (kahunaCompIndex + 1 >= kahunaCompSize)
     {
         kahunaCompSize += 256;
@@ -568,7 +568,7 @@ static void *getFile(void* params)
     }
 		
 	pthread_mutex_unlock(&kahunacountLock);//UNLOCK LOCK
-	//========================================================The End of Big Lock=========================================\\
+	//========================================================The End of Big Lock=========================================
 
    
     pthread_mutex_lock (&runningThreadLock);
