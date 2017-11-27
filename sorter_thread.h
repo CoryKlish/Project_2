@@ -499,70 +499,75 @@ static void *getFile(void* params)
     pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
     
     //==================Tablesize Realloc========================================================\\
-		if (tableSizeIndex + 1 >= tableSizesLength)
-		{
-			tableSizesLength += 256;
-			tableSizes = (int*)realloc(tableSizes,tableSizesLength);
-			if (tableSizes == NULL)
-			{
-				printf("Realloc error, cannot create more space for table lengths\n\n");
-				exit(0);
-				
-			}
-			//=================Move index now that it wont go over=====================
-			tableSizeIndex += 1;
-            //================Assign value of numRecords to the index in Tablesizes=============
-			tableSizes[tableSizeIndex] = numRecords;
-			tableSizeIndex += 1;
-            //================Add to accumulating kahunaSize====================================
-			kahunaSize += numRecords;
-			
-		}else{
-            //===========Assign value to index in tablesizes============
-			tableSizes[tableSizeIndex] = numRecords;
-            tableSizeIndex += 1;
-            //============Add to accumulating kahunaSize============
-			kahunaSize += numRecords;			
-            
-		}
- 
-		//======================KahunaComp Realloc====================================================\\
-		if (kahunaCompIndex + 1 >= kahunaCompSize)
-		{
-			kahunaCompSize += 256;
-			kahunaComp = (Record**)realloc(kahunaComp,kahunaCompSize);
-			if (kahunaComp == NULL)
-			{
-				printf("Realloc error, cannot create more space for tables\n");
-				exit(0);
-			}
-			//==============Move the pointer to new position of kahunaComp========
-			kahunaCompPtr = kahunaComp;
-			//========Go back to the position it was before the realloc + 1========
-			kahunaCompPtr += kahunaCompIndex + 1;
-            
-            //==============Malloc the position kahunaCompPtr is at, give it 'table' value===========
-            *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
-			*kahunaCompPtr = table;
-            
-            //==============Move the index and the pointer over one =======================
-            kahunaCompIndex += 1;
-			kahunaCompPtr += 1;
-			
-		}
-        //=====================End KahunaComp Realloc====================================================\\
-		
-        //=====================Regular KahunaComp Allocation==================
-		else
-		{
-            //=====Malloc the KahunaCompPtr's position, set it equal to table (copies by value)===========
-            *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
-			*kahunaCompPtr = table;
-            
-            //=====Move the index and pointer over by one===============
-            kahunaCompIndex += 1;
-			kahunaCompPtr += 1;
-		}
+    if (tableSizeIndex + 1 >= tableSizesLength)
+    {
+        tableSizesLength += 256;
+        tableSizes = (int*)realloc(tableSizes,tableSizesLength);
+        if (tableSizes == NULL)
+        {
+            printf("Realloc error, cannot create more space for table lengths\n\n");
+            exit(0);
+
+        }
+        //=================Move index now that it wont go over=====================
+        tableSizeIndex += 1;
+        //================Assign value of numRecords to the index in Tablesizes=============
+        tableSizes[tableSizeIndex] = numRecords;
+        tableSizeIndex += 1;
+        //================Add to accumulating kahunaSize====================================
+        kahunaSize += numRecords;
+
+    }
+//==================End Tablesize Realloc=======================================================\\
+
+//==================If no realloc, do regular stuff===================
+    else
+    {
+        //===========Assign value to index in tablesizes============
+        tableSizes[tableSizeIndex] = numRecords;
+        tableSizeIndex += 1;
+        //============Add to accumulating kahunaSize============
+        kahunaSize += numRecords;			
+
+    }
+
+    //======================KahunaComp Realloc====================================================\\
+    if (kahunaCompIndex + 1 >= kahunaCompSize)
+    {
+        kahunaCompSize += 256;
+        kahunaComp = (Record**)realloc(kahunaComp,kahunaCompSize);
+        if (kahunaComp == NULL)
+        {
+            printf("Realloc error, cannot create more space for tables\n");
+            exit(0);
+        }
+        //==============Move the pointer to new position of kahunaComp========
+        kahunaCompPtr = kahunaComp;
+        //========Go back to the position it was before the realloc + 1========
+        kahunaCompPtr += kahunaCompIndex + 1;
+
+        //==============Malloc the position kahunaCompPtr is at, give it 'table' value===========
+        *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
+        *kahunaCompPtr = table;
+
+        //==============Move the index and the pointer over one =======================
+        kahunaCompIndex += 1;
+        kahunaCompPtr += 1;
+
+    }
+    //=====================End KahunaComp Realloc====================================================\\
+
+    //=====================Regular KahunaComp Allocation==================
+else
+    {
+        //=====Malloc the KahunaCompPtr's position, set it equal to table (copies by value)===========
+        *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
+        *kahunaCompPtr = table;
+
+        //=====Move the index and pointer over by one===============
+        kahunaCompIndex += 1;
+        kahunaCompPtr += 1;
+    }
 		
 	pthread_mutex_unlock(&kahunacountLock);//UNLOCK LOCK
 	//========================================================The End of Big Lock=========================================\\
