@@ -556,7 +556,7 @@ static void *getFile(void* params)
         kahunaCompIndex += 1;
         kahunaCompPtr += 1;
     }
-    else (kahunaCompIndex + 1 < kahunaCompSize)
+    if (kahunaCompIndex + 1 < kahunaCompSize)
     {
         //=====Malloc the KahunaCompPtr's position, set it equal to table (copies by value)===========
         *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
