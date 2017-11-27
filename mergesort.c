@@ -14,14 +14,15 @@ and places the fields under the correct header.
 */
 Record* copyTable(Record* dest, Record* src)
 {
+    
     dest->color = src->color;
     director_name = src ->director;
 	 dest->num_critic_for_reviews = src->num_critic_for_reviews;
-	 duration;
-	 director_facebook_likes;
-	 actor_3_facebook_likes;
-	 actor_2_name;
-	 actor_1_facebook_likes;
+	 dest->duration;
+	 dest->director_facebook_likes;
+	 dest->actor_3_facebook_likes;
+	 dest->actor_2_name;
+	 dest->actor_1_facebook_likes;
 	 gross;
 	 genres;
 	 actor_1_name;
@@ -42,6 +43,8 @@ Record* copyTable(Record* dest, Record* src)
 	 imdb_score;
 	 aspect_ratio;
 	 movie_facebook_likes;
+    
+    return dest;
 }
 Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 {
