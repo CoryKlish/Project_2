@@ -518,9 +518,6 @@ static void *getFile(void* params)
 			kahunaSize += numRecords;
 			
 		}
-    //==================End Tablesize Realloc=======================================================\\
-    
-    //==================If no realloc, do regular stuff===================
 		else
 		{
             //===========Assign value to index in tablesizes============
@@ -555,8 +552,6 @@ static void *getFile(void* params)
 			kahunaCompPtr += 1;
 			
 		}
-        //=====================End KahunaComp Realloc====================================================\\
-        //=====================Regular KahunaComp Allocation==================
 		else
 		{
             //=====Malloc the KahunaCompPtr's position, set it equal to table (copies by value)===========
