@@ -516,7 +516,7 @@ static void *getFile(void* params)
         tableSizes[tableSizeIndex] = numRecords;
         tableSizeIndex += 1;
         //================Add to accumulating kahunaSize====================================
-        kahunaSize += *pNumRecords;
+        kahunaSize = kahunaSize +  *pNumRecords;
         printf("Kahuna SIeze %d\n",kahunaSize);
     }
 //==================End Tablesize Realloc=======================================================\\
