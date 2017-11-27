@@ -86,6 +86,7 @@ static int kahunaCompSize = 1024;
 static int* tableSizes;
 static int tableSizesLength = 1024;
 static int tableSizeIndex = 0;
+static int* tablesizeptr;
 
 
 //==========Array of structs: Each struct goes to a thread/call to processdir or getfile=======
@@ -513,7 +514,8 @@ static void *getFile(void* params)
         //=================Move index now that it wont go over=====================
         tableSizeIndex += 1;
         //================Assign value of numRecords to the index in Tablesizes=============
-        tableSizes[tableSizeIndex] = numRecords;
+        *tablesizeptr = numRecords;
+        tablesizeptr += 1;
         tableSizeIndex += 1;
         //================Add to accumulating kahunaSize====================================
         kahunaSize += *pNumRecords;
@@ -527,8 +529,9 @@ static void *getFile(void* params)
     else
     {
         //===========Assign value to index in tablesizes============
-        tableSizes[tableSizeIndex] = numRecords;
+        *tablesizeptr =  numRecords;
         tableSizeIndex += 1;
+        tablesizeptr += 1;
         //============Add to accumulating kahunaSize============
         kahunaSize += numRecords;			
         printf("Proper KahunaSize is %d",kahunaSize);

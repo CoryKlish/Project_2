@@ -65,12 +65,16 @@ int main(int argc, char** argv) {
 	
 	else
 	{
-        //init
+        //====Init=====
 		kahunaComp = (Record**)malloc(sizeof(Record*) * kahunaCompSize);
+        kahunaCompPtr = kahunaComp;
+
 		tableSizes = (int*) malloc(sizeof(int) * tableSizesLength);
-		kahunaCompPtr = kahunaComp;
+        tablesizesptr = tableSizes;
+        
 		tidArray = malloc(sizeof(pthread_t) * 50);
         
+        //====Output=====
 		printf("Initial TID: %d\n",pthread_self());
 		printf("TIDs: ");
 		processDirectory(inDir,inputCol,outDir);
@@ -110,7 +114,7 @@ int main(int argc, char** argv) {
 	//Must loop on kahunaComp and tableSizes
 	//up to their respective indices
 	int i = 0;
-	while (i <= kahunaCompIndex && i <= tableSizeIndex)
+	while (i <= kahunaCompIndex)
 	{
 		kahunaCopy(kahunaComp[i],tableSizes[i]);
 		i++;
