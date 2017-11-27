@@ -205,10 +205,10 @@ inputCol is what we are sorting on, which is validated in this
 */
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
-    //======INITIALIZE: rparray, kahunaCompPtr, tableSizes,
+    //======INITIALIZE: rparray, kahunaCompPtr,
     rparray = malloc(sizeof(ReadParams*) * 50);
-    kahunaCompPtr = kahunaComp;
-    tableSizes = (int*)malloc(sizeof(int) * tableSizesLength);
+  
+
     
     
 
@@ -516,6 +516,7 @@ static void *getFile(void* params)
         tableSizeIndex += 1;
         //================Add to accumulating kahunaSize====================================
         kahunaSize += numRecords;
+        printf("Kahuna SIeze %d\n",kahunaSize);
     }
 //==================End Tablesize Realloc=======================================================\\
 
