@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
         kahunaCompPtr = kahunaComp;
 
 		tableSizes = (int*) malloc(sizeof(int) * tableSizesLength);
-        tablesizesptr = tableSizes;
+        tablesizeptr = tableSizes;
         
 		tidArray = malloc(sizeof(pthread_t) * 50);
         
