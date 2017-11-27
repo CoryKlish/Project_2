@@ -553,12 +553,11 @@ static void *getFile(void* params)
         //==============Move the index and the pointer over one =======================
         kahunaCompIndex += 1;
         kahunaCompPtr += 1;
-
     }
     //=====================End KahunaComp Realloc====================================================\\
 
     //=====================Regular KahunaComp Allocation==================
-    if(kahunaCompIndex < kahunaCompSize)
+    else if(kahunaCompIndex < kahunaCompSize)
     {
         //=====Malloc the KahunaCompPtr's position, set it equal to table (copies by value)===========
         *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
