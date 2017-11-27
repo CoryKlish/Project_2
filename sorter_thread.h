@@ -78,11 +78,9 @@ static int kahunaSize = 0;
 
 //===========List of tables/arrays that go inside bigkahuna=====
 static Record** kahunaComp;
-//we need both of these???????
 static Record** kahunaCompPtr;
 static int kahunaCompIndex = 0;
 static int kahunaCompSize = 1024;
-static int kahunaArrCounter = 0;
 
 //========Stores the number of records in each array in Kahunacomp=====
 static int* tableSizes;
@@ -208,8 +206,10 @@ inputCol is what we are sorting on, which is validated in this
 static int processDirectory(char* path, char* inputCol, char* outpath)
 {
     //======INITIALIZE LE RPARRAY=============
-
     rparray = malloc(sizeof(ReadParams*) * 50);
+    
+    //======Point ptr to KahunaComp===========
+    kahunaCompPtr = kahunaComp;
 
     //======Packing the params passed from main into a struct=====
     rparray[rpindex] = malloc(sizeof(ReadParams));
@@ -491,6 +491,10 @@ static void *getFile(void* params)
     //=================Creates table, fills numrecords, and fills header (deprecated at this point?)=========
     Record * table = readFile(filename, pNumRecords, 0, inputCol, pHeader,path);
     
+    //========+=========Sort the table==================================
+    sort(inputCol, numRecords,table);
+
+    
     pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
     
     //==================Tablesize Realloc================================
@@ -519,6 +523,7 @@ static void *getFile(void* params)
 			tableSizes[tableSizeIndex] = numRecords;
             tableSizeIndex += 1;
 			kahunaSize += numRecords;			
+            
 		}
  
 		//======================KahunaComp Realloc=====================
@@ -531,11 +536,17 @@ static void *getFile(void* params)
 				printf("Realloc error, cannot create more space for tables\n");
 				exit(0);
 			}
-			//point kahunaCompPtr to the next position in the array
+			//point kahunaCompPtr to kahunaComp's position
 			kahunaCompPtr = kahunaComp;
 			//goes to the next position where it would have went if no realloc happened
 			kahunaCompPtr += kahunaCompIndex + 1;
+            
+            //==============Malloc the position kahunaCompPtr is at, give it 'table' value===========
+            *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
 			*kahunaCompPtr = table;
+            
+            //==============Move the index and the pointer over one =======================
+            kahunaCompIndex += 1;
 			kahunaCompPtr += 1;
 			
 		}
@@ -544,18 +555,18 @@ static void *getFile(void* params)
         //=====================KahunaComp Allocation==================
 		else
 		{
-            
+            //=====Malloc the KahunaCompPtr's position, set it equal to table (copies by value)=====
+            *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
 			*kahunaCompPtr = table;
+            
+            //=====Move the index and pointer over by one===============
             kahunaCompIndex += 1;
 			kahunaCompPtr += 1;
 		}
 		
 	pthread_mutex_unlock(&kahunacountLock);//UNLOCK LOCK
 	
-	//SORT
-	sort(inputCol, numRecords,table);
-    
-    //this works. thread is already in array
+
    
     pthread_mutex_lock (&runningThreadLock);
 		runningThreads--;
