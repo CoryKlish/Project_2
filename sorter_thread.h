@@ -498,10 +498,9 @@ static void *getFile(void* params)
 
     //==============================================The Big Lock=================================================\\
     pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
-    
-    //==================Tablesize Realloc========================================================\\
-    if (tableSizeIndex + 1 >= tableSizesLength)
+    if (tableSizeIndex + 1 > tableSizesLength)
     {
+         //==================Tablesize Realloc========================================================\\
         tableSizesLength += 256;
         tableSizes = (int*)realloc(tableSizes,tableSizesLength);
         if (tableSizes == NULL)
@@ -516,9 +515,11 @@ static void *getFile(void* params)
         tableSizes[tableSizeIndex] = numRecords;
         tableSizeIndex += 1;
         //================Add to accumulating kahunaSize====================================
-        kahunaSize = kahunaSize +  *pNumRecords;
+        kahunaSize += *pNumRecords;
         printf("Kahuna SIeze %d\n",kahunaSize);
     }
+    
+   
 //==================End Tablesize Realloc=======================================================\\
 
 //==================If no realloc, do regular stuff===================
@@ -529,7 +530,7 @@ static void *getFile(void* params)
         tableSizeIndex += 1;
         //============Add to accumulating kahunaSize============
         kahunaSize += numRecords;			
-
+        printf("Proper KahunaSize is %d",kahunaSize);
     }
 
     //======================KahunaComp Realloc====================================================\\
