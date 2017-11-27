@@ -498,7 +498,7 @@ static void *getFile(void* params)
 
     //==============================================The Big Lock=================================================\\
     pthread_mutex_lock(&kahunacountLock);//LOCK the LOCK
-    if (1)
+    if (tableSizeIndex + 1 > tableSizesLength)
     {
          //==================Tablesize Realloc========================================================\\
         tableSizesLength += 256;
@@ -523,7 +523,7 @@ static void *getFile(void* params)
 //==================End Tablesize Realloc=======================================================\\
 
 //==================If no realloc, do regular stuff===================
-    if (tableSizeIndex + 1 < tableSizesLength)
+    else(tableSizeIndex + 1 < tableSizesLength)
     {
         //===========Assign value to index in tablesizes============
         tableSizes[tableSizeIndex] = numRecords;
