@@ -12,20 +12,50 @@
 Takes records from the csv one at a time from STDIN
 and places the fields under the correct header.
 */
-
+Record* copyTable(Record* dest, Record* src)
+{
+    dest->color = src->color;
+    director_name = src ->director;
+	 dest->num_critic_for_reviews = src->num_critic_for_reviews;
+	 duration;
+	 director_facebook_likes;
+	 actor_3_facebook_likes;
+	 actor_2_name;
+	 actor_1_facebook_likes;
+	 gross;
+	 genres;
+	 actor_1_name;
+	 movie_title;
+	 num_voted_users;
+	 cast_total_facebook_likes;
+	 actor_3_name;
+	 facenumber_in_poster;
+	 plot_keywords;
+	 movie_imdb_link;
+	 num_user_for_reviews;
+	 language;
+	 country;
+	 content_rating;
+	 budget;
+	 title_year;
+	 actor_2_facebook_likes;
+	 imdb_score;
+	 aspect_ratio;
+	 movie_facebook_likes;
+}
 Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 {
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds initial 5000 records
 	struct Record * allrecords = 
-        malloc(sizeof(Record) * 5000);
+        (Record *)malloc(sizeof(Record) * 5000);
 	//size of the records array in bytes
-	size_t arSize = 2500* (sizeof(Record));
+	size_t arSize = 5000* (sizeof(Record));
 	//total bytes that accumulates after each getline
 	int totalbytes = 0;
     char* field;
     char* line = NULL;
-    size_t recordsize = 0;
+    size_t recordsize;
     size_t bytes;
 	//ptr for indexing struct
 	struct Record * ptrrecords = allrecords;
@@ -44,6 +74,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 		//copy to row to free up the line var
 		char* row = malloc(sizeof(char) * strlen(line)); 
         row = strdup(line);
+		free(line);
 		line = NULL;
 
 		if (bytes != -1)
@@ -58,10 +89,10 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 			if(totalbytes > arSize)
 			{
 				//Add 5000 to the number of input records
-				arSize = arSize + (2500 * sizeof(Record));
+				arSize = arSize + (5000 * sizeof(Record));
 
 				//reallocate, move pointer to new memory location with more mem
-				allrecords = realloc(allrecords, arSize);
+				allrecords = (Record*)realloc(allrecords, arSize);
 
 				//If this does not work, there is no more memory left to allocate
                 ptrrecords = allrecords + (*pNumRecords - 1);
@@ -99,7 +130,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 					if (*(field) == '"')
 					{
 						//create new char array
-						char* special = calloc(strlen(qchecker),sizeof(char));
+						char* special = (char*)calloc(strlen(qchecker),sizeof(char));
 						// move the ptr to the next char after the initial "
 						qchecker++;
 					
@@ -152,13 +183,10 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 		}
 		else
 		{
-            line = NULL;
-            recordsize = 0;
 			bytes = getline(&line, &recordsize, fp);
 		}
 		if (bytes != -1)
 			ptrrecords++;
-        
  
 	}//end while
     return allrecords;
@@ -443,8 +471,8 @@ void mergeString(Record strArr[], int lo, int mid, int hi,char* sortType){//Merg
 	
 	RArr = NULL;
 	LArr = NULL;
-	//free(RArr);
-	//free(LArr);
+	free(RArr);
+	free(LArr);
 }
 
 void sortString(Record strArr[], int lo, int hi,char* sortType){//Recursive divide and conquer sort
@@ -737,8 +765,8 @@ void mergeNum(Record list[], int left, int mid, int right,char* sortType){
 	
 	LArr = NULL;
 	RArr = NULL;
-	//free(LArr);
-	//free(RArr);
+	free(LArr);
+	free(RArr);
 }
  
 void sortNum(Record list[], int left, int right,char* sortType)

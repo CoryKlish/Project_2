@@ -12,7 +12,6 @@
 int main(int argc, char** argv) {
 
 	int numArgs = argc - 1;
-	int retval;
 ////////////////////////////////////Verifying the input arguments////////////////////////////////////    
     // Don't accept less than 2 arguments and more than 6 arguments
 	if(numArgs < 2 || numArgs > 6)
@@ -53,6 +52,7 @@ int main(int argc, char** argv) {
     //process the input directory
    
     char * verification = strstr(header,inputCol);
+    inittid = pthread_self();
    
      
     if (verification == NULL)
@@ -65,48 +65,37 @@ int main(int argc, char** argv) {
 	
 	else
 	{
-        //====Init=====
-        
-		kahunaComp = malloc(sizeof(Record*) * kahunaCompSize);
-        kahunaCompPtr = kahunaComp;
-        retval = pthread_cond_init(&cv, NULL);
-        
-        
-
-		tableSizes =  malloc(sizeof(int) * tableSizesLength);
-        tablesizeptr = tableSizes;
-        
+        //init
+		kahunaComp = (Record**)malloc(sizeof(Record*) * kahunaCompSize);
+		tableSizes = (int*) malloc(sizeof(int) * tableSizesLength);
+		kahunaCompPtr = kahunaComp;
 		tidArray = malloc(sizeof(pthread_t) * 50);
         
-        //====Output=====
-        initTID = pthread_self();
-		printf("Initial TID: %d\n", initTID);
+		printf("Initial TID: %d\n",pthread_self());
 		printf("TIDs: ");
 		processDirectory(inDir,inputCol,outDir);
 		
-		}
-    
-		retval = pthread_cond_wait(&cv, &cvlock);
-   
+	}
+    sleep(2);
+	//The joining loop
  
     while(1)
     {
 		if(runningThreads == 0)
 		{
-			/*
             printf("Thread IDs in tidarray: ");
 			int i;
             for(i = 0; i < threadCounter; i++)
 			{
                 printf("%d, ",tidArray[i]);
 			}
-			*/
-			int i;
 			
 			for(i = 0; i < threadCounter; i++)
-			{   
+			{
+            //this is SEGFAULTING idk
+                
 				pthread_join(tidArray[i], NULL);
-                //printf("\njoining on thread %d\n",tidArray[i]);
+                printf("\njoining on thread %d\n",tidArray[i]);
 			}
 			
 			break;
@@ -114,26 +103,25 @@ int main(int argc, char** argv) {
 		else
 			continue;
 	}
-	//printf("Khuna size %d\n", kahunaSize);
+	printf("Khuna size%d\n",kahunaSize);
     
-	bigKahuna = malloc(sizeof(Record) * kahunaSize);
+	bigKahuna = (Record*)malloc(sizeof(Record) * kahunaSize);
 	
 	//Must loop on kahunaComp and tableSizes
 	//up to their respective indices
 	int i = 0;
-	
-	while (i < kahunaCompIndex)
+	while (i <= kahunaCompIndex && i <= tableSizeIndex)
 	{
 		kahunaCopy(kahunaComp[i],tableSizes[i]);
 		i++;
 		
 	}
 		
-	printf("\nTotal number of threads created: %d\n", threadCounter + 1); //+1 for initial thread
+	printf("\nTotal number of threads: %d\n", threadCounter);
 	
 	sort(inputCol,kahunaSize,bigKahuna);
 	writeFile(bigKahuna, outDir, inputCol);
-    //printf("Done writing, program over.\n");
+    printf("Done writing, program over.\n");
 
 	
 }//End main
@@ -141,7 +129,7 @@ void reallocRps()
 {
     rpsize += 256;
     pthread_mutex_lock(&rpLock);
-        rparray = realloc(rparray,rpsize);
+        rparray = (ReadParams**)realloc(rparray,rpsize);
     pthread_mutex_lock(&rpLock);
     if (rparray == NULL)
     {
@@ -154,7 +142,7 @@ void reallocThread()
 {
 	arrSize += 50;
 	pthread_mutex_lock(&tidArrayLock);
-		tidArray = realloc(tidArray, arrSize);
+		tidArray = (pthread_t*)realloc(tidArray, arrSize);
 	pthread_mutex_unlock(&tidArrayLock);
 	if(tidArray == NULL)
 	{
@@ -192,8 +180,8 @@ int CheckDirectory(char* path)
         exit(0);
     }
    
-	char *rootaccess = malloc(sizeof(char) * 7);
-	char *rootaccess2 = malloc(sizeof(char) * 6);
+	char *rootaccess = (char *)malloc(sizeof(char) * 7);
+	char *rootaccess2 = (char *)malloc(sizeof(char) * 6);
 	strncpy(rootaccess, path, 6);
 	strncpy(rootaccess2, path, 5);
 	rootaccess[6] = '\0';
@@ -207,8 +195,8 @@ int CheckDirectory(char* path)
 	
 	rootaccess = NULL;
 	rootaccess2 = NULL;
-	//free(rootaccess);	
-	//free(rootaccess2);
+	free(rootaccess);	
+	free(rootaccess2);
 	flag = 1;
 	return flag;
 	
