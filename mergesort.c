@@ -25,7 +25,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	int totalbytes = 0;
     char* field;
     char* line = NULL;
-    size_t recordsize;
+    size_t recordsize = 0;
     size_t bytes;
 	//ptr for indexing struct
 	struct Record * ptrrecords = allrecords;
