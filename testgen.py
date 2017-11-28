@@ -3,7 +3,7 @@
 import csv
 import os
 from random import *
-loops = 10
+loops = 11
 for i in range(loops):
 
     #Word to Daniel Chen on Piazza 
