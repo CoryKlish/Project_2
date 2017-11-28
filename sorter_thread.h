@@ -740,6 +740,7 @@ static void writeFile(Record list[], char *outDir, char* sortType){
             fp = fopen(placeToWrite,"w");
         }
 	
+        /*
 		else
         {
             //If it doesnt exist, make a new directory
@@ -751,10 +752,11 @@ static void writeFile(Record list[], char *outDir, char* sortType){
             strcat(placeToWrite, fileWrite);//Append file to write name
             fp = fopen(placeToWrite, "w");
         }
+        */
 	}
 
 	if(fp == NULL){
-		printf("Error: OutDir not found.\n");
+		printf("Error: OutDir does not exist.\n");
 		exit(0);
 	}
     
