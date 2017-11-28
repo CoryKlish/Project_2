@@ -24,7 +24,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	//total bytes that accumulates after each getline
 	int totalbytes = 0;
     char* field;
-    char* line = malloc(sizeof(char) * 30);
+    char* line = NULL;
     size_t recordsize;
     size_t bytes;
 	//ptr for indexing struct
@@ -156,6 +156,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 		}
 		if (bytes != -1)
 			ptrrecords++;
+        free(line);
  
 	}//end while
     return allrecords;
