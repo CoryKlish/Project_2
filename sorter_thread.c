@@ -67,13 +67,13 @@ int main(int argc, char** argv) {
 	{
         //====Init=====
         
-		kahunaComp = (Record**)malloc(sizeof(Record*) * kahunaCompSize);
+		kahunaComp = malloc(sizeof(Record*) * kahunaCompSize);
         kahunaCompPtr = kahunaComp;
         retval = pthread_cond_init(&cv, NULL);
         
         
 
-		tableSizes = (int*) malloc(sizeof(int) * tableSizesLength);
+		tableSizes =  malloc(sizeof(int) * tableSizesLength);
         tablesizeptr = tableSizes;
         
 		tidArray = malloc(sizeof(pthread_t) * 50);
@@ -116,7 +116,7 @@ int main(int argc, char** argv) {
 	}
 	//printf("Khuna size %d\n", kahunaSize);
     
-	bigKahuna = (Record*)malloc(sizeof(Record) * kahunaSize);
+	bigKahuna = malloc(sizeof(Record) * kahunaSize);
 	
 	//Must loop on kahunaComp and tableSizes
 	//up to their respective indices
@@ -141,7 +141,7 @@ void reallocRps()
 {
     rpsize += 256;
     pthread_mutex_lock(&rpLock);
-        rparray = (ReadParams**)realloc(rparray,rpsize);
+        rparray = realloc(rparray,rpsize);
     pthread_mutex_lock(&rpLock);
     if (rparray == NULL)
     {
@@ -154,7 +154,7 @@ void reallocThread()
 {
 	arrSize += 50;
 	pthread_mutex_lock(&tidArrayLock);
-		tidArray = (pthread_t*)realloc(tidArray, arrSize);
+		tidArray = realloc(tidArray, arrSize);
 	pthread_mutex_unlock(&tidArrayLock);
 	if(tidArray == NULL)
 	{
@@ -192,8 +192,8 @@ int CheckDirectory(char* path)
         exit(0);
     }
    
-	char *rootaccess = (char *)malloc(sizeof(char) * 7);
-	char *rootaccess2 = (char *)malloc(sizeof(char) * 6);
+	char *rootaccess = malloc(sizeof(char) * 7);
+	char *rootaccess2 = malloc(sizeof(char) * 6);
 	strncpy(rootaccess, path, 6);
 	strncpy(rootaccess2, path, 5);
 	rootaccess[6] = '\0';

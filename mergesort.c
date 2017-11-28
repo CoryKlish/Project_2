@@ -18,7 +18,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
 	//holds initial 5000 records
 	struct Record * allrecords = 
-        (Record *)malloc(sizeof(Record) * 5000);
+        malloc(sizeof(Record) * 5000);
 	//size of the records array in bytes
 	size_t arSize = 2500* (sizeof(Record));
 	//total bytes that accumulates after each getline
@@ -61,7 +61,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 				arSize = arSize + (2500 * sizeof(Record));
 
 				//reallocate, move pointer to new memory location with more mem
-				allrecords = (Record*)realloc(allrecords, arSize);
+				allrecords = realloc(allrecords, arSize);
 
 				//If this does not work, there is no more memory left to allocate
                 ptrrecords = allrecords + (*pNumRecords - 1);
@@ -99,7 +99,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 					if (*(field) == '"')
 					{
 						//create new char array
-						char* special = (char*)calloc(strlen(qchecker),sizeof(char));
+						char* special = calloc(strlen(qchecker),sizeof(char));
 						// move the ptr to the next char after the initial "
 						qchecker++;
 					

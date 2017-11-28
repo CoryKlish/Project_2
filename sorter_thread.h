@@ -164,7 +164,7 @@ static char* getSortType(char* header, char* colName, int* numFields)
 	{
 		//Get length, allocate size and copy into 'column' variable
 		len = strlen(field);
-		sortType = (char*)malloc((sizeof(char) * len) + 1);
+		sortType = malloc((sizeof(char) * len) + 1);
 		sortType = strdup(field);
 	}
     
@@ -184,7 +184,7 @@ static char* getSortType(char* header, char* colName, int* numFields)
 				
 				//dynamic allocate the mem and store string
 				len = strlen(field);
-				sortType = (char*)malloc(sizeof(char) * len);
+				sortType = malloc(sizeof(char) * len);
 				sortType = strdup(field);
 				
 			}
@@ -517,7 +517,7 @@ static void *getFile(void* params)
     {
          //==================Tablesize Realloc========================================================
         tableSizesLength += 256;
-        tableSizes = (int*)realloc(tableSizes,tableSizesLength);
+        tableSizes = realloc(tableSizes,tableSizesLength);
         if (tableSizes == NULL)
         {
             printf("Realloc error, cannot create more space for table lengths\n\n");
@@ -554,7 +554,7 @@ static void *getFile(void* params)
     if (kahunaCompIndex + 1 >= kahunaCompSize)
     {
         kahunaCompSize += 256;
-        kahunaComp = (Record**)realloc(kahunaComp,kahunaCompSize);
+        kahunaComp = realloc(kahunaComp,kahunaCompSize);
         if (kahunaComp == NULL)
         {
             printf("Realloc error, cannot create more space for tables\n");
@@ -566,7 +566,7 @@ static void *getFile(void* params)
         kahunaCompPtr += kahunaCompIndex + 1;
 
         //==============Malloc the position kahunaCompPtr is at, give it 'table' value===========
-        *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
+        *kahunaCompPtr = malloc(sizeof(Record) * numRecords);
         *kahunaCompPtr = table;
 
         //==============Move the index and the pointer over one =======================
@@ -577,7 +577,7 @@ static void *getFile(void* params)
     { 
         int i;
         //=====Malloc the KahunaCompPtr's position, set it equal to table (copies by value)===========
-        *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
+        *kahunaCompPtr = malloc(sizeof(Record) * numRecords);
         
         *kahunaCompPtr = table;
 
@@ -667,13 +667,13 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     
     int len = strlen(line);
     //copy the header into "header" variable
-    *pHeader = (char*)malloc(sizeof(char) * len);
+    *pHeader = malloc(sizeof(char) * len);
     *pHeader = strdup(line);
     
     //pointer to numfields in order to change its value
     int* numP = &numFields;
     //getting the sortType
-    char* sortType = (char*)malloc(sizeof(char) * len);
+    char* sortType = malloc(sizeof(char) * len);
     //getSortType also gets the number of fields
     sortType = getSortType(line,inputCol,numP);
  
@@ -715,7 +715,7 @@ static void writeFile(Record list[], char *outDir, char* sortType){
     ///Section where the space for the filename and output 
     ///directory is allocated
         //string that will hold the directory + filename
-        char *placeToWrite = (char*)malloc(strlen(fileWrite) + strlen(outDir) + 2);
+        char *placeToWrite = malloc(strlen(fileWrite) + strlen(outDir) + 2);
         placeToWrite[0] = '\0';
     ///End section
     
