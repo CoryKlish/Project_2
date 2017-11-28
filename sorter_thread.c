@@ -207,8 +207,8 @@ int CheckDirectory(char* path)
 	
 	rootaccess = NULL;
 	rootaccess2 = NULL;
-	free(rootaccess);	
-	free(rootaccess2);
+	//free(rootaccess);	
+	//free(rootaccess2);
 	flag = 1;
 	return flag;
 	

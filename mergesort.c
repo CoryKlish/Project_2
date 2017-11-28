@@ -443,8 +443,8 @@ void mergeString(Record strArr[], int lo, int mid, int hi,char* sortType){//Merg
 	
 	RArr = NULL;
 	LArr = NULL;
-	free(RArr);
-	free(LArr);
+	//free(RArr);
+	//free(LArr);
 }
 
 void sortString(Record strArr[], int lo, int hi,char* sortType){//Recursive divide and conquer sort
@@ -737,8 +737,8 @@ void mergeNum(Record list[], int left, int mid, int right,char* sortType){
 	
 	LArr = NULL;
 	RArr = NULL;
-	free(LArr);
-	free(RArr);
+	//free(LArr);
+	//free(RArr);
 }
  
 void sortNum(Record list[], int left, int right,char* sortType)
