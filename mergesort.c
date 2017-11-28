@@ -153,6 +153,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 		else
 		{
             line = NULL;
+            recordsize = 0;
 			bytes = getline(&line, &recordsize, fp);
 		}
 		if (bytes != -1)
