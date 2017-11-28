@@ -24,7 +24,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	//total bytes that accumulates after each getline
 	int totalbytes = 0;
     char* field;
-    char* line = NULL;
+    char* line = malloc(sizeof(char) * 30);
     size_t recordsize;
     size_t bytes;
 	//ptr for indexing struct
@@ -146,7 +146,6 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 			}//end token loop
 		}//end if bytes != -1
 		
-        line = NULL;
 	//get next line, move pointer of records over
 		if(fp == NULL){
 			bytes = getline(&line, &recordsize, stdin);
