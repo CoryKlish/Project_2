@@ -156,7 +156,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 		}
 		if (bytes != -1)
 			ptrrecords++;
-        free(line);
+        
  
 	}//end while
     return allrecords;

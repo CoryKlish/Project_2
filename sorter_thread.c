@@ -85,6 +85,7 @@ int main(int argc, char** argv) {
 		processDirectory(inDir,inputCol,outDir);
 		
 		}
+    
 		retval = pthread_cond_wait(&cv, &cvlock);
    
  
