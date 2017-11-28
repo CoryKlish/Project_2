@@ -20,7 +20,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	struct Record * allrecords = 
         (Record *)malloc(sizeof(Record) * 5000);
 	//size of the records array in bytes
-	size_t arSize = 5000* (sizeof(Record));
+	size_t arSize = 2500* (sizeof(Record));
 	//total bytes that accumulates after each getline
 	int totalbytes = 0;
     char* field;
@@ -58,7 +58,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 			if(totalbytes > arSize)
 			{
 				//Add 5000 to the number of input records
-				arSize = arSize + (5000 * sizeof(Record));
+				arSize = arSize + (2500 * sizeof(Record));
 
 				//reallocate, move pointer to new memory location with more mem
 				allrecords = (Record*)realloc(allrecords, arSize);
