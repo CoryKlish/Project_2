@@ -154,7 +154,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 		}
 		else
 		{
-			line = malloc(sizeof(char)* 50);
+			line = NULL;
 			bytes = getline(&line, &recordsize, fp);
 		}
 		if (bytes != -1)
