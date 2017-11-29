@@ -42,7 +42,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	while (bytes != -1)
 	{
 		//copy to row to free up the line var
-		char* row = malloc(sizeof(char) * strlen(line)); 
+		char* row = NULL; 
         row = strdup(line);
 		free(line);
 		line = NULL;
