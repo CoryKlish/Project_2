@@ -81,11 +81,11 @@ static int kahunaSize = 0;
 static Record** kahunaComp;
 static Record** kahunaCompPtr;
 static int kahunaCompIndex = 0;
-static int kahunaCompSize = 1024;
+static int kahunaCompSize = 256;
 
 //========Stores the number of records in each array in Kahunacomp=====
 static int* tableSizes;
-static int tableSizesLength = 1024;
+static int tableSizesLength = 256;
 static int tableSizeIndex = 0;
 static int* tablesizeptr;
 
@@ -503,7 +503,7 @@ static void *getFile(void* params)
     //readfile validates the input column and creates a record array
     //char** pheader will change the value of 
     //char* header from within readFile
-    
+    char* header;
     char** pHeader = &header;
   
     

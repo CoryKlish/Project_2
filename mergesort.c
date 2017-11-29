@@ -3,16 +3,19 @@
 #include <string.h>
 #include <dirent.h>
 #include <sys/types.h>
-#include "sorter_thread.h"
+#include "sorter.h"
+#include <sys/mman.h>
 #include <fcntl.h>
 
 /////////////////////////////////////////////////////////////Processing Directory method/////////////////////////////////////////////
 
+
+    
+    
 /*
 Takes records from the csv one at a time from STDIN
 and places the fields under the correct header.
 */
-
 Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 {
 //////////////////Placing records into structs -> structs into an array//////////////////////////////////////////////
@@ -25,10 +28,13 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	int totalbytes = 0;
     char* field;
     char* line = NULL;
-    size_t recordsize = 1500;
+    size_t recordsize;
     size_t bytes;
+
+	
 	//ptr for indexing struct
 	struct Record * ptrrecords = allrecords;
+
 
 	//jumpstart the loop
 	if(fp == NULL){
@@ -41,14 +47,16 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	
 	while (bytes != -1)
 	{
+		
 		//copy to row to free up the line var
-        
 		char* row = malloc(sizeof(char) * strlen(line)); 
         row = strdup(line);
-        
+		free(line);
+		line = NULL;
 
 		if (bytes != -1)
 		{
+
 			//increase count of records
 			*pNumRecords += 1;
 			//Add to total amount of bytes
@@ -134,10 +142,9 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
                     *(special + (fieldlen-1)) = ',';
 	
 					//duplicate special str into field
-					
-					
-					*(special + strlen(special - 1)) = '\0';
 					field = strdup(special);
+
+					*(special + strlen(special - 1)) = '\0';
 				    
 					}
 				}		
@@ -146,7 +153,6 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 				allocateToken(ptrrecords, field, i);
                
 			}//end token loop
-			
 		}//end if bytes != -1
 		
 	//get next line, move pointer of records over
@@ -161,18 +167,6 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 			ptrrecords++;
  
 	}//end while
-    /*
-    arSize = *pNumRecords + 5;
-    //reallocate, move pointer to new memory location with more mem
-    allrecords = realloc(allrecords, arSize);
-    if ( allrecords== NULL)
-    {
-        printf("Out of memory, exiting");
-        exit(0);
-    }        
-    */
-	
-	
     return allrecords;
 }//End createTable function
 
@@ -453,10 +447,10 @@ void mergeString(Record strArr[], int lo, int mid, int hi,char* sortType){//Merg
 		strArr[y++] = RArr[x++];
 	}
 	
-	RArr = NULL;
+	free(LArr);
 	LArr = NULL;
 	free(RArr);
-	free(LArr);
+	RArr = NULL;
 }
 
 void sortString(Record strArr[], int lo, int hi,char* sortType){//Recursive divide and conquer sort
@@ -746,11 +740,10 @@ void mergeNum(Record list[], int left, int mid, int right,char* sortType){
         m++;
     }
 	
-	
-	LArr = NULL;
-	RArr = NULL;
 	free(LArr);
+	LArr = NULL;
 	free(RArr);
+	RArr = NULL;
 }
  
 void sortNum(Record list[], int left, int right,char* sortType)
@@ -765,3 +758,4 @@ void sortNum(Record list[], int left, int right,char* sortType)
         mergeNum(list, left, mid, right,sortType);
     }
 }
+
