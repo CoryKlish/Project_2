@@ -76,7 +76,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 ////////////////////////////////////end realloc section
 			
 			//checks for a double quote in the row, which indicates there will be nested commas
-			char * check = strstr(line,"\"");
+			char * check = strstr(row,"\"");
 			//If double quotes are present,
 			char * qchecker;
 			int i,commacounter = 0;			
@@ -86,7 +86,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 			{	
 
 				//get a field
-				field = strsep(&line,",");
+				field = strsep(&row,",");
 				//If there is a quote in this line
 				if (check != NULL)
 				{
