@@ -161,7 +161,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
  
 	}//end while
     
-    arSize = *pNumRecords
+    arSize = *pNumRecords + 1;
     //reallocate, move pointer to new memory location with more mem
     allrecords = (Record*)realloc(allrecords, arSize);
     if ( allrecords== NULL)
