@@ -25,7 +25,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	int totalbytes = 0;
     char* field;
     char* line = NULL;
-    size_t recordsize = 100;
+    size_t recordsize = 1500;
     size_t bytes;
 	//ptr for indexing struct
 	struct Record * ptrrecords = allrecords;
@@ -45,7 +45,6 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
         
 		char* row = malloc(sizeof(char) * strlen(line)); 
         row = strdup(line);
-		line = NULL;
         
 
 		if (bytes != -1)
@@ -135,9 +134,10 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
                     *(special + (fieldlen-1)) = ',';
 	
 					//duplicate special str into field
-					field = strdup(special);
+					
 					
 					*(special + strlen(special - 1)) = '\0';
+					field = strdup(special);
 				    
 					}
 				}		
@@ -155,7 +155,6 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 		}
 		else
 		{
-            
 			bytes = getline(&line, &recordsize, fp);
 		}
 		if (bytes != -1)
