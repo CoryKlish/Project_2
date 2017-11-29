@@ -146,7 +146,6 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 				allocateToken(ptrrecords, field, i);
                
 			}//end token loop
-			free(check);
 		}//end if bytes != -1
 		
 	//get next line, move pointer of records over
