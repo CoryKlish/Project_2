@@ -140,14 +140,13 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 					*(special + strlen(special - 1)) = '\0';
 				    
 					}
-                    free(check);
 				}		
 				
 				//Based on the index, it allocates token to that field in the struct.
 				allocateToken(ptrrecords, field, i);
                
 			}//end token loop
-			
+			free(check);
 		}//end if bytes != -1
 		
 	//get next line, move pointer of records over
