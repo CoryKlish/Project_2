@@ -100,7 +100,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 					if (*(field) == '"')
 					{
 						//create new char array
-						char* special = malloc(strlen(qchecker) * sizeof(char) + 1);
+						char* special = malloc(strlen(check) * sizeof(char));
 						// move the ptr to the next char after the initial "
 						qchecker++;
 					
