@@ -583,6 +583,8 @@ static void *getFile(void* params)
         //=====Malloc the KahunaCompPtr's position, set it equal to table (copies by value)===========
         *kahunaCompPtr = (Record*)malloc(sizeof(Record) * numRecords);
         
+        //replace this with memcpy
+        
         *kahunaCompPtr = table;
 
         //=====Move the index and pointer over by one===============
