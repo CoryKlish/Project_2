@@ -137,6 +137,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 					field = strdup(special);
 					
 					*(special + strlen(special - 1)) = '\0';
+                    free(special);
 				    
 					}
 				}		
