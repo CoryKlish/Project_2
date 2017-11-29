@@ -42,10 +42,11 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	while (bytes != -1)
 	{
 		//copy to row to free up the line var
-		//char* row = malloc(sizeof(char) * strlen(line)); 
-        //row = strdup(line);
-		//free(line);
-		//line = NULL;
+		char* row = malloc(sizeof(char) * strlen(line)); 
+        row = strdup(line);
+		
+        free(line);
+		line = NULL;
 
 		if (bytes != -1)
 		{
@@ -139,6 +140,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 					*(special + strlen(special - 1)) = '\0';
 				    
 					}
+                    free(check);
 				}		
 				
 				//Based on the index, it allocates token to that field in the struct.
