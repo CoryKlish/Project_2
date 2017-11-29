@@ -160,6 +160,15 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 			ptrrecords++;
  
 	}//end while
+    
+    arSize = *pNumRecords
+    //reallocate, move pointer to new memory location with more mem
+    allrecords = (Record*)realloc(allrecords, arSize);
+    if ( allrecords== NULL)
+    {
+        printf("Out of memory, exiting");
+        exit(0);
+    }        
 	
 	
     return allrecords;
