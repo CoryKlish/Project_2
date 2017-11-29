@@ -42,7 +42,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	while (bytes != -1)
 	{
 		//copy to row to free up the line var
-		char* row;
+		char* row = malloc(sizeof(char) * strlen(line)); 
         row = strdup(line);
 		free(line);
 		line = NULL;
@@ -134,10 +134,10 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
                     *(special + (fieldlen-1)) = ',';
 	
 					//duplicate special str into field
-
+					field = strdup(special);
 					
 					*(special + strlen(special - 1)) = '\0';
-				    field = special;
+				    
 					}
 				}		
 				
