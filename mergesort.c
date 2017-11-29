@@ -173,6 +173,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
         printf("Out of memory, exiting");
         exit(0);
     }        
+    */
 	
 	
     return allrecords;
