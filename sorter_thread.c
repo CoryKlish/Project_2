@@ -118,10 +118,19 @@ title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes")
 			}
 			*/
 			
-			for(; j < threadCounter; j++)
+			for(j; j < threadCounter; j++)
 			{   
-				pthread_join(tidArray[j], NULL);
-                //printf("\njoining on thread %d\n",tidArray[i]);
+				while (1)
+				{
+					if (runningThreads == 0)
+					{
+						pthread_join(tidArray[j], NULL);
+						//printf("\njoining on thread %d\n",tidArray[i]);
+						break;
+					}
+					else
+						continue;
+				}
 			}
 			
 			break;

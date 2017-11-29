@@ -25,7 +25,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	int totalbytes = 0;
     char* field;
     char* line = NULL;
-    size_t recordsize;
+    size_t recordsize = 100;
     size_t bytes;
 	//ptr for indexing struct
 	struct Record * ptrrecords = allrecords;
@@ -42,12 +42,11 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	while (bytes != -1)
 	{
 		//copy to row to free up the line var
-        /*
+        
 		char* row = malloc(sizeof(char) * strlen(line)); 
         row = strdup(line);
-		free(line);
 		line = NULL;
-        */
+        
 
 		if (bytes != -1)
 		{
@@ -78,7 +77,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 ////////////////////////////////////end realloc section
 			
 			//checks for a double quote in the row, which indicates there will be nested commas
-			char * check = strstr(line,"\"");
+			char * check = strstr(row,"\"");
 			//If double quotes are present,
 			char * qchecker;
 			int i,commacounter = 0;			
@@ -88,7 +87,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 			{	
 
 				//get a field
-				field = strsep(&line,",");
+				field = strsep(&row,",");
 				//If there is a quote in this line
 				if (check != NULL)
 				{
@@ -130,7 +129,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
                         
                      while(commacounter + 1 != 0)
                     {
-                        field = strsep(&line,",");
+                        field = strsep(&row,",");
                         commacounter -=1;
                     }
                     *(special + (fieldlen-1)) = ',';
@@ -156,8 +155,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 		}
 		else
 		{
-            free(line);
-            line = NULL;
+            
 			bytes = getline(&line, &recordsize, fp);
 		}
 		if (bytes != -1)
