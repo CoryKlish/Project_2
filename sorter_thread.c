@@ -87,13 +87,27 @@ title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes")
 		processDirectory(inDir,inputCol,outDir);
 		
 		}
-    
-		retval = pthread_cond_wait(&cv, &cvlock);
-   
- 
-    while(1)
-    {
-		if(runningThreads == 0)
+		
+		while (runningThreads == 0)
+		{
+				
+		}
+		
+		pthread_mutex_lock(&runningThreadLock);
+		
+		while(runningThreads != 0)
+		{
+			retval = pthread_cond_wait(&cv, &runningThreadLock);
+		}
+		pthread_mutex_unlock(&runningThreadLock);
+
+	sleep(1.375);
+
+	int j = 0;
+   //while(1)
+   //{
+		
+		while(runningThreads == 0)
 		{
 			/*
             printf("Thread IDs in tidarray: ");
@@ -103,19 +117,18 @@ title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes")
                 printf("%d, ",tidArray[i]);
 			}
 			*/
-			int i;
 			
-			for(i = 0; i < threadCounter; i++)
+			for(; j < threadCounter; j++)
 			{   
-				pthread_join(tidArray[i], NULL);
+				pthread_join(tidArray[j], NULL);
                 //printf("\njoining on thread %d\n",tidArray[i]);
 			}
 			
 			break;
 		}
-		else
-			continue;
-	}
+		//else
+			//continue;
+	//}
 	//printf("Khuna size %d\n", kahunaSize);
     
 	bigKahuna = malloc(sizeof(Record) * kahunaSize);

@@ -58,7 +58,7 @@ static pthread_mutex_t kahunacountLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t runningThreadLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t kahunaCompLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t rpLock = PTHREAD_MUTEX_INITIALIZER;
-static pthread_mutex_t cvlock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t safetylock = PTHREAD_MUTEX_INITIALIZER;
 static char* header = NULL;
 
 //=========Thread Id Section=========
@@ -249,7 +249,6 @@ static void *processDir(void* params)
 	
 	pthread_mutex_lock (&runningThreadLock);
 					runningThreads++;
-					retval = pthread_cond_signal(&cv);
 	pthread_mutex_unlock (&runningThreadLock);
 	
 	//================File related Params=============
@@ -293,9 +292,11 @@ static void *processDir(void* params)
     if (directory == NULL)
     {
 		pthread_mutex_lock (&runningThreadLock);
+		pthread_mutex_lock(&safetylock);
                     runningThreads--;
 		pthread_mutex_unlock (&runningThreadLock);  
-	   
+		pthread_mutex_unlock(&safetylock);
+		
 		fflush(stdout);
 		printf("\nDirectory path %s cant be opened\n",rparray[localindex]->path);
 		pthread_exit(&threadCounter);
@@ -448,8 +449,12 @@ static void *processDir(void* params)
     
     //=====================Thread Things=========================
     pthread_mutex_lock (&runningThreadLock);
+    pthread_mutex_lock(&safetylock);
 					runningThreads--;
-    pthread_mutex_unlock (&runningThreadLock);  
+					if (runningThreads == 0)
+						retval = pthread_cond_signal(&cv);
+    pthread_mutex_unlock (&runningThreadLock); 
+    pthread_mutex_unlock(&safetylock); 
    
     fflush(stdout);
     //printf("\nI am now exiting thread %d\n",pthread_self());
@@ -461,7 +466,8 @@ static void *processDir(void* params)
 
 ////////////////////////////function ptr for processFile.
 static void *getFile(void* params)
-{
+{	
+	int retval;
     //=======Increase number of threads, and running threads
     threadCounter++;
     pthread_mutex_lock (&runningThreadLock);
@@ -589,8 +595,12 @@ static void *getFile(void* params)
 
    
     pthread_mutex_lock (&runningThreadLock);
+    pthread_mutex_lock(&safetylock);
 		runningThreads--;
+		if (runningThreads == 0)
+			retval = pthread_cond_signal(&cv);
 	pthread_mutex_unlock (&runningThreadLock);
+	pthread_mutex_unlock(&safetylock);
 	
 	//printf("Exiting with thread ID %d\n",pthread_self());
 	pthread_exit(&threadCounter);
@@ -787,6 +797,7 @@ static void kahunaCopy(Record list[], int numRecords)
 		kahunaIndexCount++;
 		i++;
 	}
+	free(list);
 	
 }
 

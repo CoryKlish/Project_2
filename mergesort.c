@@ -42,10 +42,10 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	while (bytes != -1)
 	{
 		//copy to row to free up the line var
-		char* row = malloc(sizeof(char) * strlen(line)); 
-        row = strdup(line);
-		free(line);
-		line = NULL;
+		//char* row = malloc(sizeof(char) * strlen(line)); 
+        //row = strdup(line);
+		//free(line);
+		//line = NULL;
 
 		if (bytes != -1)
 		{
@@ -76,7 +76,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 ////////////////////////////////////end realloc section
 			
 			//checks for a double quote in the row, which indicates there will be nested commas
-			char * check = strstr(row,"\"");
+			char * check = strstr(line,"\"");
 			//If double quotes are present,
 			char * qchecker;
 			int i,commacounter = 0;			
@@ -86,7 +86,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 			{	
 
 				//get a field
-				field = strsep(&row,",");
+				field = strsep(&line,",");
 				//If there is a quote in this line
 				if (check != NULL)
 				{
@@ -128,14 +128,14 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
                         
                      while(commacounter + 1 != 0)
                     {
-                        field = strsep(&row,",");
+                        field = strsep(&line,",");
                         commacounter -=1;
                     }
                     *(special + (fieldlen-1)) = ',';
 	
 					//duplicate special str into field
 					field = strdup(special);
-
+					
 					*(special + strlen(special - 1)) = '\0';
 				    
 					}
@@ -145,6 +145,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 				allocateToken(ptrrecords, field, i);
                
 			}//end token loop
+			
 		}//end if bytes != -1
 		
 	//get next line, move pointer of records over
@@ -153,12 +154,15 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 		}
 		else
 		{
+			line = malloc(sizeof(char)* 50);
 			bytes = getline(&line, &recordsize, fp);
 		}
 		if (bytes != -1)
 			ptrrecords++;
  
 	}//end while
+	
+	
     return allrecords;
 }//End createTable function
 
