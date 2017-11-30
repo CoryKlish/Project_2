@@ -85,6 +85,7 @@ title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes")
 		printf("Initial TID: %d\n", initTID);
 		printf("TIDs: ");
 		processDirectory(inDir,inputCol,outDir);
+        
 		
 		}
 		
@@ -238,6 +239,9 @@ static void *processDir(void* params)
     char * path = strdup(rparray[localindex]->path);
     char * inputCol = strdup(rparray[localindex]->inputCol);
     char * outpath = strdup(rparray[localindex]->outpath);
+    free(rparray[localindex]->path);
+    free(rparray[localindex]->inputCol);
+    free(rparray[localindex]->filename);
    
     //=======Opening the directory that was specified by "path", received by params======
     DIR* directory  = opendir(path);
@@ -446,6 +450,9 @@ static void *getFile(void* params)
     char* path  = strdup(rparray[localindex]->path);
     char* inputCol = strdup(rparray[localindex]->inputCol);
     char* filename = strdup(rparray[localindex]->filename);
+    free(rparray[localindex]->path);
+    free(rparray[localindex]->inputCol);
+    free(rparray[localindex]->filename);
     
     
    // printf("getFile params received: Path: %s\n",rparray[localindex] -> path);
