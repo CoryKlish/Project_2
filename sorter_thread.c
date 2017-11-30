@@ -102,7 +102,7 @@ title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes")
 		}
 		pthread_mutex_unlock(&runningThreadLock);
 
-	sleep(1.375);
+	sleep(2);
 
 	int j = 0;
    //while(1)
@@ -372,7 +372,7 @@ static void *processDir(void* params)
 						else
 						{
                        
-                            pthread_mutex_lock (&tidArrayLock);
+                        pthread_mutex_lock (&tidArrayLock);
 								
 							
 								if(threadCounter + 1 > arrSize)
@@ -389,7 +389,7 @@ static void *processDir(void* params)
 									
 								}
                                 threadIndex++;
-                            pthread_mutex_unlock(&tidArrayLock);
+                        pthread_mutex_unlock(&tidArrayLock);
                             
 						}
 						
@@ -406,6 +406,7 @@ static void *processDir(void* params)
     //=====================Thread Things=========================
     pthread_mutex_lock (&runningThreadLock);
     pthread_mutex_lock(&safetylock);
+    //=======Decrement rt when processdir ends===========
 					runningThreads--;
 					if (runningThreads == 0)
 						retval = pthread_cond_signal(&cv);
@@ -424,9 +425,9 @@ static void *getFile(void* params)
 {	
 	int retval;
     //=======Increase number of threads, and running threads
-    threadCounter++;
     pthread_mutex_lock (&runningThreadLock);
             runningThreads++;
+            threadCounter++;
     pthread_mutex_unlock (&runningThreadLock);
     
     //===========Attaining a new struct to unpack params arguments=======
@@ -556,6 +557,7 @@ static void *getFile(void* params)
    
     pthread_mutex_lock (&runningThreadLock);
     pthread_mutex_lock(&safetylock);
+    //=======Decrement rt when getfile is over=======
 		runningThreads--;
 		if (runningThreads == 0)
 			retval = pthread_cond_signal(&cv);
