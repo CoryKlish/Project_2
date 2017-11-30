@@ -39,7 +39,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 		//copy to row to free up the line var
 		char* row = (char*) malloc(2000);
         if (row == NULL)
-            printf("---------------------row is null-------------\n")
+            printf("---------------------row is null-------------\n");
         row = strcpy(row, line);
 		
 
