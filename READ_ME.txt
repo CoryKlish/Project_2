@@ -71,7 +71,7 @@ So far, these directory structures work fine:
 3 files with 5042 lines each (1.326s with sleep)
 4 files up to and including 5023 lines (1.433s with sleep)
 8 files with 1 line each (1.009s with sleep)
-8 files with 10 lines each 
+8 files with 10 lines each (2.019s with sleep)
 
 
 But breaks at 4 files with 5024 lines
