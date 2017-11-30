@@ -43,9 +43,8 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	{
 		//copy to row to free up the line var
 		char* row = malloc(sizeof(char) * strlen(line)); 
-        row = strdup(line);
-		free(line);
-		line = NULL;
+        row = strcpy(line);
+		
 
 		if (bytes != -1)
 		{
@@ -100,7 +99,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 					if (*(field) == '"')
 					{
 						//create new char array
-						char* special = (char*)calloc(strlen(qchecker),sizeof(char));
+						char* special = malloc(strlen(qchecker));
 						// move the ptr to the next char after the initial "
 						qchecker++;
 					
@@ -148,13 +147,11 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 		}//end if bytes != -1
 		
 	//get next line, move pointer of records over
-		if(fp == NULL){
-			bytes = getline(&line, &recordsize, stdin);
-		}
-		else
-		{
-			bytes = getline(&line, &recordsize, fp);
-		}
+
+        free(line);
+        line = NULL;
+        bytes = getline(&line, &recordsize, fp);
+		
 		if (bytes != -1)
 			ptrrecords++;
  
