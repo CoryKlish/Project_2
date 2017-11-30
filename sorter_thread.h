@@ -67,7 +67,7 @@ static int arrSize = 50;
 static int threadCounter = 1;
 static int threadIndex = 0;
 static int runningThreads = 0;
-static int initTID;
+static unsigned int initTID;
 static int flag;
 static pthread_cond_t cv;
 
