@@ -239,9 +239,7 @@ static void *processDir(void* params)
     char * path = strdup(rparray[localindex]->path);
     char * inputCol = strdup(rparray[localindex]->inputCol);
     char * outpath = strdup(rparray[localindex]->outpath);
-    free(rparray[localindex]->path);
-    free(rparray[localindex]->inputCol);
-    free(rparray[localindex]->filename);
+    
    
     //=======Opening the directory that was specified by "path", received by params======
     DIR* directory  = opendir(path);
@@ -414,7 +412,6 @@ static void *processDir(void* params)
     pthread_mutex_unlock (&runningThreadLock); 
     pthread_mutex_unlock(&safetylock); 
    
-    fflush(stdout);
     //printf("\nI am now exiting thread %d\n",pthread_self());
     pthread_exit(&threadCounter);
      
@@ -647,6 +644,7 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
     char* sortType = malloc(sizeof(char) * len);
     //getSortType also gets the number of fields
     sortType = getSortType(line,inputCol,numP);
+    free(line);
  
 	/*
     if (*numP != 27)
