@@ -60,6 +60,13 @@ fork() project because of all the synchronization constructs that needed to be i
 are many locks in the program so no 2 threads access certain areas simultaneously. This process
 took a lot of thinking with pencil and paper before we actually got to coding. 
 
+The biggest challenge was between 2 things: 1) knowing when all threads are finished so we can join
+without other threads being created, and 2) a memory corruption error when certain amount of files
+were used. We (hopefully) fixed the joining error, so that it will print the correct number of threads
+roughly 99% of the time. We are currently still working on fixing the error on the memory corruption. 
+So far, these directory structures work fine:
+
+
 
 
 
