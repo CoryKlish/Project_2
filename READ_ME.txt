@@ -65,7 +65,16 @@ without other threads being created, and 2) a memory corruption error when certa
 were used. We (hopefully) fixed the joining error, so that it will print the correct number of threads
 roughly 99% of the time. We are currently still working on fixing the error on the memory corruption. 
 So far, these directory structures work fine:
+(All times recorded with the sleep(1.375) we implemented)
+1 file with 5042 lines (1.607s with sleep)
+2 files with 5042 liines each (1.227s with sleep)
+3 files with 5042 lines each (1.326s with sleep)
+4 files up to and including 5023 lines (1.433s with sleep)
+8 files with 1 line each (1.009s with sleep)
+8 files with 10 lines each (2.019s with sleep)
 
+
+But breaks at 4 files with 5024 lines
 
 
 
