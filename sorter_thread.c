@@ -153,64 +153,7 @@ title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes")
 
 	
 }//End main
-static char* getSortType(char* header, char* colName, int* numFields)
-{
-    //If colName matches with a field, colName is copied into
-    //sortType
-    char* sortType = NULL;
-    int len;
-    //put ptr on first char of line
-    char* field = strsep(&header,",");
-    
-    if (field == NULL)
-	{
-		printf("ERROR, no fields");
-        exit(0);
-	}
-    //Just in case first column is the column to be sorted
-	if (strcmp(field, colName) == 0)
-	{
-		//Get length, allocate size and copy into 'column' variable
-		len = strlen(field);
-		sortType = malloc((sizeof(char) * len) + 1);
-		sortType = strdup(field);
-	}
-    
-    //Count loop
-	while (field != NULL)
-	{		
-		//Subsequent calls to strtok move the pointer and return the actual token
-		field = strsep(&header, ",");
-		//Then i can start counting tokens
-		if (field != NULL)
-		{
-			*numFields = *numFields + 1;
-			
-			//Then check if that column is equivalent to the argument passed
-			if (strcmp(field, colName) == 0)
-			{
-				
-				//dynamic allocate the mem and store string
-				len = strlen(field);
-				sortType = malloc(sizeof(char) * len);
-				sortType = strdup(field);
-				
-			}
-		}
-			
-	}//End while counting loop
-    /*
-    if (*numFields != 27)
-    {
-        printf("\nWrong number of columns in csv.\n");
-        exit(0);
-    }
-    */
-    free(field);
 
-    return sortType;
-
-}//end getSortType function
 /*
 PARAMS:
 path is a char* that will be opened using opendir
@@ -798,6 +741,64 @@ static void writeFile(Record list[], char *outDir, char* sortType){
 	fclose(fp);
 	//free(fileWrite);
 }
+static char* getSortType(char* header, char* colName, int* numFields)
+{
+    //If colName matches with a field, colName is copied into
+    //sortType
+    char* sortType = NULL;
+    int len;
+    //put ptr on first char of line
+    char* field = strsep(&header,",");
+    
+    if (field == NULL)
+	{
+		printf("ERROR, no fields");
+        exit(0);
+	}
+    //Just in case first column is the column to be sorted
+	if (strcmp(field, colName) == 0)
+	{
+		//Get length, allocate size and copy into 'column' variable
+		len = strlen(field);
+		sortType = malloc((sizeof(char) * len) + 1);
+		sortType = strdup(field);
+	}
+    
+    //Count loop
+	while (field != NULL)
+	{		
+		//Subsequent calls to strtok move the pointer and return the actual token
+		field = strsep(&header, ",");
+		//Then i can start counting tokens
+		if (field != NULL)
+		{
+			*numFields = *numFields + 1;
+			
+			//Then check if that column is equivalent to the argument passed
+			if (strcmp(field, colName) == 0)
+			{
+				
+				//dynamic allocate the mem and store string
+				len = strlen(field);
+				sortType = malloc(sizeof(char) * len);
+				sortType = strdup(field);
+				
+			}
+		}
+			
+	}//End while counting loop
+    /*
+    if (*numFields != 27)
+    {
+        printf("\nWrong number of columns in csv.\n");
+        exit(0);
+    }
+    */
+    free(field);
+
+    return sortType;
+
+}//end getSortType function
 void reallocRps()
 {
     rpsize += 256;

@@ -64,7 +64,7 @@ static char* header = NULL;
 //=========Thread Id Section=========
 static pthread_t* tidArray;
 static int arrSize = 50;
-static int threadCounter = 0;
+static int threadCounter = 1;
 static int threadIndex = 0;
 static int runningThreads = 0;
 static int initTID;
