@@ -167,7 +167,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 
 void mergeString(Record strArr[], int lo, int mid, int hi,char* sortType){//Merge arrays back together
 	
-	int left = mid - lo + 1;
+	int left = (mid - lo) + 1;
 	int right = hi - mid;
 	
 	

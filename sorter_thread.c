@@ -109,14 +109,6 @@ title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes")
 		
 		while(runningThreads == 0)
 		{
-			/*
-            printf("Thread IDs in tidarray: ");
-			int i;
-            for(i = 0; i < threadCounter; i++)
-			{
-                printf("%d, ",tidArray[i]);
-			}
-			*/
 			
 			for(j; j < threadCounter; j++)
 			{   
