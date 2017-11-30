@@ -87,7 +87,7 @@ title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes")
 		processDirectory(inDir,inputCol,outDir);
         
 		
-		}
+    }
 		
 		while (runningThreads == 0)
 		{
@@ -102,7 +102,7 @@ title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes")
 		}
 		pthread_mutex_unlock(&runningThreadLock);
 
-	sleep(2);
+	sleep(1.375);
 
 	int j = 0;
    //while(1)
@@ -197,7 +197,7 @@ static void *processDir(void* params)
     //========Thread Things========
     //if(flag == 0)
     //{
-		printf("%d, ",pthread_self());
+		printf("%lu, ",pthread_self());
 	//}
 	
 	//flag = 0;
@@ -454,7 +454,7 @@ static void *getFile(void* params)
     
     
    // printf("getFile params received: Path: %s\n",rparray[localindex] -> path);
-	printf("%d, " , pthread_self());
+	printf("%lu, " , pthread_self());
 
     //=============Components for creating a table==============
     int numRecords = 0;
