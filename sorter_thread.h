@@ -196,6 +196,7 @@ static char* getSortType(char* header, char* colName, int* numFields)
         exit(0);
     }
     */
+    free(field);
 
     return sortType;
 
@@ -503,8 +504,8 @@ static void *getFile(void* params)
     //readfile validates the input column and creates a record array
     //char** pheader will change the value of 
     //char* header from within readFile
-    char* header;
-    char** pHeader = &header;
+    char* nheader;
+    char** pHeader = &nheader;
   
     
 
