@@ -37,7 +37,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	while (bytes != -1)
 	{
 		//copy to row to free up the line var
-		char* row = malloc(50); 
+		char* row = malloc(2000); 
         row = strcpy(row, line);
 		
 
