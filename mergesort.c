@@ -37,7 +37,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	while (bytes != -1)
 	{
 		//copy to row to free up the line var
-		char* row = malloc(2000); 
+		char* row = (char*) malloc(2000); 
         row = strcpy(row, line);
 		
 
@@ -139,6 +139,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 				allocateToken(ptrrecords, field, i);
                
 			}//end token loop
+            free(row);
 		}//end if bytes != -1
 		
 	//get next line, move pointer of records over
