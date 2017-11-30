@@ -148,7 +148,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 		
 	//get next line, move pointer of records over
 
-        free(line);
+        
         line = NULL;
         bytes = getline(&line, &recordsize, fp);
 		
