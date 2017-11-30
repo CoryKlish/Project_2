@@ -30,14 +30,9 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	//ptr for indexing struct
 	struct Record * ptrrecords = allrecords;
 
-	//jumpstart the loop
-	if(fp == NULL){
-        bytes = getline(&line, &recordsize, stdin);	
-	}
-	else
-	{
+
+
 		bytes = getline(&line, &recordsize, fp);
-	}
 	
 	while (bytes != -1)
 	{
