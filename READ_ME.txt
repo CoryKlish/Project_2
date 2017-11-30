@@ -50,6 +50,16 @@ Currently, it shows the total number of processes as the number of csv files and
 directories when it accumulates the total number of processes. 
 
 
+/////////////////////////~~PART 2~~//////////////////////////////////////////
+
+For this part of the project, we were tasked with changing our fork() calls to pthread_create() 
+calls. Along with this, we had to change how the sorting actually happend. We would first find
+valid CSVs and sort them. Next, we would put all these sorted files into one big data structure
+and sort, outputting to a bigger file. This project was fundamentally more difficult than the
+fork() project because of all the synchronization constructs that needed to be implemented. There 
+are many locks in the program so no 2 threads access certain areas simultaneously. This process
+took a lot of thinking with pencil and paper before we actually got to coding. 
+
 
 
 
