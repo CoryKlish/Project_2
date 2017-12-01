@@ -4,7 +4,7 @@
 
 int main()
 {
-    char* string = "This, is , a , string.";
+    char string[] = "This, is , a , string.";
     char *field = strtok(string,",");
     printf("%u, %u\n",string, field);
 
