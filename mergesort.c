@@ -34,14 +34,18 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 
 
     bytes = getline(&line, &recordsize, fp);
+    
 	
 	while (bytes != -1)
 	{
 		//copy to row to free up the line var
-		char* row = (char*) malloc(strlen(line));
+		printf("Address at the malloc: %u\n",line);
+		char* row = malloc(strlen(line));
         if (row == NULL)
             printf("---------------------row is null-------------\n");
         row = strcpy(row, line);
+        free(line);
+        
 		
 
 		if (bytes != -1)
@@ -73,7 +77,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 ////////////////////////////////////end realloc section
 			
 			//checks for a double quote in the row, which indicates there will be nested commas
-			char * check = strstr(row,"\"");
+			char * check = strstr(row,"\""); 
 			//If double quotes are present,
 			char * qchecker;
 			int i,commacounter = 0;			
@@ -84,7 +88,6 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 
 				//get a field
 				field = strsep(&row,",");
-                printf("%u %s\n",row, row);
 				//If there is a quote in this line
 				if (check != NULL)
 				{
@@ -142,13 +145,12 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 				allocateToken(ptrrecords, field, i);
                
 			}//end token loop
-            free(row);
-            free(special);
 		}//end if bytes != -1
 		
 	//get next line, move pointer of records over
 
-        
+		printf("The address before freeing line: %u\n",line);
+        line = NULL;
         bytes = getline(&line, &recordsize, fp);
 		
 		if (bytes != -1)

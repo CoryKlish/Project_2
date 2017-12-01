@@ -18,7 +18,6 @@ typedef struct ReadParams
     char* filename;
 
 } ReadParams;
-
 typedef struct Record{
 	char color[30];
 	char director_name[50];
@@ -52,6 +51,9 @@ typedef struct Record{
 	
 } Record;
 
+
+
+
 static pthread_mutex_t tidArrayLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t kahunaLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t kahunacountLock = PTHREAD_MUTEX_INITIALIZER;
@@ -59,6 +61,7 @@ static pthread_mutex_t runningThreadLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t kahunaCompLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t rpLock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t safetylock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t recordlock = PTHREAD_MUTEX_INITIALIZER;
 static char* header = NULL;
 
 //=========Thread Id Section=========

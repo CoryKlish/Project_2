@@ -655,8 +655,9 @@ static Record * readFile(char *fileName, int *pNumRecords, int numFields, char* 
         exit(0);
     }
     * */
-    
+    pthread_mutex_lock(&recordlock);
     Record* newRecords = createTable(pNumRecords, numFields, fp);
+    pthread_mutex_unlock(&recordlock);
 	fclose(fp);
     return newRecords;
 }
