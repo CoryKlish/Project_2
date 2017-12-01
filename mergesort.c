@@ -27,6 +27,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
     char* line = NULL;
     size_t recordsize;
     size_t bytes;
+    char* special;
 	//ptr for indexing struct
 	struct Record * ptrrecords = allrecords;
 
@@ -37,7 +38,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 	while (bytes != -1)
 	{
 		//copy to row to free up the line var
-		char* row = (char*) malloc(2000);
+		char* row = (char*) malloc(strlen(line));
         if (row == NULL)
             printf("---------------------row is null-------------\n");
         row = strcpy(row, line);
@@ -96,7 +97,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 					if (*(field) == '"')
 					{
 						//create new char array
-						char* special = malloc(strlen(qchecker));
+						special = malloc(strlen(qchecker));
 						// move the ptr to the next char after the initial "
 						qchecker++;
 					
@@ -130,7 +131,6 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
                     *(special + (fieldlen-1)) = ',';
 	
 					//duplicate special str into field
-					field = strdup(special);
 
 					*(special + strlen(special - 1)) = '\0';
 				    
@@ -138,10 +138,11 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 				}		
 				
 				//Based on the index, it allocates token to that field in the struct.
-				allocateToken(ptrrecords, field, i);
+				allocateToken(ptrrecords, special, i);
                
 			}//end token loop
             free(row);
+            free(special);
 		}//end if bytes != -1
 		
 	//get next line, move pointer of records over
