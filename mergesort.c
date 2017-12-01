@@ -84,7 +84,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 
 				//get a field
 				field = strsep(&row,",");
-                printf("%s\n",row);
+                printf("%u %s\n",row, row);
 				//If there is a quote in this line
 				if (check != NULL)
 				{
