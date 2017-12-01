@@ -84,6 +84,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 
 				//get a field
 				field = strsep(&row,",");
+                printf("%s\n",row);
 				//If there is a quote in this line
 				if (check != NULL)
 				{
@@ -131,14 +132,14 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
                     *(special + (fieldlen-1)) = ',';
 	
 					//duplicate special str into field
-
+                    field = strdup(special);
 					*(special + strlen(special - 1)) = '\0';
 				    
 					}
 				}		
 				
 				//Based on the index, it allocates token to that field in the struct.
-				allocateToken(ptrrecords, special, i);
+				allocateToken(ptrrecords, field, i);
                
 			}//end token loop
             free(row);
