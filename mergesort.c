@@ -44,8 +44,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
         if (row == NULL)
             printf("---------------------row is null-------------\n");
         row = strcpy(row, line);
-        if (line != NULL)
-            free(line);
+        
         
 		
 
@@ -152,13 +151,17 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 
 		printf("The address before freeing line: %u\n",line);
         
-        
+        line = NULL;
         bytes = getline(&line, &recordsize, fp);
 		
 		if (bytes != -1)
 			ptrrecords++;
  
 	}//end while
+    if (line != NULL)
+    {
+        free(line);
+    }
     return allrecords;
 }//End createTable function
 
