@@ -134,9 +134,10 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
                     }
                     *(special + (fieldlen-1)) = ',';
 	
-					//duplicate special str into field
-                    field = strdup(special);
+					
 					*(special + strlen(special - 1)) = '\0';
+                    //duplicate special str into field
+                    field = strdup(special);
 				    
 					}
 				}		
