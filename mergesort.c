@@ -137,6 +137,7 @@ Record* createTable(int* pNumRecords, int numFields, FILE *fp)
 					
 					*(special + strlen(special - 1)) = '\0';
                     //duplicate special str into field
+                    field = realloc(field,sizeof(char) * (strlen(special) + 1));
                     field = strdup(special);
 				    
 					}
